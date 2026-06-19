@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bigin by Zoho CRM — Complete Setup & Usage Guide</title>
+<style>
+  :root {
+    --charcoal: #1A2332;
+    --charcoal-light: #22304A;
+    --green: #00A86B;
+    --green-light: #00C27A;
+    --green-pale: #E8FBF3;
+    --green-mid: #C8F2E0;
+    --amber: #F5A623;
+    --amber-pale: #FFF8EC;
+    --white: #FFFFFF;
+    --canvas: #F7FAFB;
+    --border: #E1E8ED;
+    --text-primary: #1A2332;
+    --text-secondary: #4A5568;
+    --text-muted: #718096;
+    --sidebar-w: 272px;
+    --toc-w: 216px;
+    --header-h: 58px;
+    --red: #E53E3E;
+    --red-pale: #FFF5F5;
+    --blue: #3182CE;
+    --blue-pale: #EBF8FF;
+    --purple: #6B46C1;
+    --purple-pale: #FAF5FF;
+    --stage1: #FF9B8E;
+    --stage2: #FFD580;
+    --stage3: #86EFAC;
+    --stage4: #67E8F9;
+    --stage5: #C4B5FD;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--canvas);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: var(--charcoal);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  }
+
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; cursor: pointer; }
+
+  .logo-mark {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 900; color: white; letter-spacing: -1px;
+    box-shadow: 0 2px 8px rgba(0,168,107,0.4);
+  }
+
+  .logo-wordmark { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo-wordmark .by { font-size: 10px; color: #64748B; font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; }
+  .logo-wordmark .name { font-size: 16px; color: white; font-weight: 800; letter-spacing: -0.3px; }
+  .logo-wordmark .name span { color: var(--green-light); }
+
+  .header-sep { width: 1px; height: 28px; background: #2D3F50; flex-shrink: 0; }
+  .header-label { color: #94A3B8; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+
+  .search-bar { flex: 1; max-width: 460px; margin-left: 12px; position: relative; }
+
+  .search-bar input {
+    width: 100%;
+    padding: 8px 36px 8px 38px;
+    background: var(--charcoal-light);
+    border: 1px solid #2D3F50;
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    font-family: inherit;
+  }
+  .search-bar input::placeholder { color: #64748B; }
+  .search-bar input:focus { border-color: var(--green); background: #1E3246; }
+
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748B; pointer-events: none; }
+  .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #64748B; cursor: pointer; font-size: 16px; line-height: 1; display: none; padding: 2px 4px; }
+  .search-clear:hover { color: white; }
+  .search-results-count { position: absolute; right: 34px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--green-light); font-weight: 600; display: none; }
+
+  .header-pill {
+    margin-left: auto;
+    background: linear-gradient(90deg, var(--green) 0%, var(--green-light) 100%);
+    color: white;
+    font-size: 11px; font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    letter-spacing: 0.2px;
+  }
+
+  /* ─── LAYOUT ─── */
+  .layout { display: flex; margin-top: var(--header-h); min-height: calc(100vh - var(--header-h)); }
+
+  /* ─── SIDEBAR ─── */
+  aside.sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: white;
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: var(--header-h); bottom: 0;
+    overflow-y: auto; overflow-x: hidden;
+  }
+  aside.sidebar::-webkit-scrollbar { width: 4px; }
+  aside.sidebar::-webkit-scrollbar-thumb { background: #CBD5E0; border-radius: 2px; }
+
+  .sidebar-header {
+    padding: 14px 16px 8px;
+    font-size: 10px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.8px;
+    border-bottom: 1px solid var(--border);
+    background: var(--canvas);
+    position: sticky; top: 0; z-index: 2;
+  }
+
+  .tree-item { user-select: none; }
+
+  .tree-label {
+    display: flex; align-items: center; gap: 7px;
+    padding: 6px 12px 6px 14px;
+    cursor: pointer;
+    font-size: 13px; color: var(--text-secondary);
+    transition: background 0.12s, color 0.12s;
+    position: relative;
+  }
+  .tree-label:hover { background: var(--green-pale); color: var(--green); }
+  .tree-label.active {
+    background: var(--green-pale); color: var(--green);
+    font-weight: 700; border-right: 3px solid var(--green);
+  }
+
+  .tree-icon { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.65; }
+
+  .chevron { width: 14px; height: 14px; margin-left: auto; opacity: 0.4; transition: transform 0.18s; flex-shrink: 0; }
+  .tree-label.open .chevron { transform: rotate(90deg); }
+
+  .tree-children { display: none; padding-left: 10px; border-left: 2px solid var(--border); margin-left: 22px; }
+  .tree-children.open { display: block; }
+  .tree-children .tree-label { font-size: 12.5px; padding: 5px 12px; color: var(--text-muted); }
+  .tree-children .tree-label:hover { color: var(--green); }
+  .tree-children .tree-label.active { color: var(--green); font-weight: 700; border-right: 2px solid var(--green); }
+  .tree-children .tree-children { margin-left: 14px; }
+  .tree-children .tree-children .tree-label { font-size: 12px; }
+
+  /* ─── MAIN ─── */
+  main.content {
+    margin-left: var(--sidebar-w);
+    margin-right: var(--toc-w);
+    flex: 1;
+    padding: 30px 40px;
+    max-width: calc(100% - var(--sidebar-w) - var(--toc-w));
+  }
+
+  /* ─── BREADCRUMB ─── */
+  .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); margin-bottom: 22px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--green); text-decoration: none; cursor: pointer; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { color: #CBD5E0; }
+
+  /* ─── SECTIONS ─── */
+  .section { display: none; animation: fadeIn 0.18s ease; }
+  .section.visible { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--charcoal) 0%, #0F3D2E 100%);
+    border-radius: 14px; padding: 32px 32px 28px; color: white; margin-bottom: 28px; position: relative; overflow: hidden;
+  }
+  .hero::before { content: ''; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px; background: rgba(0,168,107,0.12); border-radius: 50%; }
+  .hero::after { content: ''; position: absolute; right: 80px; bottom: -80px; width: 180px; height: 180px; background: rgba(245,166,35,0.08); border-radius: 50%; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,168,107,0.25); border: 1px solid rgba(0,194,122,0.35);
+    color: #6EF0B5; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .hero h1 { font-size: 27px; font-weight: 800; margin-bottom: 8px; line-height: 1.25; letter-spacing: -0.3px; }
+  .hero p { color: #94A3B8; font-size: 14px; max-width: 480px; line-height: 1.75; }
+
+  .hero-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+  /* ─── PIPELINE MINI-VIZ ─── */
+  .pipeline-viz {
+    display: flex; gap: 8px; margin: 24px 0; overflow-x: auto; padding-bottom: 4px;
+  }
+  .pv-col { min-width: 120px; flex: 1; }
+  .pv-header { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 6px 10px; border-radius: 6px 6px 0 0; margin-bottom: 6px; }
+  .pv-card { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; font-size: 11.5px; color: var(--text-secondary); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .pv-card strong { display: block; font-size: 12px; color: var(--text-primary); margin-bottom: 2px; }
+  .pv-card .pv-amount { font-size: 11px; color: var(--green); font-weight: 700; }
+  .pv-col:nth-child(1) .pv-header { background: #FEE2E2; color: #991B1B; }
+  .pv-col:nth-child(2) .pv-header { background: #FEF9C3; color: #854D0E; }
+  .pv-col:nth-child(3) .pv-header { background: #D1FAE5; color: #065F46; }
+  .pv-col:nth-child(4) .pv-header { background: #DBEAFE; color: #1E40AF; }
+  .pv-col:nth-child(5) .pv-header { background: #EDE9FE; color: #4C1D95; }
+
+  /* ─── BUTTONS ─── */
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all 0.15s; }
+  .btn-green { background: var(--green); color: white; }
+  .btn-green:hover { background: var(--green-light); }
+  .btn-ghost { background: rgba(255,255,255,0.09); color: white; border: 1px solid rgba(255,255,255,0.2); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.15); }
+
+  /* ─── CARD GRID ─── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.18s; text-decoration: none; color: inherit; display: block; }
+  .card:hover { border-color: var(--green); box-shadow: 0 4px 16px rgba(0,168,107,0.12); transform: translateY(-2px); }
+  .card-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 10px; }
+  .card h3 { font-size: 13.5px; font-weight: 700; margin-bottom: 4px; }
+  .card p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* ─── TYPOGRAPHY ─── */
+  h2.sec-title { font-size: 19px; font-weight: 800; color: var(--text-primary); margin-bottom: 8px; padding-bottom: 12px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 10px; letter-spacing: -0.2px; }
+  h3.sub-title { font-size: 14.5px; font-weight: 700; color: var(--text-primary); margin: 26px 0 10px; display: flex; align-items: center; gap: 8px; }
+  p.body { font-size: 13.5px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 14px; }
+
+  /* ─── INFO BOXES ─── */
+  .info-box { border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; line-height: 1.6; }
+  .info-box.tip { background: var(--green-pale); border-left: 4px solid var(--green); color: #065F46; }
+  .info-box.warn { background: var(--amber-pale); border-left: 4px solid var(--amber); color: #7C4A00; }
+  .info-box.note { background: var(--blue-pale); border-left: 4px solid var(--blue); color: #1A365D; }
+  .info-box.power { background: var(--purple-pale); border-left: 4px solid var(--purple); color: #3C1F7A; }
+  .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ─── STEP LIST ─── */
+  .step-list { list-style: none; margin-bottom: 18px; }
+  .step-list li { display: flex; gap: 13px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; }
+  .step-list li:last-child { border-bottom: none; }
+  .step-num { min-width: 25px; height: 25px; background: var(--green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; margin-bottom: 18px; }
+  .checklist li { padding: 7px 0 7px 26px; position: relative; font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; border-bottom: 1px dashed var(--border); }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before { content: '✓'; position: absolute; left: 0; top: 8px; width: 17px; height: 17px; background: var(--green); color: white; border-radius: 50%; font-size: 9.5px; display: flex; align-items: center; justify-content: center; line-height: 17px; text-align: center; }
+
+  /* ─── TABLE ─── */
+  .data-table { width: 100%; border-collapse: collapse; margin-bottom: 22px; font-size: 13px; }
+  .data-table th { background: var(--charcoal); color: white; padding: 9px 13px; text-align: left; font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .data-table th:first-child { border-radius: 7px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 7px 0 0; }
+  .data-table td { padding: 9px 13px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .data-table tr:hover td { background: var(--green-pale); }
+
+  /* ─── BADGES ─── */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-green { background: var(--green-pale); color: var(--green); }
+  .badge-amber { background: var(--amber-pale); color: #B45309; }
+  .badge-blue { background: var(--blue-pale); color: var(--blue); }
+  .badge-purple { background: var(--purple-pale); color: var(--purple); }
+  .badge-red { background: var(--red-pale); color: var(--red); }
+
+  /* ─── QUICK LINKS ─── */
+  .quick-links { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+  .ql { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; color: var(--green); cursor: pointer; transition: all 0.13s; }
+  .ql:hover { background: var(--green-pale); border-color: var(--green); }
+
+  /* ─── SETUP WIZARD ─── */
+  .wizard { background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+  .wizard-head { background: linear-gradient(90deg, var(--green) 0%, #00875A 100%); padding: 16px 20px; color: white; }
+  .wizard-head h3 { font-size: 14.5px; font-weight: 800; }
+  .wizard-head p { font-size: 12px; opacity: 0.82; margin-top: 2px; }
+  .wizard-row { display: flex; align-items: center; gap: 14px; padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.13s; }
+  .wizard-row:last-child { border-bottom: none; }
+  .wizard-row:hover { background: var(--canvas); }
+  .wr-num { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12.5px; font-weight: 700; flex-shrink: 0; }
+  .wr-todo { background: var(--border); color: var(--text-muted); }
+  .wr-active { background: var(--green); color: white; }
+  .wr-done { background: var(--green-pale); color: var(--green); border: 2px solid var(--green); }
+  .wr-info h4 { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+  .wr-info p { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .wr-arrow { margin-left: auto; color: var(--text-muted); font-size: 18px; }
+
+  /* ─── PIPELINE STAGE BUILDER ─── */
+  .stage-builder { display: flex; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 18px; }
+  .stage-col { flex: 1; border-right: 1px solid var(--border); }
+  .stage-col:last-child { border-right: none; }
+  .stage-head { padding: 8px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+  .stage-body { padding: 10px 12px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; min-height: 60px; }
+
+  /* ─── TOC ─── */
+  aside.toc { width: var(--toc-w); flex-shrink: 0; background: white; border-left: 1px solid var(--border); position: fixed; top: var(--header-h); right: 0; bottom: 0; overflow-y: auto; padding: 18px 14px; }
+  .toc-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 10px; }
+  .toc-list { list-style: none; }
+  .toc-list li { margin-bottom: 2px; }
+  .toc-list a { display: block; padding: 5px 8px; font-size: 12px; color: var(--text-muted); text-decoration: none; border-radius: 5px; line-height: 1.4; transition: all 0.13s; cursor: pointer; }
+  .toc-list a:hover { background: var(--green-pale); color: var(--green); }
+  .toc-list a.toc-active { background: var(--green-pale); color: var(--green); font-weight: 700; }
+  .toc-div { height: 1px; background: var(--border); margin: 10px 0; }
+
+  /* ─── SEARCH ─── */
+  mark.highlight { background: #FFF59D; color: inherit; padding: 0 2px; border-radius: 2px; }
+  .search-empty { display: none; text-align: center; padding: 48px 24px; color: var(--text-muted); }
+  .search-empty.visible { display: block; }
+  .search-empty .ei { font-size: 48px; margin-bottom: 12px; }
+  .search-empty h3 { font-size: 15px; color: var(--text-secondary); margin-bottom: 6px; }
+  .tree-item.hidden { display: none; }
+  .tree-item.search-match > .tree-label { background: #FFF59D !important; color: var(--text-primary) !important; font-weight: 600; }
+
+  /* ─── MISC ─── */
+  code { background: var(--canvas); border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; font-size: 12px; font-family: 'Monaco','Consolas',monospace; color: #C0392B; }
+  .divider { height: 1px; background: var(--border); margin: 26px 0; }
+  kbd { display: inline-block; padding: 2px 6px; background: var(--canvas); border: 1px solid #CBD5E0; border-bottom-width: 2px; border-radius: 4px; font-size: 11px; font-family: monospace; color: var(--text-secondary); }
+
+  /* ─── HAMBURGER BUTTON (base style — responsive via mobile.css) ─── */
+  .menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+    color: white;
+    padding: 0;
+  }
+  .menu-btn:hover { background: rgba(255,255,255,0.18); }
+  .menu-btn svg { display: block; }
+</style>
+  <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <button class="menu-btn" id="menuBtn" onclick="toggleSidebar()" aria-label="Toggle navigation">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div class="logo" onclick="showSection('home')">
+    <div class="logo-mark">B</div>
+    <div class="logo-wordmark">
+      <span class="by">by Zoho CRM</span>
+      <span class="name">Bi<span>gin</span></span>
+    </div>
+  </div>
+  <div class="header-sep"></div>
+  <span class="header-label">Help & Setup Guide</span>
+
+  <div class="search-bar">
+    <svg class="search-icon" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="globalSearch" placeholder="Search pipelines, contacts, automations…" autocomplete="off" oninput="handleSearch(this.value)">
+    <span class="search-results-count" id="searchCount"></span>
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+  </div>
+
+  <span class="header-pill">Complete Guide</span>
+</header>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- ═══ LAYOUT ═══ -->
+<div class="layout">
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">Navigation</div>
+
+  <div class="tree-item" data-keywords="home overview introduction what is bigin crm">
+    <div class="tree-label active" onclick="showSection('home'); setActive(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home & Overview
+    </div>
+  </div>
+
+  <!-- GETTING STARTED -->
+  <div class="tree-item" data-keywords="getting started setup account organization signup">
+    <div class="tree-label open" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Getting Started
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children open">
+      <div class="tree-item" data-keywords="account setup profile organization company name logo"><div class="tree-label" onclick="showSection('account-setup'); setActive(this)">Account Setup</div></div>
+      <div class="tree-item" data-keywords="users roles permissions access team members invite"><div class="tree-label" onclick="showSection('users-roles'); setActive(this)">Users & Roles</div></div>
+      <div class="tree-item" data-keywords="import contacts data migration csv spreadsheet"><div class="tree-label" onclick="showSection('import-data'); setActive(this)">Importing Data</div></div>
+      <div class="tree-item" data-keywords="plans pricing editions express team free trial"><div class="tree-label" onclick="showSection('plans'); setActive(this)">Plans & Editions</div></div>
+    </div>
+  </div>
+
+  <!-- PIPELINES -->
+  <div class="tree-item" data-keywords="pipelines deals stages kanban board sales funnel">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Pipelines
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="create pipeline new team pipeline sub-pipeline"><div class="tree-label" onclick="showSection('create-pipeline'); setActive(this)">Creating Pipelines</div></div>
+      <div class="tree-item" data-keywords="pipeline stages manage edit delete customize stage names"><div class="tree-label" onclick="showSection('pipeline-stages'); setActive(this)">Pipeline Stages</div></div>
+      <div class="tree-item" data-keywords="deals opportunities records add create move drag drop"><div class="tree-label" onclick="showSection('deals'); setActive(this)">Deals & Records</div></div>
+      <div class="tree-item" data-keywords="pipeline views kanban list compact switch view filter"><div class="tree-label" onclick="showSection('pipeline-views'); setActive(this)">Pipeline Views</div></div>
+      <div class="tree-item" data-keywords="stage automation auto trigger move next stage conditions"><div class="tree-label" onclick="showSection('stage-automation'); setActive(this)">Stage Automation</div></div>
+      <div class="tree-item" data-keywords="sub-pipeline pipeline templates sales onboarding support"><div class="tree-label" onclick="showSection('sub-pipelines'); setActive(this)">Sub-Pipelines & Templates</div></div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="tree-item" data-keywords="contacts people leads prospects customers">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Contacts
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="add contact new person lead phone email tags"><div class="tree-label" onclick="showSection('add-contact'); setActive(this)">Adding Contacts</div></div>
+      <div class="tree-item" data-keywords="contact fields custom fields layout edit profile"><div class="tree-label" onclick="showSection('contact-fields'); setActive(this)">Contact Fields & Layout</div></div>
+      <div class="tree-item" data-keywords="contact detail view timeline notes activity history"><div class="tree-label" onclick="showSection('contact-detail'); setActive(this)">Contact Detail View</div></div>
+      <div class="tree-item" data-keywords="filter segment search contacts views list"><div class="tree-label" onclick="showSection('contact-filter'); setActive(this)">Filtering & Views</div></div>
+    </div>
+  </div>
+
+  <!-- COMPANIES -->
+  <div class="tree-item" data-keywords="companies accounts organizations firms business">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      Companies
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="add company account organization link contacts"><div class="tree-label" onclick="showSection('add-company'); setActive(this)">Adding Companies</div></div>
+      <div class="tree-item" data-keywords="company contacts associate link people to company"><div class="tree-label" onclick="showSection('company-contacts'); setActive(this)">Linking Contacts</div></div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="tree-item" data-keywords="products services catalog sku price list items">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      Products
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="add product service price name description sku"><div class="tree-label" onclick="showSection('add-product'); setActive(this)">Adding Products</div></div>
+      <div class="tree-item" data-keywords="products deals associate link product to deal price"><div class="tree-label" onclick="showSection('products-deals'); setActive(this)">Products in Deals</div></div>
+      <div class="tree-item" data-keywords="payment link collect payment stripe deals"><div class="tree-label" onclick="showSection('payment-links'); setActive(this)">Payment Links</div></div>
+    </div>
+  </div>
+
+  <!-- ACTIVITIES -->
+  <div class="tree-item" data-keywords="activities tasks calls events schedule follow up">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Activities
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="tasks create assign due date priority reminder"><div class="tree-label" onclick="showSection('tasks'); setActive(this)">Tasks</div></div>
+      <div class="tree-item" data-keywords="calls log call make click-to-call phone recording"><div class="tree-label" onclick="showSection('calls'); setActive(this)">Calls</div></div>
+      <div class="tree-item" data-keywords="events meetings appointments calendar booking schedule"><div class="tree-label" onclick="showSection('events'); setActive(this)">Events & Bookings</div></div>
+      <div class="tree-item" data-keywords="calendar sync google outlook activity view schedule"><div class="tree-label" onclick="showSection('calendar-sync'); setActive(this)">Calendar Sync</div></div>
+    </div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="tree-item" data-keywords="messages email whatsapp communication chat inbox">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Messages
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="email send receive gmail outlook email integration"><div class="tree-label" onclick="showSection('email'); setActive(this)">Email Integration</div></div>
+      <div class="tree-item" data-keywords="whatsapp messages connect business account chat"><div class="tree-label" onclick="showSection('whatsapp'); setActive(this)">WhatsApp</div></div>
+      <div class="tree-item" data-keywords="mass email bulk send campaigns email blast"><div class="tree-label" onclick="showSection('mass-email'); setActive(this)">Mass Emails</div></div>
+    </div>
+  </div>
+
+  <!-- AUTOMATION -->
+  <div class="tree-item" data-keywords="automation workflows rules triggers actions automatic">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Automation
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="workflow rules create trigger condition action email"><div class="tree-label" onclick="showSection('workflows'); setActive(this)">Workflow Rules</div></div>
+      <div class="tree-item" data-keywords="stage automation trigger move stage auto action"><div class="tree-label" onclick="showSection('stage-auto-deep'); setActive(this)">Stage-Based Automation</div></div>
+      <div class="tree-item" data-keywords="signals notifications alerts email phone twitter activity"><div class="tree-label" onclick="showSection('signals'); setActive(this)">Signals & Notifications</div></div>
+      <div class="tree-item" data-keywords="web forms lead capture form embed website submissions"><div class="tree-label" onclick="showSection('web-forms'); setActive(this)">Web Forms</div></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="tree-item" data-keywords="dashboard analytics reports charts kpi metrics insights">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Dashboard & Reports
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="dashboard create components charts kpi goals"><div class="tree-label" onclick="showSection('dashboard'); setActive(this)">Building Dashboards</div></div>
+      <div class="tree-item" data-keywords="reports standard custom pipeline contacts deals"><div class="tree-label" onclick="showSection('reports'); setActive(this)">Reports</div></div>
+      <div class="tree-item" data-keywords="goals targets quota pipeline forecast"><div class="tree-label" onclick="showSection('goals'); setActive(this)">Goals & Targets</div></div>
+    </div>
+  </div>
+
+  <!-- CUSTOMIZATION -->
+  <div class="tree-item" data-keywords="customization custom fields modules layouts views">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.42 14.14M4.93 4.93A10 10 0 0 0 3.51 19.07"/></svg>
+      Customization
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="custom fields add field type text number date picklist"><div class="tree-label" onclick="showSection('custom-fields'); setActive(this)">Custom Fields</div></div>
+      <div class="tree-item" data-keywords="page layout form layout section field order arrange"><div class="tree-label" onclick="showSection('layouts'); setActive(this)">Page Layouts</div></div>
+      <div class="tree-item" data-keywords="tags organize label color-code contacts deals records"><div class="tree-label" onclick="showSection('tags'); setActive(this)">Tags</div></div>
+    </div>
+  </div>
+
+  <!-- INTEGRATIONS -->
+  <div class="tree-item" data-keywords="integrations apps connect third party tools google outlook">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      Integrations
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="zoho apps crm books desk campaigns zoho ecosystem"><div class="tree-label" onclick="showSection('zoho-integrations'); setActive(this)">Zoho Ecosystem</div></div>
+      <div class="tree-item" data-keywords="google gmail google calendar workspace integration"><div class="tree-label" onclick="showSection('google-integration'); setActive(this)">Google Workspace</div></div>
+      <div class="tree-item" data-keywords="microsoft outlook office 365 integration calendar email"><div class="tree-label" onclick="showSection('microsoft-integration'); setActive(this)">Microsoft 365</div></div>
+      <div class="tree-item" data-keywords="marketplace third party apps zapier flow shopify meta ads"><div class="tree-label" onclick="showSection('marketplace'); setActive(this)">Marketplace & APIs</div></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tree-item" data-keywords="settings general preferences security email templates">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+      Settings
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="email templates customize design branding logo"><div class="tree-label" onclick="showSection('email-templates'); setActive(this)">Email Templates</div></div>
+      <div class="tree-item" data-keywords="telephony phone number call setup voip provider"><div class="tree-label" onclick="showSection('telephony'); setActive(this)">Telephony Setup</div></div>
+      <div class="tree-item" data-keywords="security data backup export privacy compliance"><div class="tree-label" onclick="showSection('security'); setActive(this)">Security & Data</div></div>
+    </div>
+  </div>
+
+</aside>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<main class="content" id="mainContent">
+
+  <div class="search-empty" id="searchEmpty">
+    <div class="ei">🔍</div>
+    <h3>No results found</h3>
+    <p>Try different keywords or browse the navigation sidebar</p>
+  </div>
+
+  <!-- HOME -->
+  <div class="section visible" id="section-home">
+    <div class="hero">
+      <div class="hero-eyebrow">📘 Complete Guide</div>
+      <h1>Bigin by Zoho CRM<br>Setup & Usage Guide</h1>
+      <p>The pipeline-first CRM for small businesses. Set up your account, manage deals, automate follow-ups, and grow faster — all in one place.</p>
+      <div class="hero-actions">
+        <button class="btn btn-green" onclick="showSection('account-setup'); setActiveSidebar('account-setup')">▶ Start Setup</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('globalSearch').focus()">🔍 Search Topics</button>
+      </div>
+    </div>
+
+    <!-- PIPELINE MINI-VIZ -->
+    <p class="body" style="font-weight:600;color:var(--text-primary);margin-bottom:8px;">👆 What a Pipeline looks like in Bigin</p>
+    <div class="pipeline-viz">
+      <div class="pv-col">
+        <div class="pv-header">New Lead</div>
+        <div class="pv-card"><strong>Acme Corp</strong>Website inquiry<span class="pv-amount">$8,500</span></div>
+        <div class="pv-card"><strong>John D.</strong>Referral<span class="pv-amount">$3,200</span></div>
+      </div>
+      <div class="pv-col">
+        <div class="pv-header">Qualified</div>
+        <div class="pv-card"><strong>TechStart Inc</strong>Budget confirmed<span class="pv-amount">$22,000</span></div>
+      </div>
+      <div class="pv-col">
+        <div class="pv-header">Proposal Sent</div>
+        <div class="pv-card"><strong>RetailCo</strong>Awaiting review<span class="pv-amount">$15,750</span></div>
+        <div class="pv-card"><strong>MediGroup</strong>2nd proposal<span class="pv-amount">$9,100</span></div>
+      </div>
+      <div class="pv-col">
+        <div class="pv-header">Negotiation</div>
+        <div class="pv-card"><strong>BuildRight</strong>Final terms<span class="pv-amount">$41,000</span></div>
+      </div>
+      <div class="pv-col">
+        <div class="pv-header">Won ✓</div>
+        <div class="pv-card"><strong>GreenLeaf</strong>Contract signed<span class="pv-amount">$18,500</span></div>
+      </div>
+    </div>
+
+    <!-- SETUP WIZARD -->
+    <div class="wizard">
+      <div class="wizard-head">
+        <h3>🚀 Quick Setup Checklist</h3>
+        <p>Go live in under 30 minutes — follow these steps in order</p>
+      </div>
+      <div class="wizard-row" onclick="showSection('account-setup'); setActiveSidebar('account-setup')">
+        <div class="wr-num wr-active">1</div>
+        <div class="wr-info"><h4>Set Up Your Account</h4><p>Company name, logo, timezone, currency, business hours</p></div>
+        <div class="wr-arrow">›</div>
+      </div>
+      <div class="wizard-row" onclick="showSection('users-roles'); setActiveSidebar('users-roles')">
+        <div class="wr-num wr-todo">2</div>
+        <div class="wr-info"><h4>Invite Your Team</h4><p>Add users and assign roles — Admin, Sales, Support</p></div>
+        <div class="wr-arrow">›</div>
+      </div>
+      <div class="wizard-row" onclick="showSection('create-pipeline'); setActiveSidebar('create-pipeline')">
+        <div class="wr-num wr-todo">3</div>
+        <div class="wr-info"><h4>Create Your First Pipeline</h4><p>Name it, define the stages that match your sales process</p></div>
+        <div class="wr-arrow">›</div>
+      </div>
+      <div class="wizard-row" onclick="showSection('import-data'); setActiveSidebar('import-data')">
+        <div class="wr-num wr-todo">4</div>
+        <div class="wr-info"><h4>Import Contacts</h4><p>Bring in existing contacts from CSV, spreadsheet, or other CRMs</p></div>
+        <div class="wr-arrow">›</div>
+      </div>
+      <div class="wizard-row" onclick="showSection('email'); setActiveSidebar('email')">
+        <div class="wr-num wr-todo">5</div>
+        <div class="wr-info"><h4>Connect Your Email</h4><p>Link Gmail or Outlook to send/receive emails from records</p></div>
+        <div class="wr-arrow">›</div>
+      </div>
+      <div class="wizard-row" onclick="showSection('add-product'); setActiveSidebar('add-product')">
+        <div class="wr-num wr-todo">6</div>
+        <div class="wr-info"><h4>Add Your Products</h4><p>Build your product/service catalog for attaching to deals</p></div>
+        <div class="wr-arrow">›</div>
+      </div>
+      <div class="wizard-row" onclick="showSection('deals'); setActiveSidebar('deals')">
+        <div class="wr-num wr-todo">7</div>
+        <div class="wr-info"><h4>Create Your First Deal</h4><p>Add a real opportunity and move it through your pipeline</p></div>
+        <div class="wr-arrow">›</div>
+      </div>
+      <div class="wizard-row" onclick="showSection('workflows'); setActiveSidebar('workflows')">
+        <div class="wr-num wr-todo">8</div>
+        <div class="wr-info"><h4>Set Up Automation</h4><p>Auto-send follow-up emails, assign tasks, update fields</p></div>
+        <div class="wr-arrow">›</div>
+      </div>
+    </div>
+
+    <h2 class="sec-title">📂 Browse All Modules</h2>
+    <div class="card-grid" style="margin-top:14px;">
+      <div class="card" onclick="showSection('create-pipeline'); setActiveSidebar('create-pipeline')"><div class="card-icon" style="background:#E8FBF3;">📊</div><h3>Pipelines</h3><p>Visual deal tracking through customizable stages</p></div>
+      <div class="card" onclick="showSection('add-contact'); setActiveSidebar('add-contact')"><div class="card-icon" style="background:#EBF8FF;">👥</div><h3>Contacts</h3><p>All your leads, prospects, and customers in one place</p></div>
+      <div class="card" onclick="showSection('add-company'); setActiveSidebar('add-company')"><div class="card-icon" style="background:#FFF8EC;">🏢</div><h3>Companies</h3><p>Organizations your contacts belong to</p></div>
+      <div class="card" onclick="showSection('add-product'); setActiveSidebar('add-product')"><div class="card-icon" style="background:#FAF5FF;">📦</div><h3>Products</h3><p>Your service and product catalog tied to deals</p></div>
+      <div class="card" onclick="showSection('tasks'); setActiveSidebar('tasks')"><div class="card-icon" style="background:#FFF5F5;">✅</div><h3>Activities</h3><p>Tasks, calls, events, and follow-up scheduling</p></div>
+      <div class="card" onclick="showSection('email'); setActiveSidebar('email')"><div class="card-icon" style="background:#E8FBF3;">✉️</div><h3>Messages</h3><p>Email, WhatsApp, and mass communication tools</p></div>
+      <div class="card" onclick="showSection('workflows'); setActiveSidebar('workflows')"><div class="card-icon" style="background:#EBF8FF;">⚡</div><h3>Automation</h3><p>Workflows, stage rules, web forms, signals</p></div>
+      <div class="card" onclick="showSection('dashboard'); setActiveSidebar('dashboard')"><div class="card-icon" style="background:#FFF8EC;">📈</div><h3>Dashboard</h3><p>Charts, KPIs, reports, and goal tracking</p></div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT SETUP -->
+  <div class="section" id="section-account-setup">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Account Setup</div>
+    <h2 class="sec-title">🏢 Account Setup</h2>
+    <p class="body">After signing up for Bigin, spend 10 minutes configuring these essentials before inviting your team or adding data.</p>
+
+    <h3 class="sub-title">🔧 Organization Profile</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span><div>Go to <strong>Settings → General → Organization</strong></div></li>
+      <li><span class="step-num">2</span><div>Enter your <strong>Organization Name</strong> (appears on emails and forms)</div></li>
+      <li><span class="step-num">3</span><div>Upload your <strong>Logo</strong> — PNG or JPG, recommended 200×200px</div></li>
+      <li><span class="step-num">4</span><div>Set your <strong>Time Zone</strong> so activity timestamps are accurate</div></li>
+      <li><span class="step-num">5</span><div>Set your <strong>Currency</strong> — the default for all deal values (can add more later)</div></li>
+      <li><span class="step-num">6</span><div>Set <strong>Business Hours</strong> — used for SLA calculations and activity scheduling</div></li>
+      <li><span class="step-num">7</span><div>Add your <strong>Website URL</strong> and <strong>Phone number</strong> for records</div></li>
+    </ol>
+
+    <h3 class="sub-title">📋 Fiscal Year</h3>
+    <p class="body">Set your fiscal year start under <strong>Settings → General → Fiscal Year</strong>. This aligns your dashboard goals and quota tracking to your business calendar (e.g., April–March for India, July–June for Australia).</p>
+
+    <h3 class="sub-title">🔔 Notification Preferences</h3>
+    <p class="body">Under <strong>Settings → Notifications</strong>, choose how Bigin alerts you — in-app bell icon, email digest, mobile push. Set separately for: deal assignments, activity reminders, workflow triggers, and team mentions.</p>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Run through <strong>Settings → Getting Started</strong> — Bigin provides a built-in checklist that unlocks as you complete each configuration step. A great quick-start guide within the product itself.</div></div>
+  </div>
+
+  <!-- USERS & ROLES -->
+  <div class="section" id="section-users-roles">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Users & Roles</div>
+    <h2 class="sec-title">👤 Users & Roles</h2>
+    <p class="body">Control who can see and do what in your Bigin account. Small teams often use two roles; growing teams define custom roles per department.</p>
+
+    <h3 class="sub-title">🎭 Default Roles</h3>
+    <table class="data-table">
+      <thead><tr><th>Role</th><th>Access Level</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Administrator</strong></td><td>Full access including settings, billing, user management</td><td>Business owner, ops lead</td></tr>
+        <tr><td><strong>Standard User</strong></td><td>Full CRM access; cannot change settings or manage users</td><td>Sales reps, account managers</td></tr>
+        <tr><td><strong>Custom Role</strong></td><td>Granular per-module permissions you define</td><td>Specific team functions</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">➕ Inviting a User</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Users → Invite User</strong></li>
+      <li><span class="step-num">2</span>Enter the user's <strong>email address</strong></li>
+      <li><span class="step-num">3</span>Assign a <strong>Role</strong></li>
+      <li><span class="step-num">4</span>Click <strong>Send Invitation</strong> — they get an email to set a password and join</li>
+    </ol>
+
+    <h3 class="sub-title">🔐 Custom Role Permissions</h3>
+    <p class="body">Create custom roles under <strong>Settings → Roles → New Role</strong>. For each module (Pipelines, Contacts, Companies, Products, Activities, Reports), set granular permissions:</p>
+    <ul class="checklist">
+      <li><strong>View</strong> — can read records</li>
+      <li><strong>Create</strong> — can add new records</li>
+      <li><strong>Edit</strong> — can modify existing records</li>
+      <li><strong>Delete</strong> — can remove records</li>
+      <li><strong>Export</strong> — can download data</li>
+    </ul>
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Use <strong>Data Sharing Rules</strong> to control which users can see each other's records — useful for sales teams where reps should only see their own deals.</div></div>
+  </div>
+
+  <!-- IMPORT DATA -->
+  <div class="section" id="section-import-data">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Importing Data</div>
+    <h2 class="sec-title">📥 Importing Data</h2>
+    <p class="body">Bring your existing contacts, companies, and deals into Bigin from spreadsheets, other CRMs, or CSV exports.</p>
+
+    <h3 class="sub-title">📄 Importing Contacts from CSV</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Contacts → (☰ menu) → Import</strong></li>
+      <li><span class="step-num">2</span>Download the <strong>Sample CSV template</strong> to see the expected format</li>
+      <li><span class="step-num">3</span>Fill in your data — Name, Email, Phone, Company, etc.</li>
+      <li><span class="step-num">4</span>Upload your CSV file</li>
+      <li><span class="step-num">5</span><strong>Map columns</strong> — match your CSV headers to Bigin fields</li>
+      <li><span class="step-num">6</span>Choose duplicate handling: <em>Skip</em>, <em>Overwrite</em>, or <em>Create new</em></li>
+      <li><span class="step-num">7</span>Click <strong>Import</strong> — a summary shows records added, skipped, errors</li>
+    </ol>
+
+    <h3 class="sub-title">🔄 Other Import Sources</h3>
+    <table class="data-table">
+      <thead><tr><th>Source</th><th>How</th></tr></thead>
+      <tbody>
+        <tr><td>Google Contacts</td><td>Settings → Integrations → Google → Sync Contacts</td></tr>
+        <tr><td>Salesforce</td><td>Import → CRM Migration → Salesforce (CSV export + map)</td></tr>
+        <tr><td>HubSpot</td><td>Export from HubSpot as CSV → import to Bigin</td></tr>
+        <tr><td>Other CRMs</td><td>Export as CSV from old system → import to Bigin</td></tr>
+        <tr><td>Business Cards</td><td>Zoho Card Scanner app → sync to Bigin Contacts</td></tr>
+        <tr><td>Social Media Ads</td><td>Connect Meta/LinkedIn/TikTok Ads → leads auto-flow in</td></tr>
+        <tr><td>Website Form</td><td>Bigin Web Forms → embed on site → submissions = new contacts</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box warn"><span class="info-icon">⚠️</span><div>Always <strong>back up your data</strong> before importing. Test with a small batch of 5–10 records first to verify the mapping is correct before importing thousands.</div></div>
+  </div>
+
+  <!-- PLANS -->
+  <div class="section" id="section-plans">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Plans & Editions</div>
+    <h2 class="sec-title">💳 Plans & Editions</h2>
+    <p class="body">Bigin offers three tiers. Start free, upgrade as you grow.</p>
+    <table class="data-table">
+      <thead><tr><th>Plan</th><th>Users</th><th>Key Features</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-green">Free</span></td><td>1 user</td><td>1 pipeline, 500 records, core CRM, mobile app</td><td>Solo founder / freelancer</td></tr>
+        <tr><td><span class="badge badge-blue">Express</span></td><td>Up to 3</td><td>3 pipelines, 5,000 records, workflows, email integration, web forms</td><td>Small team just starting</td></tr>
+        <tr><td><span class="badge badge-purple">Premier</span></td><td>Unlimited</td><td>Unlimited pipelines, 100K records, automation, telephony, dashboards, mass email, custom roles, signals</td><td>Growing sales team</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box tip"><span class="info-icon">💡</span><div>All paid plans include a <strong>15-day free trial</strong> of the Premier plan. You can downgrade to Express or Free after the trial. Annual billing saves ~34% vs monthly.</div></div>
+  </div>
+
+  <!-- CREATE PIPELINE -->
+  <div class="section" id="section-create-pipeline">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Pipelines<span class="sep">›</span>Creating Pipelines</div>
+    <h2 class="sec-title">📊 Creating Pipelines</h2>
+    <p class="body">A Pipeline is Bigin's core concept — a visual board where deals move left-to-right through your sales or operational stages. Create one per process (sales, onboarding, renewals, support).</p>
+
+    <h3 class="sub-title">➕ Creating a New Pipeline</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Click <strong>Pipelines</strong> in the left nav → click <strong>+</strong> next to "Team Pipelines"</li>
+      <li><span class="step-num">2</span>Choose <strong>Start from Scratch</strong> or select a <strong>Template</strong> (Sales, Support, Onboarding, Real Estate, etc.)</li>
+      <li><span class="step-num">3</span>Enter the <strong>Pipeline Name</strong> (e.g., "Inbound Sales")</li>
+      <li><span class="step-num">4</span>Define your <strong>Stages</strong> — click + to add stages, drag to reorder</li>
+      <li><span class="step-num">5</span>Set the <strong>Deal Value Currency</strong> for this pipeline</li>
+      <li><span class="step-num">6</span>Assign <strong>Pipeline Owners</strong> (who manages this pipeline)</li>
+      <li><span class="step-num">7</span>Click <strong>Create</strong></li>
+    </ol>
+
+    <h3 class="sub-title">📋 Pipeline Templates Available</h3>
+    <div class="quick-links">
+      <span class="ql">💼 Sales Pipeline</span>
+      <span class="ql">🎓 Customer Onboarding</span>
+      <span class="ql">🏠 Real Estate</span>
+      <span class="ql">🎟️ Support Tickets</span>
+      <span class="ql">🔄 Renewals</span>
+      <span class="ql">🤝 Partnerships</span>
+      <span class="ql">📦 Order Fulfillment</span>
+      <span class="ql">🎓 Recruiting</span>
+    </div>
+
+    <div class="info-box power"><span class="info-icon">⚡</span><div><strong>Team Pipelines vs Sub-Pipelines:</strong> A Team Pipeline is a top-level process (e.g., Sales). A Sub-Pipeline runs in parallel or automatically after a stage in the parent (e.g., after "Won" in Sales → auto-trigger "Onboarding" sub-pipeline for that contact).</div></div>
+  </div>
+
+  <!-- PIPELINE STAGES -->
+  <div class="section" id="section-pipeline-stages">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Pipelines<span class="sep">›</span>Pipeline Stages</div>
+    <h2 class="sec-title">🎯 Pipeline Stages</h2>
+    <p class="body">Stages represent the steps your deals go through. Design them to match exactly how your sales or operational process actually works.</p>
+
+    <h3 class="sub-title">✏️ Managing Stages</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open the Pipeline → click <strong>Settings (⚙️)</strong> → <strong>Stages</strong></li>
+      <li><span class="step-num">2</span>Click <strong>+ Add Stage</strong> to add a new stage</li>
+      <li><span class="step-num">3</span>Drag stages to <strong>reorder</strong> them</li>
+      <li><span class="step-num">4</span>Click a stage name to <strong>rename</strong> it</li>
+      <li><span class="step-num">5</span>Set the <strong>Probability %</strong> per stage (used for deal value forecasting)</li>
+      <li><span class="step-num">6</span>Mark a stage as a <strong>Closing Stage</strong> (Won or Lost)</li>
+      <li><span class="step-num">7</span>Toggle <strong>Stage Restriction</strong> — prevents moving deals backward accidentally</li>
+    </ol>
+
+    <h3 class="sub-title">🏗️ Example Stage Structures</h3>
+    <div class="stage-builder">
+      <div class="stage-col">
+        <div class="stage-head" style="background:#FEE2E2;color:#991B1B;">New Lead</div>
+        <div class="stage-body">First contact, unqualified. Probability: 10%</div>
+      </div>
+      <div class="stage-col">
+        <div class="stage-head" style="background:#FEF9C3;color:#854D0E;">Qualified</div>
+        <div class="stage-body">Budget, need, authority confirmed. Probability: 30%</div>
+      </div>
+      <div class="stage-col">
+        <div class="stage-head" style="background:#FED7AA;color:#9A3412;">Proposal</div>
+        <div class="stage-body">Quote sent, awaiting decision. Probability: 60%</div>
+      </div>
+      <div class="stage-col">
+        <div class="stage-head" style="background:#D1FAE5;color:#065F46;">Negotiation</div>
+        <div class="stage-body">Terms being discussed. Probability: 80%</div>
+      </div>
+      <div class="stage-col">
+        <div class="stage-head" style="background:#DCFCE7;color:#14532D;">Won ✓</div>
+        <div class="stage-body">Deal closed! Probability: 100%</div>
+      </div>
+    </div>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Keep stages to <strong>5–8 maximum</strong> for most pipelines. Too many stages create friction and team confusion. Each stage should have a clear, agreed definition for when a deal qualifies to move forward.</div></div>
+  </div>
+
+  <!-- DEALS -->
+  <div class="section" id="section-deals">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Pipelines<span class="sep">›</span>Deals & Records</div>
+    <h2 class="sec-title">💼 Deals & Records</h2>
+    <p class="body">Each card on your pipeline board is a Deal (also called an Opportunity or Record). It represents one potential sale or business operation you're tracking.</p>
+
+    <h3 class="sub-title">➕ Creating a Deal</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Click the <strong>+</strong> button in any pipeline column, or click <strong>New Record</strong> at the top</li>
+      <li><span class="step-num">2</span>Enter <strong>Deal Name</strong> (e.g., "Acme Corp – Website Redesign")</li>
+      <li><span class="step-num">3</span>Link to a <strong>Contact</strong> and/or <strong>Company</strong></li>
+      <li><span class="step-num">4</span>Set <strong>Deal Value</strong> and <strong>Currency</strong></li>
+      <li><span class="step-num">5</span>Set <strong>Closing Date</strong> (expected close)</li>
+      <li><span class="step-num">6</span>Assign to a <strong>Sales Rep</strong> (Owner)</li>
+      <li><span class="step-num">7</span>Add any custom fields, tags, or notes</li>
+      <li><span class="step-num">8</span>Add <strong>Products</strong> if applicable</li>
+      <li><span class="step-num">9</span>Save — the deal appears in the pipeline board</li>
+    </ol>
+
+    <h3 class="sub-title">📋 Deal Detail View</h3>
+    <ul class="checklist">
+      <li><strong>Timeline</strong> — full history of all emails, calls, notes, and stage changes</li>
+      <li><strong>Activities</strong> — open tasks, upcoming calls, scheduled events</li>
+      <li><strong>Notes</strong> — internal notes visible to your team (not the customer)</li>
+      <li><strong>Files</strong> — attach contracts, proposals, documents</li>
+      <li><strong>Products</strong> — items associated with this deal</li>
+      <li><strong>Stage History</strong> — track how long the deal spent in each stage</li>
+      <li><strong>Related Contacts</strong> — all people involved in this deal</li>
+    </ul>
+
+    <h3 class="sub-title">🖱️ Moving Deals Through Stages</h3>
+    <p class="body">In the Kanban board view, simply <strong>drag and drop</strong> the card to the next column. Or open the deal and change the stage from the dropdown at the top. Stage Automation triggers fire automatically when the stage changes.</p>
+
+    <h3 class="sub-title">✅ Closing a Deal</h3>
+    <p class="body">Move a deal to a <strong>Won</strong> stage to mark it as a successful sale. Move to <strong>Lost</strong> and select a reason (required if you've configured lost reasons) to track why deals didn't close — this data is invaluable for improving your process.</p>
+  </div>
+
+  <!-- PIPELINE VIEWS -->
+  <div class="section" id="section-pipeline-views">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Pipelines<span class="sep">›</span>Pipeline Views</div>
+    <h2 class="sec-title">👁️ Pipeline Views</h2>
+    <p class="body">Switch between different ways to visualize your deals based on what task you're doing.</p>
+    <table class="data-table">
+      <thead><tr><th>View</th><th>Best For</th><th>How to Switch</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Kanban Board</strong></td><td>Visual deal tracking, drag-and-drop movement</td><td>Default view in Pipelines</td></tr>
+        <tr><td><strong>List View</strong></td><td>Seeing many deals at once, sorting, bulk editing</td><td>☰ icon → List</td></tr>
+        <tr><td><strong>Compact View</strong></td><td>High-density view for large deal volumes</td><td>☰ icon → Compact</td></tr>
+        <tr><td><strong>Tile View</strong></td><td>Card view with custom field display</td><td>☰ icon → Tile</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">🔍 Filtering Deals</h3>
+    <p class="body">Click the <strong>Filter</strong> icon to narrow deals by: Owner, Stage, Deal Value range, Closing Date, Tag, custom fields. Save filters as <strong>Custom Views</strong> for one-click access later (e.g., "My Overdue Deals", "High Value Q4 Deals").</p>
+  </div>
+
+  <!-- STAGE AUTOMATION -->
+  <div class="section" id="section-stage-automation">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Pipelines<span class="sep">›</span>Stage Automation</div>
+    <h2 class="sec-title">⚡ Stage Automation</h2>
+    <p class="body">Stage Automation triggers automatic actions whenever a deal moves into a specific stage. No manual steps required from your team.</p>
+
+    <h3 class="sub-title">⚙️ Setting Up Stage Automation</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open a Pipeline → click a Stage name → select <strong>Stage Automation</strong></li>
+      <li><span class="step-num">2</span>Choose <strong>When a record enters this stage</strong></li>
+      <li><span class="step-num">3</span>Add <strong>Actions</strong>:</li>
+    </ol>
+
+    <table class="data-table">
+      <thead><tr><th>Action Type</th><th>What It Does</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Send Email</td><td>Auto-send a template email to the contact</td><td>"Thank you for your inquiry" on New Lead</td></tr>
+        <tr><td>Create Task</td><td>Auto-assign a follow-up task to the rep</td><td>"Schedule demo call" on Qualified stage</td></tr>
+        <tr><td>Create Event</td><td>Auto-create a calendar event</td><td>"Negotiation meeting" on Negotiation stage</td></tr>
+        <tr><td>Update Field</td><td>Auto-set a field value on the record</td><td>Set Priority = High when entering Proposal</td></tr>
+        <tr><td>Assign Owner</td><td>Re-assign the deal to a different user</td><td>Assign to Senior Rep on high-value stage</td></tr>
+        <tr><td>Start Sub-Pipeline</td><td>Trigger a new sub-pipeline record</td><td>Start "Onboarding" when deal moves to Won</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box power"><span class="info-icon">⚡</span><div><strong>Pro tip:</strong> Set up a "Won" stage automation that: (1) sends a welcome email, (2) creates an onboarding task for your CS team, (3) triggers the Onboarding sub-pipeline. Your post-sale process runs automatically.</div></div>
+  </div>
+
+  <!-- SUB-PIPELINES -->
+  <div class="section" id="section-sub-pipelines">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Pipelines<span class="sep">›</span>Sub-Pipelines</div>
+    <h2 class="sec-title">🔗 Sub-Pipelines & Templates</h2>
+    <p class="body">Sub-Pipelines are secondary workflows attached to a parent pipeline. They let the same contact or company flow through multiple processes — for example, first Sales, then Onboarding, then Renewal.</p>
+
+    <h3 class="sub-title">➕ Creating a Sub-Pipeline</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open a Team Pipeline → click <strong>+ Add Sub-Pipeline</strong></li>
+      <li><span class="step-num">2</span>Name it (e.g., "Customer Onboarding")</li>
+      <li><span class="step-num">3</span>Define its own stages independently of the parent</li>
+      <li><span class="step-num">4</span>Optionally connect it to a parent stage (auto-trigger when parent deal reaches that stage)</li>
+    </ol>
+
+    <h3 class="sub-title">🗺️ Common Multi-Pipeline Setups</h3>
+    <ul class="checklist">
+      <li><strong>Sales → Onboarding → Renewal</strong> — Full customer lifecycle</li>
+      <li><strong>Sales → Support Tickets</strong> — Post-sale support tracking</li>
+      <li><strong>Inbound Leads → Partner Leads</strong> — Separate funnels, same team</li>
+      <li><strong>Online Sales → In-Person Sales</strong> — Channel-specific pipelines</li>
+    </ul>
+  </div>
+
+  <!-- ADD CONTACT -->
+  <div class="section" id="section-add-contact">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Contacts<span class="sep">›</span>Adding Contacts</div>
+    <h2 class="sec-title">👥 Adding Contacts</h2>
+    <p class="body">Contacts are individuals — leads, prospects, and customers. Every deal in your pipeline should be linked to at least one contact.</p>
+
+    <h3 class="sub-title">➕ Creating a Contact Manually</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Click <strong>Contacts → New Contact</strong></li>
+      <li><span class="step-num">2</span>Enter <strong>First Name</strong> and <strong>Last Name</strong></li>
+      <li><span class="step-num">3</span>Add <strong>Email</strong> (used for sending emails directly from Bigin)</li>
+      <li><span class="step-num">4</span>Add <strong>Phone</strong> (used for click-to-call)</li>
+      <li><span class="step-num">5</span>Link to a <strong>Company</strong></li>
+      <li><span class="step-num">6</span>Set the <strong>Deal Stage</strong> they're currently in (optional)</li>
+      <li><span class="step-num">7</span>Add <strong>Tags</strong> for easy filtering (e.g., "VIP", "Referral", "Trade Show 2025")</li>
+      <li><span class="step-num">8</span>Fill any <strong>Custom Fields</strong> relevant to your business</li>
+      <li><span class="step-num">9</span>Save</li>
+    </ol>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Bigin detects <strong>duplicate contacts</strong> on save (matching email or phone). You'll be prompted to merge or create separately. Keep your database clean from day one.</div></div>
+  </div>
+
+  <!-- CONTACT FIELDS -->
+  <div class="section" id="section-contact-fields">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Contacts<span class="sep">›</span>Contact Fields</div>
+    <h2 class="sec-title">🏷️ Contact Fields & Layout</h2>
+    <p class="body">Bigin provides standard fields (Name, Email, Phone, Company) and lets you add unlimited custom fields to capture information specific to your business.</p>
+
+    <h3 class="sub-title">📝 Standard Contact Fields</h3>
+    <div class="quick-links">
+      <span class="ql">First/Last Name</span><span class="ql">Email (multiple)</span><span class="ql">Phone (multiple)</span><span class="ql">Company</span><span class="ql">Job Title</span><span class="ql">Deal Stage</span><span class="ql">Lead Source</span><span class="ql">Tags</span><span class="ql">Owner</span><span class="ql">Address</span><span class="ql">Description</span><span class="ql">Social Profiles</span>
+    </div>
+
+    <h3 class="sub-title">➕ Adding Custom Fields</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Modules → Contacts → Fields → New Field</strong></li>
+      <li><span class="step-num">2</span>Choose <strong>Field Type</strong>: Text, Number, Date, Checkbox, Picklist, Lookup, URL, Multi-select</li>
+      <li><span class="step-num">3</span>Enter <strong>Field Label</strong> (what users see)</li>
+      <li><span class="step-num">4</span>Set whether it's <strong>mandatory</strong></li>
+      <li><span class="step-num">5</span>Drag it to the right position in the <strong>Page Layout</strong></li>
+    </ol>
+  </div>
+
+  <!-- CONTACT DETAIL -->
+  <div class="section" id="section-contact-detail">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Contacts<span class="sep">›</span>Contact Detail View</div>
+    <h2 class="sec-title">📋 Contact Detail View</h2>
+    <p class="body">Clicking a contact opens their 360° profile — everything about them in one place.</p>
+    <ul class="checklist">
+      <li><strong>Contact Info Panel</strong> — all fields, email/call/WhatsApp buttons</li>
+      <li><strong>Timeline</strong> — chronological history of every interaction (emails sent/received, calls, notes, stage changes)</li>
+      <li><strong>Deals</strong> — all pipeline records this contact is associated with</li>
+      <li><strong>Activities</strong> — open tasks and upcoming events for this contact</li>
+      <li><strong>Notes</strong> — internal notes from any team member</li>
+      <li><strong>Files</strong> — documents attached to this contact</li>
+      <li><strong>Emails</strong> — full email thread history if email is connected</li>
+      <li><strong>Social</strong> — linked social media profiles</li>
+    </ul>
+  </div>
+
+  <!-- CONTACT FILTER -->
+  <div class="section" id="section-contact-filter">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Contacts<span class="sep">›</span>Filtering & Views</div>
+    <h2 class="sec-title">🔍 Filtering & Views</h2>
+    <p class="body">Slice and dice your contact database to find exactly who you need for outreach, reporting, or bulk actions.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>In the Contacts list, click <strong>Filter</strong> (funnel icon)</li>
+      <li><span class="step-num">2</span>Add conditions: <em>Owner = me</em>, <em>Tag = VIP</em>, <em>City = London</em>, <em>Last Activity &gt; 30 days ago</em></li>
+      <li><span class="step-num">3</span>Combine filters with <strong>AND / OR</strong> logic</li>
+      <li><span class="step-num">4</span>Click <strong>Save as View</strong> to store this filter for future use</li>
+    </ol>
+    <h3 class="sub-title">📋 Useful Saved Views to Create</h3>
+    <ul class="checklist">
+      <li><strong>My Contacts</strong> — Owner = current user</li>
+      <li><strong>Uncontacted Leads</strong> — No activity in last 7 days + Stage = New</li>
+      <li><strong>Hot Leads</strong> — Tag = Hot OR Lead Score > 80</li>
+      <li><strong>By Region</strong> — Country or City = specific location</li>
+    </ul>
+  </div>
+
+  <!-- ADD COMPANY -->
+  <div class="section" id="section-add-company">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Companies<span class="sep">›</span>Adding Companies</div>
+    <h2 class="sec-title">🏢 Adding Companies</h2>
+    <p class="body">Companies (also called Accounts) represent the organizations your contacts work for. Linking contacts to companies gives you a complete view of all deals and relationships within a single organization.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Click <strong>Companies → New Company</strong></li>
+      <li><span class="step-num">2</span>Enter <strong>Company Name</strong></li>
+      <li><span class="step-num">3</span>Add <strong>Website, Phone, Address, Industry, Number of Employees</strong></li>
+      <li><span class="step-num">4</span>Set <strong>Annual Revenue</strong> (useful for deal sizing)</li>
+      <li><span class="step-num">5</span>Add custom fields relevant to B2B (e.g., CRM Tier, Contract Value)</li>
+      <li><span class="step-num">6</span>Save — now link contacts to this company</li>
+    </ol>
+    <div class="info-box note"><span class="info-icon">ℹ️</span><div>Bigin <strong>auto-suggests companies</strong> when you create a contact — if the email domain matches an existing company (e.g., @acme.com), it offers to link them automatically.</div></div>
+  </div>
+
+  <!-- COMPANY CONTACTS -->
+  <div class="section" id="section-company-contacts">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Companies<span class="sep">›</span>Linking Contacts</div>
+    <h2 class="sec-title">🔗 Linking Contacts to Companies</h2>
+    <p class="body">Multiple contacts from the same organization can be linked to a single company record, giving you account-level deal visibility.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open a <strong>Contact</strong> → find the <strong>Company</strong> field</li>
+      <li><span class="step-num">2</span>Start typing the company name → select it from the dropdown</li>
+      <li><span class="step-num">3</span>Or open the <strong>Company</strong> record → <strong>Related Contacts</strong> → <strong>Add Contact</strong></li>
+    </ol>
+    <p class="body">The Company record then shows all linked contacts, all deals associated with any of those contacts, and the total pipeline value for that account.</p>
+  </div>
+
+  <!-- ADD PRODUCT -->
+  <div class="section" id="section-add-product">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Products<span class="sep">›</span>Adding Products</div>
+    <h2 class="sec-title">📦 Adding Products & Services</h2>
+    <p class="body">Create your product/service catalog so reps can attach items to deals — keeping deal values accurate and generating quote line items.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Products → New Product</strong></li>
+      <li><span class="step-num">2</span>Enter <strong>Product Name</strong> and <strong>Product Code</strong> (SKU)</li>
+      <li><span class="step-num">3</span>Set <strong>Unit Price</strong> and <strong>Currency</strong></li>
+      <li><span class="step-num">4</span>Choose <strong>Unit of Measure</strong> (each, hour, license, month)</li>
+      <li><span class="step-num">5</span>Add <strong>Description</strong> and <strong>Category</strong></li>
+      <li><span class="step-num">6</span>Mark as <strong>Active</strong> to make it available for deals</li>
+      <li><span class="step-num">7</span>Save</li>
+    </ol>
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Import products from a CSV just like contacts — <strong>Products → ☰ → Import</strong>. Great for businesses with large service catalogs or existing price lists.</div></div>
+  </div>
+
+  <!-- PRODUCTS IN DEALS -->
+  <div class="section" id="section-products-deals">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Products<span class="sep">›</span>Products in Deals</div>
+    <h2 class="sec-title">💼 Products in Deals</h2>
+    <p class="body">Attach one or more products to a deal to itemize what's being sold and auto-calculate the total deal value.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open a Deal → scroll to the <strong>Products</strong> section</li>
+      <li><span class="step-num">2</span>Click <strong>Add Products</strong> → search your catalog</li>
+      <li><span class="step-num">3</span>Set <strong>Quantity</strong> and adjust <strong>Unit Price</strong> if needed</li>
+      <li><span class="step-num">4</span>Apply a <strong>Discount %</strong> per line item</li>
+      <li><span class="step-num">5</span>The total auto-calculates and can update the <strong>Deal Value</strong></li>
+    </ol>
+  </div>
+
+  <!-- PAYMENT LINKS -->
+  <div class="section" id="section-payment-links">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Products<span class="sep">›</span>Payment Links</div>
+    <h2 class="sec-title">💳 Payment Links</h2>
+    <p class="body">Generate a unique payment link for a deal and share it with the customer via email, WhatsApp, or SMS — they click and pay instantly.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open a Deal → click <strong>Generate Payment Link</strong></li>
+      <li><span class="step-num">2</span>Set the <strong>Amount</strong> (defaults to deal value)</li>
+      <li><span class="step-num">3</span>Set <strong>Expiry Date</strong> for the link</li>
+      <li><span class="step-num">4</span>Copy the link and share via email, WhatsApp, or SMS</li>
+      <li><span class="step-num">5</span>When the customer pays, the deal is marked and you're notified</li>
+    </ol>
+    <div class="info-box note"><span class="info-icon">ℹ️</span><div>Payment Links require a connected payment gateway. Bigin integrates with <strong>Stripe, PayPal, Razorpay</strong>, and others configured in Settings → Payment Gateways.</div></div>
+  </div>
+
+  <!-- TASKS -->
+  <div class="section" id="section-tasks">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Activities<span class="sep">›</span>Tasks</div>
+    <h2 class="sec-title">✅ Tasks</h2>
+    <p class="body">Tasks are to-do items linked to contacts or deals. Use them to track follow-ups, reminders, and delegated work.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Click <strong>Activities → Tasks → New Task</strong> (or + from a contact/deal)</li>
+      <li><span class="step-num">2</span>Enter <strong>Task Subject</strong> (e.g., "Follow up on proposal")</li>
+      <li><span class="step-num">3</span>Set <strong>Due Date and Time</strong></li>
+      <li><span class="step-num">4</span>Set <strong>Priority</strong>: High, Normal, or Low</li>
+      <li><span class="step-num">5</span>Assign an <strong>Owner</strong> (yourself or a team member)</li>
+      <li><span class="step-num">6</span>Link to a <strong>Contact</strong> and/or <strong>Deal</strong></li>
+      <li><span class="step-num">7</span>Set a <strong>Reminder</strong> (email or in-app notification)</li>
+      <li><span class="step-num">8</span>Add internal <strong>Notes</strong></li>
+      <li><span class="step-num">9</span>Save — appears in Activities dashboard and on the linked record</li>
+    </ol>
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Use the <strong>Activities</strong> module view to see all your tasks, overdue items, and today's schedule in one place — filterable by owner, type, and due date.</div></div>
+  </div>
+
+  <!-- CALLS -->
+  <div class="section" id="section-calls">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Activities<span class="sep">›</span>Calls</div>
+    <h2 class="sec-title">📞 Calls</h2>
+    <p class="body">Log calls manually or use Bigin's built-in telephony to make calls directly from the CRM — calls are automatically recorded and linked to the contact.</p>
+
+    <h3 class="sub-title">📝 Logging a Call Manually</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open a Contact or Deal → click <strong>Log a Call</strong> (or Activities → Calls → New)</li>
+      <li><span class="step-num">2</span>Set <strong>Call Date & Time</strong></li>
+      <li><span class="step-num">3</span>Set <strong>Duration</strong></li>
+      <li><span class="step-num">4</span>Choose <strong>Direction</strong>: Inbound or Outbound</li>
+      <li><span class="step-num">5</span>Set <strong>Call Status</strong>: Completed, Not Connected, Left Voicemail</li>
+      <li><span class="step-num">6</span>Add call <strong>Notes/Summary</strong></li>
+    </ol>
+
+    <h3 class="sub-title">☎️ Click-to-Call (Built-in Telephony)</h3>
+    <p class="body">With Bigin's built-in phone, click any phone number on a contact to call directly from your browser. The call logs automatically with duration, recording (if enabled), and a note field. Set up under <strong>Settings → Telephony → Bigin Phone</strong>.</p>
+
+    <h3 class="sub-title">🔌 Third-Party Telephony</h3>
+    <div class="quick-links">
+      <span class="ql">RingCentral</span><span class="ql">Twilio</span><span class="ql">Vonage</span><span class="ql">Aircall</span><span class="ql">Avaya</span><span class="ql">JustCall</span>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="section" id="section-events">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Activities<span class="sep">›</span>Events & Bookings</div>
+    <h2 class="sec-title">📅 Events & Bookings</h2>
+    <p class="body">Events are time-blocked calendar activities — meetings, demos, site visits, discovery calls. Bookings allow customers to schedule directly into your calendar.</p>
+
+    <h3 class="sub-title">➕ Creating an Event</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Activities → Events → New Event</strong></li>
+      <li><span class="step-num">2</span>Enter <strong>Event Title</strong> and <strong>Location</strong> (or Zoom/Meet link)</li>
+      <li><span class="step-num">3</span>Set <strong>Start</strong> and <strong>End Date/Time</strong></li>
+      <li><span class="step-num">4</span>Add <strong>Participants</strong> (contacts + internal users)</li>
+      <li><span class="step-num">5</span>Link to a <strong>Deal</strong></li>
+      <li><span class="step-num">6</span>Enable <strong>Send Invitation</strong> to email participants automatically</li>
+    </ol>
+
+    <h3 class="sub-title">📆 Booking Pages</h3>
+    <p class="body">Share a Bigin booking link with prospects — they pick a time from your available slots, and the event auto-creates in Bigin and syncs to your calendar. Set up under <strong>Activities → Bookings → New Booking Page</strong>.</p>
+  </div>
+
+  <!-- CALENDAR SYNC -->
+  <div class="section" id="section-calendar-sync">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Activities<span class="sep">›</span>Calendar Sync</div>
+    <h2 class="sec-title">📆 Calendar Sync</h2>
+    <p class="body">Sync Bigin activities with Google Calendar or Outlook so your CRM schedule and personal calendar stay in perfect alignment.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Integrations → Google / Microsoft</strong></li>
+      <li><span class="step-num">2</span>Click <strong>Authorize</strong> and sign in to your Google/Microsoft account</li>
+      <li><span class="step-num">3</span>Choose <strong>Two-way sync</strong> (recommended) or one-way</li>
+      <li><span class="step-num">4</span>Choose which Bigin calendars to sync (Events, Tasks)</li>
+      <li><span class="step-num">5</span>Events created in Bigin appear in Google Calendar (and vice versa)</li>
+    </ol>
+    <div class="info-box warn"><span class="info-icon">⚠️</span><div>Two-way sync means <strong>changes in either system propagate to both</strong>. Deleting an event in Google Calendar also deletes it in Bigin. Be mindful of this when cleaning up your calendar.</div></div>
+  </div>
+
+  <!-- EMAIL -->
+  <div class="section" id="section-email">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Messages<span class="sep">›</span>Email Integration</div>
+    <h2 class="sec-title">✉️ Email Integration</h2>
+    <p class="body">Connect your work email so you can send, receive, and track emails directly from contact and deal records — keeping all communication in one place.</p>
+
+    <h3 class="sub-title">🔌 Connecting Your Email</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Email → Configure</strong></li>
+      <li><span class="step-num">2</span>Choose your provider: <strong>Gmail, Outlook, Zoho Mail</strong>, or generic IMAP/SMTP</li>
+      <li><span class="step-num">3</span>Sign in and authorize Bigin to access your inbox</li>
+      <li><span class="step-num">4</span>Choose <strong>Inbox Sync</strong> — incoming emails from contacts auto-link to their records</li>
+    </ol>
+
+    <h3 class="sub-title">📧 Sending Emails from Bigin</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open a Contact or Deal → click the <strong>Email</strong> button</li>
+      <li><span class="step-num">2</span>Compose or select an <strong>Email Template</strong></li>
+      <li><span class="step-num">3</span>Use merge fields: <code>{{FirstName}}</code>, <code>{{DealValue}}</code>, <code>{{OwnerName}}</code></li>
+      <li><span class="step-num">4</span>Send — the email logs on the contact timeline automatically</li>
+    </ol>
+
+    <h3 class="sub-title">📊 Email Tracking</h3>
+    <ul class="checklist">
+      <li><strong>Open Tracking</strong> — get notified when the contact opens your email</li>
+      <li><strong>Click Tracking</strong> — know which links they clicked</li>
+      <li><strong>Reply Detection</strong> — replies auto-log to the contact timeline</li>
+    </ul>
+  </div>
+
+  <!-- WHATSAPP -->
+  <div class="section" id="section-whatsapp">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Messages<span class="sep">›</span>WhatsApp</div>
+    <h2 class="sec-title">💬 WhatsApp Integration</h2>
+    <p class="body">Connect your WhatsApp Business account to send and receive WhatsApp messages from within Bigin. All conversations are logged on contact records.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Messaging → WhatsApp → Configure</strong></li>
+      <li><span class="step-num">2</span>Connect via <strong>WhatsApp Business API</strong> (requires a Meta Business account)</li>
+      <li><span class="step-num">3</span>Verify your business phone number</li>
+      <li><span class="step-num">4</span>Once connected, open any Contact with a phone number → click <strong>WhatsApp</strong> icon</li>
+      <li><span class="step-num">5</span>Chat in real time — messages appear in the contact's Messages tab</li>
+    </ol>
+    <div class="info-box tip"><span class="info-icon">💡</span><div>WhatsApp conversations flow into the <strong>Messages module</strong>, giving you a unified inbox across channels. Use WhatsApp template messages for outbound messages to non-opted-in contacts (required by Meta policy).</div></div>
+  </div>
+
+  <!-- MASS EMAIL -->
+  <div class="section" id="section-mass-email">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Messages<span class="sep">›</span>Mass Emails</div>
+    <h2 class="sec-title">📧 Mass Emails</h2>
+    <p class="body">Send bulk emails to a segment of your contacts — announcements, promotions, follow-up campaigns — directly from Bigin.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Contacts → select contacts</strong> (use filters to segment) → click <strong>Send Email</strong></li>
+      <li><span class="step-num">2</span>Or use <strong>Messages → Mass Email → New Campaign</strong></li>
+      <li><span class="step-num">3</span>Choose or create an <strong>Email Template</strong></li>
+      <li><span class="step-num">4</span>Select your <strong>Contact Segment</strong> (filter by tag, stage, region, etc.)</li>
+      <li><span class="step-num">5</span>Schedule or send immediately</li>
+    </ol>
+    <div class="info-box note"><span class="info-icon">ℹ️</span><div>For advanced email marketing (drip campaigns, A/B testing, segmentation), connect <strong>Zoho Campaigns</strong> or <strong>Mailchimp</strong> — they integrate natively with Bigin contacts.</div></div>
+  </div>
+
+  <!-- WORKFLOWS -->
+  <div class="section" id="section-workflows">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Automation<span class="sep">›</span>Workflow Rules</div>
+    <h2 class="sec-title">⚡ Workflow Rules</h2>
+    <p class="body">Workflows are if-then automation rules. When a trigger happens and conditions are met, Bigin automatically performs actions — saving your team from repetitive manual tasks.</p>
+
+    <h3 class="sub-title">⚙️ Creating a Workflow</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Automation → Workflow Rules → New Rule</strong></li>
+      <li><span class="step-num">2</span>Select the <strong>Module</strong> (Contacts, Deals, Companies, Activities)</li>
+      <li><span class="step-num">3</span>Name the rule (e.g., "New Lead — Welcome Email")</li>
+      <li><span class="step-num">4</span>Set the <strong>Trigger</strong>: Record Created, Record Edited, Field Updated, Date/Time</li>
+      <li><span class="step-num">5</span>Set <strong>Conditions</strong> (optional): e.g., "Only if Stage = New Lead"</li>
+      <li><span class="step-num">6</span>Add <strong>Actions</strong> (can be multiple):</li>
+    </ol>
+
+    <table class="data-table">
+      <thead><tr><th>Action</th><th>What It Does</th></tr></thead>
+      <tbody>
+        <tr><td>Send Email</td><td>Send a pre-written email template to the contact</td></tr>
+        <tr><td>Create Task</td><td>Assign a follow-up task to the record owner or specific user</td></tr>
+        <tr><td>Update Field</td><td>Set a field value automatically on the triggering record</td></tr>
+        <tr><td>Create Record</td><td>Add a new contact, deal, or company automatically</td></tr>
+        <tr><td>Assign Owner</td><td>Re-assign the record to a different user or team</td></tr>
+        <tr><td>Webhook</td><td>Send data to an external system (Zapier, Zoho Flow, etc.)</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">💡 Workflow Ideas</h3>
+    <ul class="checklist">
+      <li>New contact created → send welcome email immediately</li>
+      <li>Deal closing date passes with no movement → create urgent follow-up task</li>
+      <li>Deal value > $50,000 → assign to Senior Account Executive</li>
+      <li>Contact's birthday (custom field) → send greeting email</li>
+      <li>Follow-up task created → send Slack notification via webhook</li>
+    </ul>
+  </div>
+
+  <!-- STAGE AUTO DEEP -->
+  <div class="section" id="section-stage-auto-deep">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Automation<span class="sep">›</span>Stage-Based Automation</div>
+    <h2 class="sec-title">🎯 Stage-Based Automation</h2>
+    <p class="body">While Workflows run on any module event, Stage Automation is specifically triggered by a deal moving into or out of a pipeline stage. It's the most powerful automation in Bigin for sales teams.</p>
+
+    <h3 class="sub-title">🔄 Entry vs. Exit Actions</h3>
+    <table class="data-table">
+      <thead><tr><th>Trigger</th><th>When It Fires</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>On Entry</strong></td><td>Deal moves INTO this stage</td><td>Enter "Proposal" → auto-send proposal email</td></tr>
+        <tr><td><strong>On Exit</strong></td><td>Deal moves OUT of this stage</td><td>Exit "Negotiation" → update Deal probability field</td></tr>
+        <tr><td><strong>After X days in stage</strong></td><td>Deal stays in stage longer than set time</td><td>3 days in "Proposal" → create chase-up task</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box power"><span class="info-icon">⚡</span><div><strong>The "Won" Stage Power Move:</strong> When a deal moves to Won: (1) Send congratulations email to contact, (2) Create "Onboarding kickoff" task for CS team, (3) Start Onboarding sub-pipeline, (4) Update Contact status to "Customer". Your entire post-sale process — automated.</div></div>
+  </div>
+
+  <!-- SIGNALS -->
+  <div class="section" id="section-signals">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Automation<span class="sep">›</span>Signals</div>
+    <h2 class="sec-title">🔔 Signals & Notifications</h2>
+    <p class="body">Signals are real-time alerts that tell you when a contact interacts with you — opening an email, clicking a link, calling, visiting your website, or mentioning you on social media. Act at exactly the right moment.</p>
+
+    <h3 class="sub-title">📡 Signal Sources</h3>
+    <ul class="checklist">
+      <li><strong>Email Open/Click</strong> — contact opened your tracked email or clicked a link</li>
+      <li><strong>Incoming Call</strong> — contact is calling you right now</li>
+      <li><strong>WhatsApp Reply</strong> — contact responded to your WhatsApp message</li>
+      <li><strong>Support Ticket Update</strong> — contact's ticket changed status (via Zoho Desk)</li>
+      <li><strong>Social Mention</strong> — contact mentioned you on X (Twitter)</li>
+      <li><strong>Form Submission</strong> — contact filled a web form</li>
+    </ul>
+
+    <p class="body">Configure which Signals you receive under <strong>Settings → Signals → Configure</strong>. Signals appear as a notification bell in the top nav — clicking them takes you directly to the relevant contact or deal.</p>
+  </div>
+
+  <!-- WEB FORMS -->
+  <div class="section" id="section-web-forms">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Automation<span class="sep">›</span>Web Forms</div>
+    <h2 class="sec-title">📝 Web Forms</h2>
+    <p class="body">Create embeddable forms for your website. When someone submits the form, they're automatically created as a Contact (and optionally a Deal) in Bigin — eliminating manual data entry for inbound leads.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Web Forms → New Form</strong></li>
+      <li><span class="step-num">2</span>Choose the <strong>Module</strong>: Contacts, Companies, or Deals</li>
+      <li><span class="step-num">3</span>Drag and drop <strong>Fields</strong> to include on the form</li>
+      <li><span class="step-num">4</span>Set which fields are <strong>Required</strong></li>
+      <li><span class="step-num">5</span>Design with your brand colors and logo</li>
+      <li><span class="step-num">6</span>Set <strong>Auto-assignment rules</strong> (which rep gets the lead)</li>
+      <li><span class="step-num">7</span>Set a <strong>Thank You message</strong> or redirect URL</li>
+      <li><span class="step-num">8</span>Copy the <strong>embed code</strong> and paste it into your website HTML</li>
+    </ol>
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Combine Web Forms with <strong>Workflows</strong>: when a form is submitted → auto-send welcome email → create a "Qualify lead" task for the rep → add the contact to the "New Lead" stage in your Sales pipeline.</div></div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="section" id="section-dashboard">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Dashboard & Reports<span class="sep">›</span>Building Dashboards</div>
+    <h2 class="sec-title">📊 Building Dashboards</h2>
+    <p class="body">Dashboards give you a bird's-eye view of your pipeline health, team performance, and business metrics. Build up to 10 components per dashboard.</p>
+
+    <h3 class="sub-title">➕ Adding Dashboard Components</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Dashboards → Edit Dashboard → Add Component</strong></li>
+      <li><span class="step-num">2</span>Choose a <strong>Chart Type</strong>: Bar, Line, Pie, Donut, Funnel, KPI Tile</li>
+      <li><span class="step-num">3</span>Choose the <strong>Module</strong> and <strong>Measure</strong> (e.g., Deals → Sum of Deal Value)</li>
+      <li><span class="step-num">4</span>Group by <strong>Stage, Owner, Source, Month</strong>, etc.</li>
+      <li><span class="step-num">5</span>Set a <strong>Date Range</strong> filter</li>
+      <li><span class="step-num">6</span>Save and drag/resize components on the dashboard</li>
+    </ol>
+
+    <h3 class="sub-title">📈 Recommended Components</h3>
+    <ul class="checklist">
+      <li><strong>Pipeline Value by Stage</strong> — funnel chart showing total deal value per stage</li>
+      <li><strong>Deals Won This Month</strong> — KPI tile with count and value</li>
+      <li><strong>Win Rate %</strong> — (Won deals / Total closed) over time</li>
+      <li><strong>Activities by Rep</strong> — bar chart of tasks/calls per salesperson</li>
+      <li><strong>Revenue by Lead Source</strong> — pie chart to know where your best deals come from</li>
+      <li><strong>Overdue Activities</strong> — table of past-due tasks</li>
+      <li><strong>Average Deal Cycle Time</strong> — how long deals take to close</li>
+    </ul>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="section" id="section-reports">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Dashboard & Reports<span class="sep">›</span>Reports</div>
+    <h2 class="sec-title">📋 Reports</h2>
+    <p class="body">Bigin's Reports module lets you create tabular or summary reports on any module data — then export or schedule them.</p>
+
+    <h3 class="sub-title">📊 Standard Reports</h3>
+    <table class="data-table">
+      <thead><tr><th>Report</th><th>What It Shows</th></tr></thead>
+      <tbody>
+        <tr><td>Deals by Stage</td><td>Count and value of deals in each pipeline stage</td></tr>
+        <tr><td>Deals Closing This Month</td><td>All deals with closing date in current month</td></tr>
+        <tr><td>Deals Won / Lost</td><td>Closed deals with win/loss status and reasons</td></tr>
+        <tr><td>Sales by Rep</td><td>Total won deal value per sales person</td></tr>
+        <tr><td>Activity Summary</td><td>Tasks, calls, events completed per rep per period</td></tr>
+        <tr><td>Lead Source Analysis</td><td>Which channels generate the most deals</td></tr>
+        <tr><td>Contact Growth</td><td>New contacts added over time</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">🔧 Custom Reports</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Reports → New Report</strong></li>
+      <li><span class="step-num">2</span>Select <strong>Module</strong> (Deals, Contacts, Activities)</li>
+      <li><span class="step-num">3</span>Choose <strong>Report Type</strong>: Tabular, Summary, or Matrix</li>
+      <li><span class="step-num">4</span>Select <strong>Columns</strong> to include</li>
+      <li><span class="step-num">5</span>Add <strong>Filters</strong> and <strong>Sort Order</strong></li>
+      <li><span class="step-num">6</span>Save and <strong>Schedule</strong> it to be emailed weekly</li>
+    </ol>
+  </div>
+
+  <!-- GOALS -->
+  <div class="section" id="section-goals">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Dashboard & Reports<span class="sep">›</span>Goals & Targets</div>
+    <h2 class="sec-title">🎯 Goals & Targets</h2>
+    <p class="body">Set sales quotas for individuals or teams and track progress against them in real time on the Dashboard.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Dashboard → Goals → New Goal</strong></li>
+      <li><span class="step-num">2</span>Choose <strong>Goal Type</strong>: Revenue (deal value), Activity count (calls/tasks)</li>
+      <li><span class="step-num">3</span>Set the <strong>Target Value</strong> (e.g., $100,000 in closed deals)</li>
+      <li><span class="step-num">4</span>Choose <strong>Period</strong>: Monthly, Quarterly, Yearly</li>
+      <li><span class="step-num">5</span>Assign to a <strong>User</strong> or <strong>Team</strong></li>
+      <li><span class="step-num">6</span>Track progress on the Dashboard as a progress bar or KPI tile</li>
+    </ol>
+  </div>
+
+  <!-- CUSTOM FIELDS -->
+  <div class="section" id="section-custom-fields">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Customization<span class="sep">›</span>Custom Fields</div>
+    <h2 class="sec-title">🏷️ Custom Fields</h2>
+    <p class="body">Every business is unique. Add custom fields to any module to capture the data that matters to your specific workflow.</p>
+
+    <h3 class="sub-title">📐 Field Types Available</h3>
+    <table class="data-table">
+      <thead><tr><th>Type</th><th>Use Case</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Text</strong></td><td>Free-form short text (job title, reference code)</td></tr>
+        <tr><td><strong>Multi-line Text</strong></td><td>Long descriptions, notes, custom instructions</td></tr>
+        <tr><td><strong>Number</strong></td><td>Quantities, scores, employee count</td></tr>
+        <tr><td><strong>Currency</strong></td><td>Budget, contract value, competitor pricing</td></tr>
+        <tr><td><strong>Percent</strong></td><td>Discount rate, win probability override</td></tr>
+        <tr><td><strong>Date</strong></td><td>Contract start, renewal date, birthday</td></tr>
+        <tr><td><strong>Checkbox</strong></td><td>Yes/No flags (e.g., "Newsletter Subscriber")</td></tr>
+        <tr><td><strong>Picklist</strong></td><td>Single-select dropdown (Industry, Tier, Priority)</td></tr>
+        <tr><td><strong>Multi-select</strong></td><td>Multiple choices (e.g., Products Interested In)</td></tr>
+        <tr><td><strong>Lookup</strong></td><td>Link to another record in Bigin</td></tr>
+        <tr><td><strong>URL</strong></td><td>LinkedIn profile, website, document link</td></tr>
+        <tr><td><strong>File Upload</strong></td><td>Attach document to a record field</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">➕ Adding a Custom Field</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Modules → [Module Name] → Fields</strong></li>
+      <li><span class="step-num">2</span>Click <strong>New Field</strong></li>
+      <li><span class="step-num">3</span>Choose <strong>Field Type</strong>, enter <strong>Label</strong>, set mandatory</li>
+      <li><span class="step-num">4</span>Drag to position in <strong>Page Layout</strong></li>
+      <li><span class="step-num">5</span>Save — field appears immediately on all records</li>
+    </ol>
+  </div>
+
+  <!-- LAYOUTS -->
+  <div class="section" id="section-layouts">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Customization<span class="sep">›</span>Page Layouts</div>
+    <h2 class="sec-title">📄 Page Layouts</h2>
+    <p class="body">Control which fields appear on each module's detail page, their order, and how they're organized into sections.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Modules → [Module] → Page Layout</strong></li>
+      <li><span class="step-num">2</span>Drag fields between the <strong>Layout</strong> and <strong>Available Fields</strong> panels</li>
+      <li><span class="step-num">3</span>Create <strong>Sections</strong> (e.g., "Deal Info", "Contact Details", "Internal Notes")</li>
+      <li><span class="step-num">4</span>Set fields to 1-column or 2-column layout</li>
+      <li><span class="step-num">5</span>Mark fields as <strong>Read-Only</strong> for certain roles</li>
+      <li><span class="step-num">6</span>Save — changes apply immediately to all users</li>
+    </ol>
+  </div>
+
+  <!-- TAGS -->
+  <div class="section" id="section-tags">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Customization<span class="sep">›</span>Tags</div>
+    <h2 class="sec-title">🏷️ Tags</h2>
+    <p class="body">Tags are free-form labels you apply to contacts, companies, and deals for flexible organization, filtering, and segmentation.</p>
+    <ul class="checklist">
+      <li>Add tags from any record's detail view — just type in the Tags field</li>
+      <li>Apply multiple tags per record (e.g., "VIP", "Q4 Target", "Referral", "Tech Industry")</li>
+      <li>Filter the Contacts or Deals list by one or more tags</li>
+      <li>Use tags as workflow conditions (e.g., send email if Tag = "Trade Show 2025")</li>
+      <li>Bulk-tag contacts by selecting them in list view → Actions → Add Tag</li>
+      <li>Manage all tags under <strong>Settings → Tags</strong> — rename or merge duplicates</li>
+    </ul>
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Tags are especially powerful for <strong>campaign targeting</strong> — tag attendees from a trade show, then mass-email just that group with a follow-up message.</div></div>
+  </div>
+
+  <!-- ZOHO INTEGRATIONS -->
+  <div class="section" id="section-zoho-integrations">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Integrations<span class="sep">›</span>Zoho Ecosystem</div>
+    <h2 class="sec-title">🔵 Zoho Ecosystem Integrations</h2>
+    <p class="body">Bigin is part of the Zoho family — it connects seamlessly with other Zoho apps for a complete business operating system.</p>
+    <table class="data-table">
+      <thead><tr><th>App</th><th>What the Integration Does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Zoho CRM</strong></td><td>Two-way sync of contacts, accounts, and deals — upgrade path from Bigin; hybrid setups</td></tr>
+        <tr><td><strong>Zoho Books</strong></td><td>Create invoices and quotes in Books from Bigin deals; sync customer payment status</td></tr>
+        <tr><td><strong>Zoho Desk</strong></td><td>View and manage customer support tickets from within Bigin; get signals on ticket updates</td></tr>
+        <tr><td><strong>Zoho Campaigns</strong></td><td>Sync contacts to Campaigns for drip email marketing; track open/click data in Bigin</td></tr>
+        <tr><td><strong>Zoho Meeting</strong></td><td>Schedule Zoho Meeting video calls from a deal or contact; call recordings auto-link</td></tr>
+        <tr><td><strong>Zoho Sign</strong></td><td>Send contracts for e-signature from deal records; signed docs auto-attach</td></tr>
+        <tr><td><strong>Zoho Analytics</strong></td><td>Advanced BI dashboards pulling from Bigin data; cross-app reporting</td></tr>
+        <tr><td><strong>Zoho Flow</strong></td><td>No-code automation connecting Bigin to 600+ apps; complex multi-step workflows</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GOOGLE INTEGRATION -->
+  <div class="section" id="section-google-integration">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Integrations<span class="sep">›</span>Google Workspace</div>
+    <h2 class="sec-title">🔴 Google Workspace Integration</h2>
+    <p class="body">Connect Bigin to your Google account for seamless email, calendar, and contacts sync.</p>
+    <ul class="checklist">
+      <li><strong>Gmail</strong> — Send and receive emails from Bigin; incoming emails auto-match to contacts</li>
+      <li><strong>Google Calendar</strong> — Two-way sync of events and activities</li>
+      <li><strong>Google Contacts</strong> — Import and sync contacts from Google</li>
+      <li><strong>Google Meet</strong> — Schedule Meet calls from deal records with auto-generated links</li>
+      <li><strong>Google Ads</strong> — Capture leads from Google Ad lead forms directly into Bigin contacts</li>
+    </ul>
+    <p class="body">Set up via <strong>Settings → Integrations → Google → Authorize</strong>. All users connect their own Google account individually.</p>
+  </div>
+
+  <!-- MICROSOFT INTEGRATION -->
+  <div class="section" id="section-microsoft-integration">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Integrations<span class="sep">›</span>Microsoft 365</div>
+    <h2 class="sec-title">🔷 Microsoft 365 Integration</h2>
+    <p class="body">Connect Bigin to Microsoft 365 for Outlook email, calendar, and Teams calling support.</p>
+    <ul class="checklist">
+      <li><strong>Outlook Email</strong> — Full two-way email sync; emails log on contact timelines</li>
+      <li><strong>Outlook Calendar</strong> — Activities sync to and from your Outlook calendar</li>
+      <li><strong>Microsoft Teams</strong> — Initiate Teams calls from deal records; calls auto-log</li>
+      <li><strong>Office 365 Contacts</strong> — Import your Outlook address book to Bigin</li>
+    </ul>
+    <p class="body">Set up via <strong>Settings → Integrations → Microsoft → Authorize with Microsoft</strong>.</p>
+  </div>
+
+  <!-- MARKETPLACE -->
+  <div class="section" id="section-marketplace">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Integrations<span class="sep">›</span>Marketplace & APIs</div>
+    <h2 class="sec-title">🛒 Marketplace & APIs</h2>
+    <p class="body">Extend Bigin beyond its built-in capabilities with third-party apps and developer tools.</p>
+
+    <h3 class="sub-title">🔌 Key Third-Party Integrations</h3>
+    <div class="quick-links">
+      <span class="ql">⚡ Zapier</span><span class="ql">🔄 Make (Integromat)</span><span class="ql">🛍️ Shopify</span><span class="ql">📘 Meta Ads</span><span class="ql">💼 LinkedIn Ads</span><span class="ql">🎵 TikTok Ads</span><span class="ql">💲 QuickBooks</span><span class="ql">📧 Mailchimp</span><span class="ql">📞 RingCentral</span><span class="ql">💬 Slack</span><span class="ql">🎥 Zoom</span>
+    </div>
+
+    <h3 class="sub-title">🔑 Bigin API</h3>
+    <p class="body">Bigin provides a <strong>REST API</strong> for developers to build custom integrations. Access via <strong>Settings → Developer Space → API Keys</strong>. Generate an API key and use it to create, read, update, or delete any record programmatically.</p>
+
+    <div class="info-box note"><span class="info-icon">ℹ️</span><div>Use <strong>Zapier</strong> or <strong>Zoho Flow</strong> if you need to connect Bigin to apps without writing code. Both offer visual builders and thousands of app connectors.</div></div>
+  </div>
+
+  <!-- EMAIL TEMPLATES -->
+  <div class="section" id="section-email-templates">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Settings<span class="sep">›</span>Email Templates</div>
+    <h2 class="sec-title">✉️ Email Templates</h2>
+    <p class="body">Create reusable email templates for common scenarios — follow-ups, proposals, check-ins, notifications. Use merge fields to personalize at scale.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Email Templates → New Template</strong></li>
+      <li><span class="step-num">2</span>Enter <strong>Template Name</strong> (internal reference)</li>
+      <li><span class="step-num">3</span>Enter <strong>Subject</strong> — use merge fields like <code>{{Deal Name}}</code></li>
+      <li><span class="step-num">4</span>Compose the <strong>Body</strong> using the rich text editor</li>
+      <li><span class="step-num">5</span>Insert <strong>Merge Fields</strong>: <code>{{Contact.FirstName}}</code>, <code>{{Owner.Name}}</code>, <code>{{Deal.Value}}</code></li>
+      <li><span class="step-num">6</span>Add your <strong>Email Signature</strong></li>
+      <li><span class="step-num">7</span>Save — now available when sending emails or creating workflows</li>
+    </ol>
+  </div>
+
+  <!-- TELEPHONY -->
+  <div class="section" id="section-telephony">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Settings<span class="sep">›</span>Telephony</div>
+    <h2 class="sec-title">📞 Telephony Setup</h2>
+    <p class="body">Set up calling directly within Bigin so your team can make and receive calls from the CRM without switching apps.</p>
+
+    <h3 class="sub-title">📲 Bigin Built-in Phone</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Telephony → Bigin Phone</strong></li>
+      <li><span class="step-num">2</span>Choose a <strong>Phone Number</strong> from available numbers in your country</li>
+      <li><span class="step-num">3</span>Configure <strong>Business Hours</strong> and voicemail greeting</li>
+      <li><span class="step-num">4</span>Enable <strong>Call Recording</strong> (check local laws)</li>
+      <li><span class="step-num">5</span>Assign numbers to <strong>Users</strong> or a shared pool</li>
+      <li><span class="step-num">6</span>Use the <strong>dial pad</strong> widget in Bigin to make calls</li>
+    </ol>
+
+    <h3 class="sub-title">🔌 Third-Party Phone Providers</h3>
+    <p class="body">Don't want Bigin Phone? Connect your existing provider via the Marketplace: <strong>Twilio, RingCentral, Aircall, Vonage, JustCall, Avaya</strong>. Each has a Bigin integration available in <strong>Settings → Marketplace</strong>.</p>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="section" id="section-security">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Settings<span class="sep">›</span>Security & Data</div>
+    <h2 class="sec-title">🔒 Security & Data</h2>
+    <p class="body">Bigin takes data security seriously. Use these settings to protect your CRM data and comply with privacy requirements.</p>
+
+    <h3 class="sub-title">🔐 Security Settings</h3>
+    <ul class="checklist">
+      <li><strong>Two-Factor Authentication (2FA)</strong> — enforce 2FA for all users under Settings → Security Policy</li>
+      <li><strong>IP Restrictions</strong> — restrict login to specific IP addresses or ranges</li>
+      <li><strong>Session Management</strong> — set auto-logout duration for idle sessions</li>
+      <li><strong>Password Policy</strong> — enforce minimum length, complexity, expiry</li>
+      <li><strong>Audit Logs</strong> — see who changed what, when (all record history is logged)</li>
+    </ul>
+
+    <h3 class="sub-title">💾 Data Management</h3>
+    <ul class="checklist">
+      <li><strong>Export Data</strong> — export any module as CSV under the module's ☰ menu</li>
+      <li><strong>Data Backup</strong> — Settings → Data Administration → Backup (weekly automated backups)</li>
+      <li><strong>Recycle Bin</strong> — deleted records stay in recycle bin for 60 days before permanent deletion</li>
+      <li><strong>GDPR Compliance</strong> — mark contacts as opted-out; honor deletion requests via Settings → GDPR</li>
+    </ul>
+
+    <div class="info-box warn"><span class="info-icon">⚠️</span><div>Permanently deleted records <strong>cannot be recovered</strong> after 60 days. Export a backup before bulk-deleting contacts or deals you're unsure about.</div></div>
+  </div>
+
+</main>
+
+<!-- ═══ TOC SIDEBAR ═══ -->
+<aside class="toc">
+  <div class="toc-title">On This Page</div>
+  <ul class="toc-list" id="tocList">
+    <li><a onclick="void(0)" class="toc-active">Overview</a></li>
+  </ul>
+  <div class="toc-div"></div>
+  <div class="toc-title">Quick Jump</div>
+  <ul class="toc-list">
+    <li><a onclick="showSection('create-pipeline'); setActiveSidebar('create-pipeline')">📊 Create Pipeline</a></li>
+    <li><a onclick="showSection('deals'); setActiveSidebar('deals')">💼 Add a Deal</a></li>
+    <li><a onclick="showSection('add-contact'); setActiveSidebar('add-contact')">👥 Add Contact</a></li>
+    <li><a onclick="showSection('workflows'); setActiveSidebar('workflows')">⚡ Workflows</a></li>
+    <li><a onclick="showSection('stage-automation'); setActiveSidebar('stage-automation')">🎯 Stage Auto</a></li>
+    <li><a onclick="showSection('email'); setActiveSidebar('email')">✉️ Email Setup</a></li>
+    <li><a onclick="showSection('dashboard'); setActiveSidebar('dashboard')">📈 Dashboard</a></li>
+    <li><a onclick="showSection('import-data'); setActiveSidebar('import-data')">📥 Import Data</a></li>
+  </ul>
+  <div class="toc-div"></div>
+  <div class="toc-title" style="font-size:10px;">Shortcuts</div>
+  <ul class="toc-list" style="margin-top:4px;">
+    <li style="padding:3px 0;font-size:11px;color:var(--text-muted);padding-left:8px;"><kbd>Ctrl</kbd>+<kbd>F</kbd> — Search</li>
+    <li style="padding:3px 0;font-size:11px;color:var(--text-muted);padding-left:8px;"><kbd>Esc</kbd> — Clear</li>
+  </ul>
+</aside>
+
+</div><!-- end .layout -->
+
+<script>
+// ─── TOC DATA ───
+const tocData = {
+  'home': ['Setup Wizard','Browse Modules'],
+  'account-setup': ['Organization Profile','Fiscal Year','Notifications'],
+  'users-roles': ['Default Roles','Inviting a User','Custom Permissions'],
+  'import-data': ['CSV Import','Other Sources'],
+  'plans': ['Plan Comparison'],
+  'create-pipeline': ['Creating a Pipeline','Templates'],
+  'pipeline-stages': ['Managing Stages','Example Structures'],
+  'deals': ['Creating a Deal','Deal Detail View','Moving Deals','Closing a Deal'],
+  'pipeline-views': ['View Types','Filtering Deals'],
+  'stage-automation': ['Setup','Actions Available'],
+  'sub-pipelines': ['Creating Sub-Pipelines','Common Setups'],
+  'add-contact': ['Creating a Contact'],
+  'contact-fields': ['Standard Fields','Custom Fields'],
+  'contact-detail': ['Detail View Sections'],
+  'contact-filter': ['Filtering','Saved Views'],
+  'add-company': ['Adding Companies'],
+  'company-contacts': ['Linking Contacts'],
+  'add-product': ['Adding Products'],
+  'products-deals': ['Products in Deals'],
+  'payment-links': ['Payment Links'],
+  'tasks': ['Creating Tasks'],
+  'calls': ['Logging Calls','Click-to-Call'],
+  'events': ['Creating Events','Booking Pages'],
+  'calendar-sync': ['Sync Setup'],
+  'email': ['Connecting Email','Sending Emails','Email Tracking'],
+  'whatsapp': ['WhatsApp Setup'],
+  'mass-email': ['Mass Email Setup'],
+  'workflows': ['Creating Workflows','Workflow Ideas'],
+  'stage-auto-deep': ['Entry vs Exit','Power Move'],
+  'signals': ['Signal Sources'],
+  'web-forms': ['Creating Web Forms'],
+  'dashboard': ['Adding Components','Recommended Components'],
+  'reports': ['Standard Reports','Custom Reports'],
+  'goals': ['Setting Goals'],
+  'custom-fields': ['Field Types','Adding Fields'],
+  'layouts': ['Page Layout Setup'],
+  'tags': ['Using Tags'],
+  'zoho-integrations': ['Zoho Apps'],
+  'google-integration': ['Google Features'],
+  'microsoft-integration': ['Microsoft Features'],
+  'marketplace': ['Third-Party Apps','Bigin API'],
+  'email-templates': ['Creating Templates'],
+  'telephony': ['Built-in Phone','Third-Party'],
+  'security': ['Security Settings','Data Management']
+};
+
+let currentSection = 'home';
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  const target = document.getElementById('section-' + id);
+  if (target) {
+    target.classList.add('visible');
+    currentSection = id;
+    updateTOC(id);
+    window.scrollTo(0, 0);
+  }
+}
+
+function updateTOC(id) {
+  const tocList = document.getElementById('tocList');
+  const items = tocData[id] || [];
+  if (!items.length) {
+    tocList.innerHTML = '<li><a style="color:var(--text-muted);font-style:italic;font-size:11px;">No subsections</a></li>';
+    return;
+  }
+  tocList.innerHTML = items.map(t => `<li><a onclick="void(0)">${t}</a></li>`).join('');
+}
+
+function toggleTree(el) {
+  el.classList.toggle('open');
+  const ch = el.nextElementSibling;
+  if (ch && ch.classList.contains('tree-children')) ch.classList.toggle('open');
+}
+
+// setActive defined below in mobile section
+
+function setActiveSidebar(id) {
+  document.querySelectorAll('.tree-label').forEach(label => {
+    label.classList.remove('active');
+    const oc = label.getAttribute('onclick') || '';
+    if (oc.includes(`'${id}'`)) {
+      label.classList.add('active');
+      let parent = label.closest('.tree-children');
+      while (parent) {
+        parent.classList.add('open');
+        const prev = parent.previousElementSibling;
+        if (prev && prev.classList.contains('tree-label')) prev.classList.add('open');
+        parent = parent.parentElement && parent.parentElement.closest('.tree-children');
+      }
+    }
+  });
+  if (window.innerWidth <= 720) closeSidebar();
+}
+
+// ─── SEARCH ───
+let searchTimer = null;
+
+function handleSearch(query) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => doSearch(query), 150);
+}
+
+function doSearch(query) {
+  const q = query.trim().toLowerCase();
+  const clearBtn = document.getElementById('searchClear');
+  const countEl = document.getElementById('searchCount');
+
+  if (!q) { clearSearch(); return; }
+
+  clearBtn.style.display = 'block';
+
+  // Remove previous highlights
+  document.querySelectorAll('mark.highlight').forEach(m => {
+    const p = m.parentNode;
+    p.replaceChild(document.createTextNode(m.textContent), m);
+    p.normalize();
+  });
+
+  // Search sidebar
+  const treeItems = document.querySelectorAll('.tree-item');
+  let sidebarHits = 0;
+  treeItems.forEach(item => {
+    const kw = (item.getAttribute('data-keywords') || '').toLowerCase();
+    const lbl = (item.querySelector(':scope > .tree-label') || {}).textContent || '';
+    const match = kw.includes(q) || lbl.toLowerCase().includes(q);
+    item.classList.toggle('hidden', !match);
+    item.classList.toggle('search-match', match);
+    if (match) sidebarHits++;
+  });
+
+  // Reveal parents of matched children
+  document.querySelectorAll('.tree-item').forEach(item => {
+    const ch = item.querySelector(':scope > .tree-children');
+    if (ch && ch.querySelector('.tree-item:not(.hidden)')) {
+      item.classList.remove('hidden');
+      ch.classList.add('open');
+      const pl = item.querySelector(':scope > .tree-label');
+      if (pl) pl.classList.add('open');
+    }
+  });
+
+  // Search section content
+  let bestSection = null, bestScore = 0, contentHits = 0;
+  document.querySelectorAll('.section').forEach(section => {
+    const text = section.textContent.toLowerCase();
+    if (text.includes(q)) {
+      const cnt = (text.match(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
+      contentHits++;
+      if (cnt > bestScore) { bestScore = cnt; bestSection = section.id.replace('section-', ''); }
+    }
+  });
+
+  const total = sidebarHits + contentHits;
+  if (total > 0) {
+    countEl.textContent = total + ' match' + (total !== 1 ? 'es' : '');
+    countEl.style.display = 'block';
+    document.getElementById('searchEmpty').classList.remove('visible');
+    if (bestSection) {
+      showSection(bestSection);
+      highlightSection(document.getElementById('section-' + bestSection), q);
+    }
+  } else {
+    countEl.style.display = 'none';
+    document.getElementById('searchEmpty').classList.add('visible');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  }
+}
+
+function highlightSection(el, q) {
+  if (!el) return;
+  const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => {
+      const p = n.parentNode;
+      if (['SCRIPT','STYLE','MARK'].includes(p.tagName)) return NodeFilter.FILTER_REJECT;
+      return n.textContent.toLowerCase().includes(q) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    }
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(textNode => {
+    const text = textNode.textContent;
+    if (!re.test(text)) return;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'highlight';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+    }
+    frag.appendChild(document.createTextNode(text.slice(last)));
+    textNode.parentNode.replaceChild(frag, textNode);
+  });
+  const first = el.querySelector('mark.highlight');
+  if (first) setTimeout(() => first.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+}
+
+function clearSearch() {
+  document.getElementById('globalSearch').value = '';
+  document.getElementById('searchClear').style.display = 'none';
+  document.getElementById('searchCount').style.display = 'none';
+  document.getElementById('searchEmpty').classList.remove('visible');
+  document.querySelectorAll('mark.highlight').forEach(m => {
+    const p = m.parentNode;
+    p.replaceChild(document.createTextNode(m.textContent), m);
+    p.normalize();
+  });
+  document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('hidden', 'search-match'));
+  showSection(currentSection);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    clearSearch();
+    closeSidebar();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); document.getElementById('globalSearch').focus(); }
+});
+
+// ─── MOBILE SIDEBAR TOGGLE ───
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const isOpen = sidebar.classList.contains('open');
+  if (isOpen) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+  } else {
+    sidebar.classList.add('open');
+    overlay.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+// Close sidebar when a nav link is clicked on mobile
+function setActive(el) {
+  document.querySelectorAll('.tree-label.active').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  if (window.innerWidth <= 720) closeSidebar();
+}
+
+// Init
+showSection('home');
+</script>
+</body>
+</html>

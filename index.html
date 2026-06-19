@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoho Guides — Books & Bigin Help Center</title>
+<link rel="stylesheet" href="mobile.css">
+<style>
+  :root {
+    --navy: #1C2B3A;
+    --navy-light: #243447;
+    --teal: #0B7FD4;
+    --teal-light: #1A8EE3;
+    --teal-pale: #E8F4FD;
+    --green: #00A86B;
+    --green-light: #00C27A;
+    --green-pale: #E8FBF3;
+    --amber: #F5A623;
+    --amber-pale: #FFF8EC;
+    --canvas: #F4F7FA;
+    --white: #FFFFFF;
+    --border: #E2E8F0;
+    --text-primary: #1A202C;
+    --text-secondary: #4A5568;
+    --text-muted: #718096;
+    --header-h: 60px;
+    --red: #E53E3E;
+    --red-pale: #FFF5F5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--canvas);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: sticky;
+    top: 0;
+    height: var(--header-h);
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    gap: 16px;
+    z-index: 50;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+
+  .logo-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .zoho-mark {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--green) 100%);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: white; letter-spacing: -1px;
+  }
+
+  .logo-group .brand { font-size: 10px; color: #64748B; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+  .logo-group .title { font-size: 16px; color: white; font-weight: 800; letter-spacing: -0.3px; }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #94A3B8;
+    text-decoration: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .nav-link:hover { background: rgba(255,255,255,0.08); color: white; }
+
+  .nav-link.books { border: 1px solid rgba(11,127,212,0.4); color: #7DD3FA; }
+  .nav-link.books:hover { background: rgba(11,127,212,0.15); color: white; }
+  .nav-link.bigin { border: 1px solid rgba(0,168,107,0.4); color: #6EF0B5; }
+  .nav-link.bigin:hover { background: rgba(0,168,107,0.15); color: white; }
+
+  .nav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .nav-dot.blue { background: var(--teal-light); }
+  .nav-dot.green { background: var(--green-light); }
+
+  /* ─── HERO ─── */
+  .index-hero {
+    background: linear-gradient(160deg, var(--navy) 0%, #0A2540 60%, #0A3A28 100%);
+    padding: 72px 32px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .index-hero::before {
+    content: '';
+    position: absolute;
+    left: 10%; top: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(11,127,212,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .index-hero::after {
+    content: '';
+    position: absolute;
+    right: 10%; bottom: -80px;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(0,168,107,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #94A3B8;
+    font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 20px;
+    margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.6px;
+  }
+
+  .index-hero h1 {
+    font-size: 42px; font-weight: 900; color: white;
+    line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.8px;
+    position: relative; z-index: 1;
+  }
+
+  .index-hero h1 .accent-blue { color: #7DD3FA; }
+  .index-hero h1 .accent-green { color: #6EF0B5; }
+
+  .index-hero p {
+    font-size: 16px; color: #94A3B8;
+    max-width: 520px; margin: 0 auto 32px; line-height: 1.75;
+    position: relative; z-index: 1;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    position: relative; z-index: 1;
+  }
+
+  .stat { text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 800; color: white; line-height: 1; }
+  .stat-num.blue { color: #7DD3FA; }
+  .stat-num.green { color: #6EF0B5; }
+  .stat-label { font-size: 12px; color: #64748B; margin-top: 4px; }
+
+  /* ─── GUIDES GRID ─── */
+  .guides-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 32px;
+  }
+
+  .section-eyebrow {
+    text-align: center;
+    font-size: 11px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+
+  .section-heading {
+    text-align: center;
+    font-size: 28px; font-weight: 800; color: var(--text-primary);
+    letter-spacing: -0.4px; margin-bottom: 8px;
+  }
+
+  .section-sub {
+    text-align: center;
+    font-size: 14px; color: var(--text-muted);
+    margin-bottom: 40px;
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  .guide-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .guide-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .guide-card.books::before { background: linear-gradient(90deg, var(--teal) 0%, #1565C0 100%); }
+  .guide-card.bigin::before { background: linear-gradient(90deg, var(--green) 0%, #00875A 100%); }
+
+  .guide-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  }
+
+  .guide-card.books:hover { border-color: var(--teal); }
+  .guide-card.bigin:hover { border-color: var(--green); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .app-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 900; color: white;
+    flex-shrink: 0;
+    letter-spacing: -1px;
+  }
+
+  .app-icon.books-icon { background: linear-gradient(135deg, var(--teal) 0%, #1565C0 100%); }
+  .app-icon.bigin-icon { background: linear-gradient(135deg, var(--green) 0%, #00875A 100%); }
+
+  .app-meta { flex: 1; }
+  .app-by { font-size: 10px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .app-name { font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.3px; line-height: 1.1; }
+  .app-tag {
+    display: inline-block;
+    padding: 3px 9px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; margin-top: 4px;
+  }
+
+  .books .app-tag { background: var(--teal-pale); color: var(--teal); }
+  .bigin .app-tag { background: var(--green-pale); color: var(--green); }
+
+  .card-desc {
+    font-size: 14px; color: var(--text-secondary);
+    line-height: 1.7; margin-bottom: 24px; flex: 1;
+  }
+
+  .feature-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+
+  .feature-dot {
+    width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  .books .feature-dot { background: var(--teal); }
+  .bigin .feature-dot { background: var(--green); }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 12px;
+  }
+
+  .meta-pill {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11.5px; color: var(--text-muted);
+    background: var(--canvas);
+    padding: 4px 10px; border-radius: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 9px;
+    font-size: 13px; font-weight: 700;
+    color: white;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .books .open-btn { background: var(--teal); }
+  .books .open-btn:hover { background: var(--teal-light); }
+  .bigin .open-btn { background: var(--green); }
+  .bigin .open-btn:hover { background: var(--green-light); }
+
+  /* ─── QUICK TOPICS ─── */
+  .topics-section {
+    background: white;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 32px;
+  }
+
+  .topics-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-top: 36px;
+  }
+
+  .topic-col h3 {
+    font-size: 13px; font-weight: 800; color: var(--text-primary);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .topic-col h3 .col-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+
+  .topic-col h3 .col-dot.blue { background: var(--teal); }
+  .topic-col h3 .col-dot.green { background: var(--green); }
+
+  .topic-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .topic-link {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px; color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.13s;
+    border: 1px solid transparent;
+  }
+
+  .topic-link:hover { background: var(--canvas); border-color: var(--border); color: var(--text-primary); }
+  .topic-link.books-link:hover { background: var(--teal-pale); border-color: rgba(11,127,212,0.2); color: var(--teal); }
+  .topic-link.bigin-link:hover { background: var(--green-pale); border-color: rgba(0,168,107,0.2); color: var(--green); }
+
+  .topic-link .tl-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+  .topic-link .tl-arrow { margin-left: auto; font-size: 14px; opacity: 0.4; }
+
+  /* ─── SETUP STEPS ─── */
+  .setup-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 32px;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 36px;
+  }
+
+  .step-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .step-card h3 {
+    font-size: 14px; font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .step-num-badge {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; color: white; flex-shrink: 0;
+  }
+
+  .step-num-badge.blue { background: var(--teal); }
+  .step-num-badge.green { background: var(--green); }
+
+  .step-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .step-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .step-item:last-child { border-bottom: none; }
+  .step-item .si-num {
+    min-width: 20px; height: 20px; border-radius: 50%;
+    font-size: 10px; font-weight: 700; color: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  .si-num.blue { background: var(--teal); }
+  .si-num.green { background: var(--green); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--navy);
+    color: #64748B;
+    text-align: center;
+    padding: 32px;
+    font-size: 13px;
+  }
+
+  footer a { color: #94A3B8; text-decoration: none; }
+  footer a:hover { color: white; }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-links { display: flex; gap: 20px; }
+
+  /* ─── INDEX-SPECIFIC MOBILE ADJUSTMENTS ─── */
+  /* (additional ones beyond mobile.css) */
+  @media (max-width: 720px) {
+    header { padding: 0 14px; gap: 12px; }
+
+    .header-nav { gap: 6px; }
+    .nav-link { padding: 6px 10px; font-size: 12px; }
+    .nav-link span:not(.nav-dot) { display: none; }
+    .nav-dot { width: 10px; height: 10px; }
+
+    .index-hero { padding: 48px 20px 56px; }
+    .index-hero h1 { font-size: 28px; }
+    .index-hero p { font-size: 14px; }
+    .hero-stats { gap: 24px; }
+    .stat-num { font-size: 22px; }
+
+    .guides-section { padding: 36px 16px; }
+    .section-heading { font-size: 22px; }
+
+    .feature-list { grid-template-columns: 1fr; }
+
+    .card-footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .open-btn { width: 100%; justify-content: center; }
+
+    .topics-section { padding: 36px 16px; }
+    .topics-grid { grid-template-columns: 1fr; gap: 24px; }
+
+    .setup-section { padding: 36px 16px; }
+    .steps-grid { grid-template-columns: 1fr; }
+
+    .footer-inner { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+
+  @media (max-width: 420px) {
+    .index-hero h1 { font-size: 24px; }
+    .hero-stats { gap: 16px; }
+    .stat-num { font-size: 20px; }
+    .guide-card { padding: 20px; }
+    .app-icon { width: 42px; height: 42px; font-size: 20px; }
+    .app-name { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="logo-group">
+    <div class="zoho-mark">Z</div>
+    <div>
+      <div class="brand">Zoho</div>
+      <div class="title">Guides</div>
+    </div>
+  </div>
+
+  <nav class="header-nav">
+    <a class="nav-link books" href="zoho-books-guide.html">
+      <span class="nav-dot blue"></span>
+      <span>Zoho Books</span>
+    </a>
+    <a class="nav-link bigin" href="bigin-guide.html">
+      <span class="nav-dot green"></span>
+      <span>Bigin CRM</span>
+    </a>
+  </nav>
+</header>
+
+<!-- ─── HERO ─── -->
+<section class="index-hero">
+  <div class="hero-eyebrow">📚 Help & Setup Guides</div>
+  <h1>Master <span class="accent-blue">Zoho Books</span><br>& <span class="accent-green">Bigin CRM</span></h1>
+  <p>Comprehensive step-by-step guides to set up your business software, manage day-to-day operations, and grow faster.</p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num blue">80+</div>
+      <div class="stat-label">Sections covered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">380+</div>
+      <div class="stat-label">Step-by-step guides</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num green">2</div>
+      <div class="stat-label">Complete guides</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GUIDES GRID ─── -->
+<section class="guides-section">
+  <p class="section-eyebrow">Choose a guide</p>
+  <h2 class="section-heading">Pick Your App</h2>
+  <p class="section-sub">Each guide covers everything from initial setup to advanced features</p>
+
+  <div class="guides-grid">
+
+    <!-- ZOHO BOOKS CARD -->
+    <a class="guide-card books" href="zoho-books-guide.html">
+      <div class="card-header">
+        <div class="app-icon books-icon">Z</div>
+        <div class="app-meta">
+          <div class="app-by">by Zoho</div>
+          <div class="app-name">Zoho Books</div>
+          <span class="app-tag">Accounting & Finance</span>
+        </div>
+      </div>
+
+      <p class="card-desc">
+        The complete accounting platform for your business. Manage invoices, expenses, bank reconciliation, GST/VAT, and financial reports — all in one place.
+      </p>
+
+      <div class="feature-list">
+        <div class="feature-item"><span class="feature-dot"></span>Invoicing & Billing</div>
+        <div class="feature-item"><span class="feature-dot"></span>Bank Reconciliation</div>
+        <div class="feature-item"><span class="feature-dot"></span>Tax (GST / VAT / Sales Tax)</div>
+        <div class="feature-item"><span class="feature-dot"></span>Expense Tracking</div>
+        <div class="feature-item"><span class="feature-dot"></span>Financial Reports (P&L, BS)</div>
+        <div class="feature-item"><span class="feature-dot"></span>Purchase Orders & Bills</div>
+        <div class="feature-item"><span class="feature-dot"></span>Inventory Tracking</div>
+        <div class="feature-item"><span class="feature-dot"></span>Payment Gateways</div>
+      </div>
+
+      <div class="card-footer">
+        <div class="card-meta">
+          <span class="meta-pill">📄 40 sections</span>
+          <span class="meta-pill">⚡ 190+ steps</span>
+        </div>
+        <span class="open-btn">Open Guide →</span>
+      </div>
+    </a>
+
+    <!-- BIGIN CARD -->
+    <a class="guide-card bigin" href="bigin-guide.html">
+      <div class="card-header">
+        <div class="app-icon bigin-icon">B</div>
+        <div class="app-meta">
+          <div class="app-by">by Zoho CRM</div>
+          <div class="app-name">Bigin</div>
+          <span class="app-tag">Pipeline CRM</span>
+        </div>
+      </div>
+
+      <p class="card-desc">
+        The pipeline-first CRM built for small businesses. Track deals, manage contacts, automate follow-ups, and close more — without the complexity of a full CRM.
+      </p>
+
+      <div class="feature-list">
+        <div class="feature-item"><span class="feature-dot"></span>Visual Deal Pipelines</div>
+        <div class="feature-item"><span class="feature-dot"></span>Contacts & Companies</div>
+        <div class="feature-item"><span class="feature-dot"></span>Stage Automation</div>
+        <div class="feature-item"><span class="feature-dot"></span>Email & WhatsApp</div>
+        <div class="feature-item"><span class="feature-dot"></span>Activities & Calendar</div>
+        <div class="feature-item"><span class="feature-dot"></span>Workflow Rules</div>
+        <div class="feature-item"><span class="feature-dot"></span>Dashboard & Reports</div>
+        <div class="feature-item"><span class="feature-dot"></span>Web Forms & Signals</div>
+      </div>
+
+      <div class="card-footer">
+        <div class="card-meta">
+          <span class="meta-pill">📄 44 sections</span>
+          <span class="meta-pill">⚡ 193+ steps</span>
+        </div>
+        <span class="open-btn">Open Guide →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ─── QUICK TOPICS ─── -->
+<section class="topics-section">
+  <div class="topics-inner">
+    <p class="section-eyebrow">Quick access</p>
+    <h2 class="section-heading">Popular Topics</h2>
+    <p class="section-sub">Jump directly to the most-used sections</p>
+
+    <div class="topics-grid">
+
+      <!-- BOOKS TOPICS -->
+      <div class="topic-col">
+        <h3><span class="col-dot blue"></span>Zoho Books</h3>
+        <div class="topic-links">
+          <a class="topic-link books-link" href="zoho-books-guide.html#section-org-setup">
+            <span class="tl-icon">🏢</span> Organization Setup
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link books-link" href="zoho-books-guide.html#section-invoices">
+            <span class="tl-icon">🧾</span> Creating Invoices
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link books-link" href="zoho-books-guide.html#section-taxes">
+            <span class="tl-icon">💸</span> Tax Configuration (GST/VAT)
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link books-link" href="zoho-books-guide.html#section-reconciliation">
+            <span class="tl-icon">⚖️</span> Bank Reconciliation
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link books-link" href="zoho-books-guide.html#section-bills">
+            <span class="tl-icon">📄</span> Recording Bills
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link books-link" href="zoho-books-guide.html#section-report-pl">
+            <span class="tl-icon">📈</span> Profit & Loss Report
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link books-link" href="zoho-books-guide.html#section-bank-feeds">
+            <span class="tl-icon">📡</span> Bank Feeds & Import
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link books-link" href="zoho-books-guide.html#section-payment-gateways">
+            <span class="tl-icon">💳</span> Payment Gateways
+            <span class="tl-arrow">›</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- BIGIN TOPICS -->
+      <div class="topic-col">
+        <h3><span class="col-dot green"></span>Bigin CRM</h3>
+        <div class="topic-links">
+          <a class="topic-link bigin-link" href="bigin-guide.html#section-create-pipeline">
+            <span class="tl-icon">📊</span> Creating Pipelines
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link bigin-link" href="bigin-guide.html#section-deals">
+            <span class="tl-icon">💼</span> Adding & Moving Deals
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link bigin-link" href="bigin-guide.html#section-stage-automation">
+            <span class="tl-icon">⚡</span> Stage Automation
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link bigin-link" href="bigin-guide.html#section-workflows">
+            <span class="tl-icon">🔄</span> Workflow Rules
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link bigin-link" href="bigin-guide.html#section-email">
+            <span class="tl-icon">✉️</span> Email Integration
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link bigin-link" href="bigin-guide.html#section-import-data">
+            <span class="tl-icon">📥</span> Importing Contacts
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link bigin-link" href="bigin-guide.html#section-dashboard">
+            <span class="tl-icon">📈</span> Building Dashboards
+            <span class="tl-arrow">›</span>
+          </a>
+          <a class="topic-link bigin-link" href="bigin-guide.html#section-web-forms">
+            <span class="tl-icon">📝</span> Web Forms (Lead Capture)
+            <span class="tl-arrow">›</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── SETUP STEPS ─── -->
+<section class="setup-section">
+  <p class="section-eyebrow">New to Zoho?</p>
+  <h2 class="section-heading">Recommended Setup Order</h2>
+  <p class="section-sub">Follow these steps for both apps to be up and running fast</p>
+
+  <div class="steps-grid">
+
+    <div class="step-card">
+      <h3>
+        <span class="step-num-badge blue">Z</span>
+        Zoho Books — Getting Started
+      </h3>
+      <div class="step-items">
+        <div class="step-item"><span class="si-num blue">1</span>Set up organization profile & base currency</div>
+        <div class="step-item"><span class="si-num blue">2</span>Configure Chart of Accounts</div>
+        <div class="step-item"><span class="si-num blue">3</span>Set up tax rates (GST / VAT / Sales Tax)</div>
+        <div class="step-item"><span class="si-num blue">4</span>Add your products & services catalog</div>
+        <div class="step-item"><span class="si-num blue">5</span>Import customers and vendors</div>
+        <div class="step-item"><span class="si-num blue">6</span>Connect your bank account(s)</div>
+        <div class="step-item"><span class="si-num blue">7</span>Enter opening balances (if migrating)</div>
+        <div class="step-item"><span class="si-num blue">8</span>Create your first invoice & reconcile</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <h3>
+        <span class="step-num-badge green">B</span>
+        Bigin CRM — Getting Started
+      </h3>
+      <div class="step-items">
+        <div class="step-item"><span class="si-num green">1</span>Set up organization, timezone & currency</div>
+        <div class="step-item"><span class="si-num green">2</span>Invite team members & assign roles</div>
+        <div class="step-item"><span class="si-num green">3</span>Create your first pipeline & define stages</div>
+        <div class="step-item"><span class="si-num green">4</span>Import contacts from CSV or Google</div>
+        <div class="step-item"><span class="si-num green">5</span>Connect Gmail or Outlook email</div>
+        <div class="step-item"><span class="si-num green">6</span>Add your products & services catalog</div>
+        <div class="step-item"><span class="si-num green">7</span>Set up workflow automation rules</div>
+        <div class="step-item"><span class="si-num green">8</span>Build your first dashboard</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      Built for Zoho users &mdash; <strong style="color:#94A3B8;">Zoho Books</strong> &amp; <strong style="color:#94A3B8;">Bigin CRM</strong> Help Guides
+    </div>
+    <div class="footer-links">
+      <a href="zoho-books-guide.html">📘 Zoho Books Guide</a>
+      <a href="bigin-guide.html">📗 Bigin Guide</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,2547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zoho Books — Complete Setup & Usage Guide</title>
+<style>
+  :root {
+    --navy: #1C2B3A;
+    --navy-light: #243447;
+    --teal: #0B7FD4;
+    --teal-light: #1A8EE3;
+    --teal-pale: #E8F4FD;
+    --orange: #FF6B35;
+    --orange-light: #FFF3EE;
+    --white: #FFFFFF;
+    --canvas: #F8FAFC;
+    --border: #E2E8F0;
+    --text-primary: #1A202C;
+    --text-secondary: #4A5568;
+    --text-muted: #718096;
+    --sidebar-w: 280px;
+    --toc-w: 220px;
+    --header-h: 56px;
+    --green: #38A169;
+    --green-pale: #F0FFF4;
+    --purple: #6B46C1;
+    --purple-pale: #FAF5FF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--canvas);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  /* HEADER */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--teal);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -1px;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .logo-text .brand { font-size: 11px; color: #94A3B8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .logo-text .product { font-size: 15px; color: white; font-weight: 700; }
+
+  .header-divider { width: 1px; height: 28px; background: #2D3F50; flex-shrink: 0; }
+
+  .header-title { color: #94A3B8; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+
+  .search-bar {
+    flex: 1;
+    max-width: 480px;
+    margin-left: 12px;
+    position: relative;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 8px 16px 8px 40px;
+    background: var(--navy-light);
+    border: 1px solid #2D3F50;
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    font-family: inherit;
+  }
+
+  .search-bar input::placeholder { color: #64748B; }
+  .search-bar input:focus { border-color: var(--teal); background: #1E3246; }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748B;
+    pointer-events: none;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #64748B;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: none;
+    padding: 2px 4px;
+  }
+
+  .search-clear:hover { color: white; }
+
+  .search-results-count {
+    position: absolute;
+    right: 34px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--teal-light);
+    font-weight: 600;
+    display: none;
+  }
+
+  .header-badge {
+    margin-left: auto;
+    background: var(--teal);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  /* LAYOUT */
+  .layout {
+    display: flex;
+    margin-top: var(--header-h);
+    min-height: calc(100vh - var(--header-h));
+  }
+
+  /* SIDEBAR */
+  aside.sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: white;
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: var(--header-h);
+    bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  aside.sidebar::-webkit-scrollbar { width: 4px; }
+  aside.sidebar::-webkit-scrollbar-track { background: transparent; }
+  aside.sidebar::-webkit-scrollbar-thumb { background: #CBD5E0; border-radius: 2px; }
+
+  .sidebar-section-header {
+    padding: 16px 16px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+    background: var(--canvas);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  .tree-item {
+    user-select: none;
+  }
+
+  .tree-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px 6px 16px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background 0.15s;
+    font-size: 13px;
+    color: var(--text-secondary);
+    position: relative;
+    text-decoration: none;
+  }
+
+  .tree-label:hover { background: var(--teal-pale); color: var(--teal); }
+
+  .tree-label.active {
+    background: var(--teal-pale);
+    color: var(--teal);
+    font-weight: 600;
+    border-right: 3px solid var(--teal);
+  }
+
+  .tree-label .chevron {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    margin-left: auto;
+    opacity: 0.5;
+  }
+
+  .tree-label.open .chevron { transform: rotate(90deg); }
+
+  .tree-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .tree-children {
+    display: none;
+    padding-left: 12px;
+    border-left: 2px solid var(--border);
+    margin-left: 24px;
+  }
+
+  .tree-children.open { display: block; }
+
+  .tree-children .tree-label {
+    font-size: 12.5px;
+    padding: 5px 12px 5px 12px;
+    color: var(--text-muted);
+  }
+
+  .tree-children .tree-label:hover { color: var(--teal); }
+  .tree-children .tree-label.active { color: var(--teal); font-weight: 600; border-right: 2px solid var(--teal); }
+
+  .tree-children .tree-children {
+    margin-left: 16px;
+  }
+
+  .tree-children .tree-children .tree-label { font-size: 12px; }
+
+  /* MAIN CONTENT */
+  main.content {
+    margin-left: var(--sidebar-w);
+    margin-right: var(--toc-w);
+    flex: 1;
+    padding: 32px 40px;
+    max-width: calc(100% - var(--sidebar-w) - var(--toc-w));
+  }
+
+  /* BREADCRUMB */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { color: #CBD5E0; }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .section.visible { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #1A3A5C 100%);
+    border-radius: 12px;
+    padding: 32px;
+    color: white;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-hero::before {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 200px;
+    height: 200px;
+    background: rgba(11, 127, 212, 0.15);
+    border-radius: 50%;
+  }
+
+  .section-hero::after {
+    content: '';
+    position: absolute;
+    right: 40px;
+    bottom: -60px;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: 50%;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(11, 127, 212, 0.3);
+    border: 1px solid rgba(11, 127, 212, 0.4);
+    color: #7DD3FA;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .section-hero h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+  .section-hero p { color: #94A3B8; font-size: 14px; max-width: 500px; line-height: 1.7; }
+
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .btn-primary { background: var(--teal); color: white; }
+  .btn-primary:hover { background: var(--teal-light); }
+  .btn-outline { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); }
+  .btn-outline:hover { background: rgba(255,255,255,0.15); }
+
+  /* CARD GRID */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 4px 16px rgba(11, 127, 212, 0.12);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text-primary); }
+  .card p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* CONTENT SECTIONS */
+  h2.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h3.sub-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 28px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  h4.mini-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin: 16px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  p.body-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  /* INFO BOXES */
+  .info-box {
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .info-box.tip { background: var(--teal-pale); border-left: 4px solid var(--teal); color: #1A5276; }
+  .info-box.warn { background: #FFF8E6; border-left: 4px solid #F6C23E; color: #7D5A00; }
+  .info-box.note { background: var(--green-pale); border-left: 4px solid var(--green); color: #1A4731; }
+  .info-box.step-box { background: var(--purple-pale); border-left: 4px solid var(--purple); color: #3C1F7A; }
+
+  .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* STEP LIST */
+  .step-list { list-style: none; margin-bottom: 20px; }
+
+  .step-list li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .step-list li:last-child { border-bottom: none; }
+
+  .step-num {
+    min-width: 26px;
+    height: 26px;
+    background: var(--teal);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* FEATURE TABLE */
+  .feature-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    font-size: 13px;
+  }
+
+  .feature-table th {
+    background: var(--navy);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .feature-table th:first-child { border-radius: 8px 0 0 0; }
+  .feature-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .feature-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  .feature-table tr:hover td { background: var(--teal-pale); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .badge-blue { background: var(--teal-pale); color: var(--teal); }
+  .badge-green { background: var(--green-pale); color: var(--green); }
+  .badge-orange { background: var(--orange-light); color: var(--orange); }
+  .badge-purple { background: var(--purple-pale); color: var(--purple); }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; margin-bottom: 20px; }
+
+  .checklist li {
+    padding: 8px 0;
+    padding-left: 28px;
+    position: relative;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .checklist li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 18px;
+    height: 18px;
+    background: var(--green);
+    color: white;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  /* QUICK LINKS */
+  .quick-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .quick-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--teal);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .quick-link:hover { background: var(--teal-pale); border-color: var(--teal); }
+
+  /* TOC */
+  aside.toc {
+    width: var(--toc-w);
+    flex-shrink: 0;
+    background: white;
+    border-left: 1px solid var(--border);
+    position: fixed;
+    top: var(--header-h);
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    padding: 20px 16px;
+  }
+
+  .toc-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .toc-list { list-style: none; }
+
+  .toc-list li {
+    margin-bottom: 2px;
+  }
+
+  .toc-list a {
+    display: block;
+    padding: 5px 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 5px;
+    line-height: 1.4;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .toc-list a:hover { background: var(--teal-pale); color: var(--teal); }
+  .toc-list a.toc-active { background: var(--teal-pale); color: var(--teal); font-weight: 600; }
+
+  .toc-list .toc-sub {
+    padding-left: 16px;
+  }
+
+  .toc-list .toc-sub a { font-size: 11.5px; }
+
+  .toc-divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+  /* SEARCH HIGHLIGHT */
+  mark.highlight {
+    background: #FFF59D;
+    color: inherit;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  /* SEARCH EMPTY STATE */
+  .search-empty {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+  }
+
+  .search-empty.visible { display: block; }
+  .search-empty .empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .search-empty h3 { font-size: 16px; color: var(--text-secondary); margin-bottom: 8px; }
+  .search-empty p { font-size: 13px; }
+
+  /* SETUP WIZARD CARD */
+  .wizard-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .wizard-header {
+    background: linear-gradient(90deg, var(--teal) 0%, #1565C0 100%);
+    padding: 16px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .wizard-header h3 { font-size: 15px; font-weight: 700; }
+  .wizard-header p { font-size: 12px; opacity: 0.85; }
+
+  .wizard-steps {
+    padding: 8px 0;
+  }
+
+  .wizard-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .wizard-step:last-child { border-bottom: none; }
+  .wizard-step:hover { background: var(--canvas); }
+
+  .ws-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .ws-todo { background: var(--border); color: var(--text-muted); }
+  .ws-done { background: var(--green); color: white; }
+  .ws-active { background: var(--teal); color: white; }
+
+  .ws-info h4 { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+  .ws-info p { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+  .ws-arrow { margin-left: auto; color: var(--text-muted); font-size: 18px; }
+
+  /* KEYBOARD SHORTCUT */
+  kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    background: var(--canvas);
+    border: 1px solid #CBD5E0;
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--text-secondary);
+  }
+
+  /* SCROLLBAR */
+  main.content::-webkit-scrollbar { width: 6px; }
+  main.content::-webkit-scrollbar-thumb { background: #CBD5E0; border-radius: 3px; }
+
+  /* SEARCH STATE */
+  .tree-item.hidden { display: none; }
+  .tree-item.search-match > .tree-label { background: #FFF59D !important; color: var(--text-primary) !important; font-weight: 600; }
+
+  /* RESPONSIVE */
+  /* Responsive layout handled by mobile.css */
+
+  /* Inline code */
+  code {
+    background: var(--canvas);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'Monaco', 'Consolas', monospace;
+    color: #C0392B;
+  }
+
+  /* Section separator */
+  .sep-block {
+    height: 1px;
+    background: var(--border);
+    margin: 28px 0;
+  }
+
+  .section-anchor { scroll-margin-top: 80px; }
+
+  /* ─── HAMBURGER BUTTON (base — responsive via mobile.css) ─── */
+  .menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+    color: white;
+    padding: 0;
+  }
+  .menu-btn:hover { background: rgba(255,255,255,0.18); }
+  .menu-btn svg { display: block; }
+</style>
+  <link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <button class="menu-btn" id="menuBtn" onclick="toggleSidebar()" aria-label="Toggle navigation">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <a class="logo" href="#" onclick="showSection('home')">
+    <div class="logo-icon">Z</div>
+    <div class="logo-text">
+      <span class="brand">Zoho</span>
+      <span class="product">Books</span>
+    </div>
+  </a>
+  <div class="header-divider"></div>
+  <span class="header-title">Help & Setup Guide</span>
+
+  <div class="search-bar">
+    <svg class="search-icon" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="text" id="globalSearch" placeholder="Search topics, features, settings…" autocomplete="off" oninput="handleSearch(this.value)">
+    <span class="search-results-count" id="searchCount"></span>
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+  </div>
+
+  <span class="header-badge">Complete Guide</span>
+</header>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-section-header">Navigation</div>
+
+  <!-- HOME -->
+  <div class="tree-item" data-keywords="home overview start introduction">
+    <div class="tree-label active" onclick="showSection('home'); setActive(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home & Overview
+    </div>
+  </div>
+
+  <!-- GETTING STARTED -->
+  <div class="tree-item" data-keywords="setup getting started organization company">
+    <div class="tree-label open" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Getting Started
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children open">
+      <div class="tree-item" data-keywords="organization setup company profile fiscal year">
+        <div class="tree-label" onclick="showSection('org-setup'); setActive(this)">Organization Setup</div>
+      </div>
+      <div class="tree-item" data-keywords="chart of accounts coa ledger accounts setup">
+        <div class="tree-label" onclick="showSection('chart-accounts'); setActive(this)">Chart of Accounts</div>
+      </div>
+      <div class="tree-item" data-keywords="users roles permissions access team">
+        <div class="tree-label" onclick="showSection('users'); setActive(this)">Users & Roles</div>
+      </div>
+      <div class="tree-item" data-keywords="currency exchange rate multi-currency foreign">
+        <div class="tree-label" onclick="showSection('currency'); setActive(this)">Currency Settings</div>
+      </div>
+      <div class="tree-item" data-keywords="taxes gst vat tax rates configuration">
+        <div class="tree-label" onclick="showSection('taxes'); setActive(this)">Tax Configuration</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="tree-item" data-keywords="contacts customers vendors suppliers clients">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Contacts
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="customers add manage contact details billing">
+        <div class="tree-label" onclick="showSection('customers'); setActive(this)">Customers</div>
+      </div>
+      <div class="tree-item" data-keywords="vendors suppliers purchase bills payables">
+        <div class="tree-label" onclick="showSection('vendors'); setActive(this)">Vendors</div>
+      </div>
+      <div class="tree-item" data-keywords="contact persons sub-contact multiple contacts">
+        <div class="tree-label" onclick="showSection('contacts-adv'); setActive(this)">Contact Persons & Portals</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ITEMS -->
+  <div class="tree-item" data-keywords="items products services inventory catalog">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      Items & Inventory
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="items products services add edit sku unit">
+        <div class="tree-label" onclick="showSection('items'); setActive(this)">Products & Services</div>
+      </div>
+      <div class="tree-item" data-keywords="inventory tracking stock quantity warehouse">
+        <div class="tree-label" onclick="showSection('inventory'); setActive(this)">Inventory Tracking</div>
+      </div>
+      <div class="tree-item" data-keywords="price lists pricing custom pricing group">
+        <div class="tree-label" onclick="showSection('pricelists'); setActive(this)">Price Lists</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALES -->
+  <div class="tree-item" data-keywords="sales invoices quotes estimates orders receivables">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Sales
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="quotes estimates quotation proposals">
+        <div class="tree-label" onclick="showSection('quotes'); setActive(this)">Quotes / Estimates</div>
+      </div>
+      <div class="tree-item" data-keywords="sales orders so order management">
+        <div class="tree-label" onclick="showSection('salesorders'); setActive(this)">Sales Orders</div>
+      </div>
+      <div class="tree-item" data-keywords="invoices billing invoice create send">
+        <div class="tree-label" onclick="showSection('invoices'); setActive(this)">Invoices</div>
+      </div>
+      <div class="tree-item" data-keywords="recurring invoices subscription automatic repeat">
+        <div class="tree-label" onclick="showSection('recurring'); setActive(this)">Recurring Invoices</div>
+      </div>
+      <div class="tree-item" data-keywords="payments received collections customer payment">
+        <div class="tree-label" onclick="showSection('payments-received'); setActive(this)">Payments Received</div>
+      </div>
+      <div class="tree-item" data-keywords="credit notes refund return customer credit">
+        <div class="tree-label" onclick="showSection('credit-notes'); setActive(this)">Credit Notes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PURCHASES -->
+  <div class="tree-item" data-keywords="purchases bills expenses payables vendor purchase">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Purchases
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="purchase orders po vendor purchase order">
+        <div class="tree-label" onclick="showSection('purchase-orders'); setActive(this)">Purchase Orders</div>
+      </div>
+      <div class="tree-item" data-keywords="bills vendor bills ap accounts payable">
+        <div class="tree-label" onclick="showSection('bills'); setActive(this)">Bills</div>
+      </div>
+      <div class="tree-item" data-keywords="payment made vendor payment pay bills">
+        <div class="tree-label" onclick="showSection('payments-made'); setActive(this)">Payments Made</div>
+      </div>
+      <div class="tree-item" data-keywords="vendor credits debit notes purchase return">
+        <div class="tree-label" onclick="showSection('vendor-credits'); setActive(this)">Vendor Credits</div>
+      </div>
+      <div class="tree-item" data-keywords="expenses expense claims reimbursement petty cash">
+        <div class="tree-label" onclick="showSection('expenses'); setActive(this)">Expenses</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANKING -->
+  <div class="tree-item" data-keywords="banking bank accounts reconciliation transactions feeds">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
+      Banking
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="bank accounts add connect bank account setup">
+        <div class="tree-label" onclick="showSection('bank-accounts'); setActive(this)">Bank Accounts</div>
+      </div>
+      <div class="tree-item" data-keywords="bank feeds automatic transactions import statement">
+        <div class="tree-label" onclick="showSection('bank-feeds'); setActive(this)">Bank Feeds</div>
+      </div>
+      <div class="tree-item" data-keywords="reconciliation reconcile bank statement match">
+        <div class="tree-label" onclick="showSection('reconciliation'); setActive(this)">Reconciliation</div>
+      </div>
+      <div class="tree-item" data-keywords="transactions categorize rules banking transactions">
+        <div class="tree-label" onclick="showSection('transactions'); setActive(this)">Transactions & Rules</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNTING -->
+  <div class="tree-item" data-keywords="accounting journal entries manual gl ledger">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Accounting
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="manual journals journal entries accounting entries">
+        <div class="tree-label" onclick="showSection('journals'); setActive(this)">Manual Journals</div>
+      </div>
+      <div class="tree-item" data-keywords="chart of accounts coa edit delete ledger group">
+        <div class="tree-label" onclick="showSection('coa-manage'); setActive(this)">Managing Accounts</div>
+      </div>
+      <div class="tree-item" data-keywords="opening balance beginning balances migration">
+        <div class="tree-label" onclick="showSection('opening-balance'); setActive(this)">Opening Balances</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="tree-item" data-keywords="reports financial reporting analysis profit loss balance sheet">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Reports
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="profit loss p&l income statement revenue expense">
+        <div class="tree-label" onclick="showSection('report-pl'); setActive(this)">Profit & Loss</div>
+      </div>
+      <div class="tree-item" data-keywords="balance sheet assets liabilities equity financial position">
+        <div class="tree-label" onclick="showSection('report-bs'); setActive(this)">Balance Sheet</div>
+      </div>
+      <div class="tree-item" data-keywords="cash flow statement cash operations investing financing">
+        <div class="tree-label" onclick="showSection('report-cf'); setActive(this)">Cash Flow Statement</div>
+      </div>
+      <div class="tree-item" data-keywords="aged receivables payables ar ap aging">
+        <div class="tree-label" onclick="showSection('report-aged'); setActive(this)">Aged Receivables & Payables</div>
+      </div>
+      <div class="tree-item" data-keywords="tax reports gst vat sales tax return filing">
+        <div class="tree-label" onclick="showSection('report-tax'); setActive(this)">Tax Reports</div>
+      </div>
+      <div class="tree-item" data-keywords="sales reports purchase reports customer vendor summary">
+        <div class="tree-label" onclick="showSection('report-sales'); setActive(this)">Sales & Purchase Reports</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tree-item" data-keywords="settings preferences configuration customize">
+    <div class="tree-label" onclick="toggleTree(this)">
+      <svg class="tree-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.42 14.14M4.93 4.93A10 10 0 0 0 3.51 19.07"/></svg>
+      Settings & Preferences
+      <svg class="chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="tree-children">
+      <div class="tree-item" data-keywords="invoice template customize branding logo theme">
+        <div class="tree-label" onclick="showSection('templates'); setActive(this)">Templates & Branding</div>
+      </div>
+      <div class="tree-item" data-keywords="payment gateway online payment stripe paypal razorpay">
+        <div class="tree-label" onclick="showSection('payment-gateways'); setActive(this)">Payment Gateways</div>
+      </div>
+      <div class="tree-item" data-keywords="integrations apps zoho crm inventory ecommerce">
+        <div class="tree-label" onclick="showSection('integrations'); setActive(this)">Integrations & Apps</div>
+      </div>
+      <div class="tree-item" data-keywords="automation workflows reminders email notifications">
+        <div class="tree-label" onclick="showSection('automation'); setActive(this)">Automation & Workflows</div>
+      </div>
+    </div>
+  </div>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="content" id="mainContent">
+
+  <!-- SEARCH EMPTY STATE -->
+  <div class="search-empty" id="searchEmpty">
+    <div class="empty-icon">🔍</div>
+    <h3>No results found</h3>
+    <p>Try different keywords or browse the navigation</p>
+  </div>
+
+  <!-- HOME SECTION -->
+  <div class="section visible" id="section-home">
+    <div class="section-hero">
+      <div class="hero-tag">📚 Complete Guide</div>
+      <h1>Zoho Books — Setup & Usage Guide</h1>
+      <p>Everything you need to set up your business accounting from scratch, manage day-to-day transactions, and generate powerful financial reports.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="showSection('org-setup'); setActiveSidebar('org-setup')">▶ Start Setup Wizard</button>
+        <button class="btn btn-outline" onclick="document.getElementById('globalSearch').focus()">🔍 Search Topics</button>
+      </div>
+    </div>
+
+    <!-- WIZARD -->
+    <div class="wizard-card">
+      <div class="wizard-header">
+        <div>
+          <h3>🚀 Business Setup Checklist</h3>
+          <p>Follow these steps to get your Zoho Books account fully configured</p>
+        </div>
+      </div>
+      <div class="wizard-steps">
+        <div class="wizard-step" onclick="showSection('org-setup'); setActiveSidebar('org-setup')">
+          <div class="ws-num ws-active">1</div>
+          <div class="ws-info"><h4>Organization Setup</h4><p>Configure company name, address, fiscal year, and base currency</p></div>
+          <div class="ws-arrow">›</div>
+        </div>
+        <div class="wizard-step" onclick="showSection('chart-accounts'); setActiveSidebar('chart-accounts')">
+          <div class="ws-num ws-todo">2</div>
+          <div class="ws-info"><h4>Chart of Accounts</h4><p>Set up your account structure for bookkeeping</p></div>
+          <div class="ws-arrow">›</div>
+        </div>
+        <div class="wizard-step" onclick="showSection('taxes'); setActiveSidebar('taxes')">
+          <div class="ws-num ws-todo">3</div>
+          <div class="ws-info"><h4>Tax Configuration</h4><p>Define tax rates (GST, VAT, Sales Tax) for your region</p></div>
+          <div class="ws-arrow">›</div>
+        </div>
+        <div class="wizard-step" onclick="showSection('items'); setActiveSidebar('items')">
+          <div class="ws-num ws-todo">4</div>
+          <div class="ws-info"><h4>Add Products & Services</h4><p>Create your product/service catalog with prices</p></div>
+          <div class="ws-arrow">›</div>
+        </div>
+        <div class="wizard-step" onclick="showSection('customers'); setActiveSidebar('customers')">
+          <div class="ws-num ws-todo">5</div>
+          <div class="ws-info"><h4>Import Customers & Vendors</h4><p>Add your contacts or import from CSV</p></div>
+          <div class="ws-arrow">›</div>
+        </div>
+        <div class="wizard-step" onclick="showSection('bank-accounts'); setActiveSidebar('bank-accounts')">
+          <div class="ws-num ws-todo">6</div>
+          <div class="ws-info"><h4>Connect Bank Accounts</h4><p>Link your bank for automated transaction feeds</p></div>
+          <div class="ws-arrow">›</div>
+        </div>
+        <div class="wizard-step" onclick="showSection('opening-balance'); setActiveSidebar('opening-balance')">
+          <div class="ws-num ws-todo">7</div>
+          <div class="ws-info"><h4>Enter Opening Balances</h4><p>Migrate existing balances if switching from another system</p></div>
+          <div class="ws-arrow">›</div>
+        </div>
+        <div class="wizard-step" onclick="showSection('invoices'); setActiveSidebar('invoices')">
+          <div class="ws-num ws-todo">8</div>
+          <div class="ws-info"><h4>Create Your First Invoice</h4><p>Start billing your customers</p></div>
+          <div class="ws-arrow">›</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW CARDS -->
+    <h2 class="section-title" style="margin-top:8px;">📂 Browse by Module</h2>
+    <div class="card-grid" style="margin-top:16px;">
+      <div class="card" onclick="showSection('customers'); setActiveSidebar('customers')">
+        <div class="card-icon" style="background:#EBF8FF;">👥</div>
+        <h3>Contacts</h3>
+        <p>Manage customers, vendors, and contact persons with full transaction history</p>
+      </div>
+      <div class="card" onclick="showSection('invoices'); setActiveSidebar('invoices')">
+        <div class="card-icon" style="background:#F0FFF4;">🧾</div>
+        <h3>Sales & Invoicing</h3>
+        <p>Quotes, sales orders, invoices, payments, and credit notes</p>
+      </div>
+      <div class="card" onclick="showSection('bills'); setActiveSidebar('bills')">
+        <div class="card-icon" style="background:#FFF5F5;">🛒</div>
+        <h3>Purchases</h3>
+        <p>Purchase orders, vendor bills, expenses, and vendor credits</p>
+      </div>
+      <div class="card" onclick="showSection('bank-accounts'); setActiveSidebar('bank-accounts')">
+        <div class="card-icon" style="background:#FFFAF0;">🏦</div>
+        <h3>Banking</h3>
+        <p>Bank feeds, reconciliation, and transaction categorization</p>
+      </div>
+      <div class="card" onclick="showSection('report-pl'); setActiveSidebar('report-pl')">
+        <div class="card-icon" style="background:#F0F0FF;">📊</div>
+        <h3>Reports</h3>
+        <p>P&L, Balance Sheet, Cash Flow, Aged receivables, Tax reports</p>
+      </div>
+      <div class="card" onclick="showSection('templates'); setActiveSidebar('templates')">
+        <div class="card-icon" style="background:#FFF0F6;">⚙️</div>
+        <h3>Settings</h3>
+        <p>Templates, payment gateways, integrations, automation</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORG SETUP -->
+  <div class="section" id="section-org-setup">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Organization Setup</div>
+    <h2 class="section-title">🏢 Organization Setup</h2>
+    <p class="body-text">The first thing to do after signing up for Zoho Books is configure your organization profile. This sets the foundation for all transactions, taxes, and reports.</p>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Navigate to <strong>Settings → Organization Profile</strong> to access all these settings at any time.</div></div>
+
+    <h3 class="sub-title">📋 Company Information</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span><div><strong>Organization Name</strong> — Enter your legal business name exactly as it appears on official documents. This appears on all invoices and documents.</div></li>
+      <li><span class="step-num">2</span><div><strong>Business Type</strong> — Choose from Sole Proprietor, Partnership, LLC, Corporation, etc. This affects tax filing options.</div></li>
+      <li><span class="step-num">3</span><div><strong>Business Address</strong> — Full address including country, state/province, ZIP/postal code. Used on invoice templates automatically.</div></li>
+      <li><span class="step-num">4</span><div><strong>Company Logo</strong> — Upload PNG or JPG (max 5MB, recommended 200×200px). Appears on all customer-facing documents.</div></li>
+      <li><span class="step-num">5</span><div><strong>Phone & Website</strong> — Optional but shown on PDF documents if template includes them.</div></li>
+    </ol>
+
+    <h3 class="sub-title">💰 Financial Settings</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span><div><strong>Base Currency</strong> — Select your primary operating currency (e.g., USD, EUR, INR). <strong>Cannot be changed after transactions are recorded</strong>, so choose carefully.</div></li>
+      <li><span class="step-num">2</span><div><strong>Fiscal Year</strong> — Define your accounting year start month (e.g., January, April, July). Reports and tax periods align to this.</div></li>
+      <li><span class="step-num">3</span><div><strong>Reporting Method</strong> — Choose <em>Accrual</em> (recognize revenue/expenses when earned/incurred) or <em>Cash</em> (recognize when cash is received/paid). Accrual is recommended for most businesses.</div></li>
+      <li><span class="step-num">4</span><div><strong>Time Zone</strong> — Set to your local time zone so invoice dates and timestamps are accurate.</div></li>
+    </ol>
+
+    <div class="info-box warn"><span class="info-icon">⚠️</span><div><strong>Important:</strong> Base currency and fiscal year cannot easily be changed after you start recording transactions. Decide these carefully before adding any data.</div></div>
+
+    <h3 class="sub-title">📄 Tax Registration</h3>
+    <p class="body-text">Add your tax registration numbers (GSTIN, VAT number, EIN, etc.) under Settings → Organization Profile → Tax Information. These print automatically on invoices where legally required.</p>
+
+    <table class="feature-table">
+      <thead><tr><th>Field</th><th>Example</th><th>Where It Appears</th></tr></thead>
+      <tbody>
+        <tr><td>GSTIN (India)</td><td>27AABCU9603R1ZM</td><td>All invoices, GST reports</td></tr>
+        <tr><td>VAT Number (EU)</td><td>GB123456789</td><td>Tax invoices, VAT returns</td></tr>
+        <tr><td>EIN (US)</td><td>12-3456789</td><td>1099 forms, vendor docs</td></tr>
+        <tr><td>ABN (Australia)</td><td>51 824 753 556</td><td>Tax invoices</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CHART OF ACCOUNTS -->
+  <div class="section" id="section-chart-accounts">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Chart of Accounts</div>
+    <h2 class="section-title">📊 Chart of Accounts (COA)</h2>
+    <p class="body-text">The Chart of Accounts is the backbone of your bookkeeping system — a structured list of every account used to categorize financial transactions. Zoho Books provides a default COA which you can customize.</p>
+
+    <h3 class="sub-title">🗂️ Account Types</h3>
+    <table class="feature-table">
+      <thead><tr><th>Type</th><th>Category</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-blue">Asset</span></td><td>Current / Fixed / Other</td><td>Cash, Bank, Accounts Receivable, Equipment, Inventory</td></tr>
+        <tr><td><span class="badge badge-orange">Liability</span></td><td>Current / Long-term</td><td>Accounts Payable, Credit Cards, Loans, GST Payable</td></tr>
+        <tr><td><span class="badge badge-purple">Equity</span></td><td>Owners' / Retained</td><td>Share Capital, Retained Earnings, Owner's Draw</td></tr>
+        <tr><td><span class="badge badge-green">Income</span></td><td>Operating / Other</td><td>Sales Revenue, Service Income, Interest Income</td></tr>
+        <tr><td>Expense</td><td>Operating / COGS / Other</td><td>Salaries, Rent, COGS, Advertising, Depreciation</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">➕ Adding a New Account</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Accounting → Chart of Accounts → New Account</strong></li>
+      <li><span class="step-num">2</span>Choose the <strong>Account Type</strong> (e.g., Expense, Asset)</li>
+      <li><span class="step-num">3</span>Enter an <strong>Account Name</strong> (e.g., "Office Supplies")</li>
+      <li><span class="step-num">4</span>Add an optional <strong>Account Code</strong> for sorting (e.g., 6100)</li>
+      <li><span class="step-num">5</span>Choose a <strong>Parent Account</strong> to create sub-accounts</li>
+      <li><span class="step-num">6</span>Toggle <strong>Enable payments</strong> if this is a payment clearing account</li>
+      <li><span class="step-num">7</span>Click <strong>Save</strong></li>
+    </ol>
+
+    <div class="info-box note"><span class="info-icon">✅</span><div>Zoho Books auto-creates a standard COA when you set up your organization. Review it first — you may only need minor adjustments rather than building from scratch.</div></div>
+  </div>
+
+  <!-- USERS -->
+  <div class="section" id="section-users">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Users & Roles</div>
+    <h2 class="section-title">👤 Users & Roles</h2>
+    <p class="body-text">Zoho Books lets you add team members with specific roles, so each person only sees and does what they need to.</p>
+
+    <h3 class="sub-title">🎭 Default Roles</h3>
+    <table class="feature-table">
+      <thead><tr><th>Role</th><th>Access Level</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Admin</strong></td><td>Full access</td><td>Business owner, senior accountant</td></tr>
+        <tr><td><strong>Staff</strong></td><td>All modules, no settings</td><td>Bookkeeper, accounts team</td></tr>
+        <tr><td><strong>Accountant</strong></td><td>Reports + journals only</td><td>External CPA/CA access</td></tr>
+        <tr><td><strong>Sales</strong></td><td>Quotes, invoices, customers</td><td>Sales reps</td></tr>
+        <tr><td><strong>Purchases</strong></td><td>POs, bills, vendors</td><td>Procurement team</td></tr>
+        <tr><td><strong>Reports Only</strong></td><td>View reports, no edits</td><td>Management/Investor review</td></tr>
+        <tr><td><strong>Custom</strong></td><td>Configurable per module</td><td>Any specialized role</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">➕ Inviting a User</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Users → Invite User</strong></li>
+      <li><span class="step-num">2</span>Enter the user's <strong>email address</strong></li>
+      <li><span class="step-num">3</span>Assign a <strong>Role</strong> from the dropdown</li>
+      <li><span class="step-num">4</span>Click <strong>Send Invitation</strong> — they'll receive an email to join</li>
+    </ol>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>You can create <strong>Custom Roles</strong> under Settings → Roles → New Role. Grant or restrict access per module (view/create/edit/delete) with fine-grained control.</div></div>
+  </div>
+
+  <!-- TAXES -->
+  <div class="section" id="section-taxes">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Tax Configuration</div>
+    <h2 class="section-title">💸 Tax Configuration</h2>
+    <p class="body-text">Zoho Books supports virtually all major tax regimes globally. Setting up taxes correctly is critical — they appear on invoices, bills, and tax reports automatically.</p>
+
+    <h3 class="sub-title">🌍 Tax Frameworks Supported</h3>
+    <div class="quick-links">
+      <span class="quick-link">🇮🇳 GST (India)</span>
+      <span class="quick-link">🇬🇧 VAT (UK/EU)</span>
+      <span class="quick-link">🇺🇸 Sales Tax (US)</span>
+      <span class="quick-link">🇦🇺 GST (Australia)</span>
+      <span class="quick-link">🇨🇦 HST/GST (Canada)</span>
+      <span class="quick-link">🇸🇬 GST (Singapore)</span>
+      <span class="quick-link">🇿🇦 VAT (South Africa)</span>
+    </div>
+
+    <h3 class="sub-title">➕ Creating a Tax Rate</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Taxes → New Tax</strong></li>
+      <li><span class="step-num">2</span>Enter <strong>Tax Name</strong> (e.g., "GST 18%", "VAT Standard Rate")</li>
+      <li><span class="step-num">3</span>Enter the <strong>Rate %</strong></li>
+      <li><span class="step-num">4</span>Set <strong>Tax Type</strong> — Sales Tax, Purchase Tax, or Both</li>
+      <li><span class="step-num">5</span>Choose whether it's a <strong>Compound Tax</strong> (tax on tax)</li>
+      <li><span class="step-num">6</span>Save and assign to items or contacts</li>
+    </ol>
+
+    <h3 class="sub-title">📦 Tax Groups</h3>
+    <p class="body-text">Combine multiple taxes into a group that applies at once. Example: India's GST = CGST 9% + SGST 9% grouped as "GST 18%". Navigate to <strong>Settings → Taxes → Tax Groups → New Tax Group</strong>.</p>
+
+    <div class="info-box warn"><span class="info-icon">⚠️</span><div>For <strong>Indian GST</strong>: Enable GST under Settings → GST Settings. You'll need to set up HSN/SAC codes on each item and configure IGST/CGST/SGST/CESS rates per tax slab.</div></div>
+  </div>
+
+  <!-- CUSTOMERS -->
+  <div class="section" id="section-customers">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Contacts<span class="sep">›</span>Customers</div>
+    <h2 class="section-title">👥 Customers</h2>
+    <p class="body-text">Customers in Zoho Books store all details needed for billing — contact information, payment terms, tax details, and a full transaction history.</p>
+
+    <h3 class="sub-title">➕ Adding a Customer</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Sales → Customers → New Customer</strong></li>
+      <li><span class="step-num">2</span>Set <strong>Customer Type</strong>: Business or Individual</li>
+      <li><span class="step-num">3</span>Enter <strong>Company Name</strong> and primary <strong>Contact Person</strong></li>
+      <li><span class="step-num">4</span>Add <strong>Email</strong> (invoices will be sent here)</li>
+      <li><span class="step-num">5</span>Set <strong>Currency</strong> (defaults to your base currency)</li>
+      <li><span class="step-num">6</span>Set <strong>Payment Terms</strong> (Net 15, Net 30, Due on Receipt, etc.)</li>
+      <li><span class="step-num">7</span>Add <strong>Billing & Shipping Addresses</strong></li>
+      <li><span class="step-num">8</span>Set <strong>Tax preferences</strong> (taxable, exempt, or use default)</li>
+      <li><span class="step-num">9</span>Click <strong>Save</strong></li>
+    </ol>
+
+    <h3 class="sub-title">📥 Bulk Import</h3>
+    <p class="body-text">To import multiple customers at once: <strong>Contacts → Import Contacts → Download Template → Fill CSV → Upload</strong>. Map CSV columns to Zoho Books fields during import.</p>
+
+    <h3 class="sub-title">🔑 Customer Overview Dashboard</h3>
+    <ul class="checklist">
+      <li>Total outstanding (unpaid invoices)</li>
+      <li>Total credits available</li>
+      <li>Transaction history (invoices, payments, credits)</li>
+      <li>Statements — send a PDF statement by email directly</li>
+      <li>Comments & activity log</li>
+    </ul>
+  </div>
+
+  <!-- VENDORS -->
+  <div class="section" id="section-vendors">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Contacts<span class="sep">›</span>Vendors</div>
+    <h2 class="section-title">🏭 Vendors</h2>
+    <p class="body-text">Vendors are the suppliers you purchase goods or services from. Their profiles store bank details, payment terms, and all purchase history.</p>
+
+    <h3 class="sub-title">➕ Adding a Vendor</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Purchases → Vendors → New Vendor</strong></li>
+      <li><span class="step-num">2</span>Enter <strong>Vendor Name</strong>, email, and phone</li>
+      <li><span class="step-num">3</span>Set <strong>Payment Terms</strong> (due dates for bills auto-calculate from this)</li>
+      <li><span class="step-num">4</span>Add <strong>Bank Account Details</strong> for direct payment tracking</li>
+      <li><span class="step-num">5</span>Enter <strong>Tax ID / GSTIN / VAT number</strong> for the vendor</li>
+      <li><span class="step-num">6</span>Add billing address and any internal notes</li>
+    </ol>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>A contact can be both a <strong>Customer and a Vendor</strong> simultaneously. Zoho Books handles this automatically — you'll see both sales and purchase activity on the same contact profile.</div></div>
+  </div>
+
+  <!-- CONTACTS ADV -->
+  <div class="section" id="section-contacts-adv">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Contacts<span class="sep">›</span>Contact Persons & Portals</div>
+    <h2 class="section-title">🔗 Contact Persons & Customer Portal</h2>
+
+    <h3 class="sub-title">👤 Contact Persons</h3>
+    <p class="body-text">Under each Customer or Vendor, you can add multiple <strong>Contact Persons</strong> — individuals within that organization who receive different types of communications (invoices, POs, statements).</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open a customer/vendor → <strong>More Details → Contact Persons → Add</strong></li>
+      <li><span class="step-num">2</span>Enter first/last name, email, designation, and phone</li>
+      <li><span class="step-num">3</span>Check <strong>"Send Invoice emails to this contact"</strong> as needed</li>
+    </ol>
+
+    <h3 class="sub-title">🌐 Customer Portal</h3>
+    <p class="body-text">Give customers a self-service portal where they can view invoices, make payments, and download statements — without calling you.</p>
+    <ul class="checklist">
+      <li>Enable via Settings → Customer Portal → Enable</li>
+      <li>Customers get a secure login link via email</li>
+      <li>They can view all open and paid invoices</li>
+      <li>Pay directly via linked payment gateways</li>
+      <li>Download PDF statements</li>
+      <li>Approve quotes/estimates online</li>
+    </ul>
+  </div>
+
+  <!-- ITEMS -->
+  <div class="section" id="section-items">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Items<span class="sep">›</span>Products & Services</div>
+    <h2 class="section-title">📦 Products & Services</h2>
+    <p class="body-text">Items are the products you sell or services you provide. Create your item catalog once, then quickly add them to invoices, quotes, and purchase orders.</p>
+
+    <h3 class="sub-title">➕ Creating an Item</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Items → New Item</strong></li>
+      <li><span class="step-num">2</span>Choose <strong>Type</strong>: Goods or Services</li>
+      <li><span class="step-num">3</span>Enter <strong>Item Name</strong> and <strong>SKU</strong> (stock keeping unit)</li>
+      <li><span class="step-num">4</span>Set <strong>Unit</strong> (pieces, hours, kg, boxes, etc.)</li>
+      <li><span class="step-num">5</span>Enter <strong>Selling Price</strong> and <strong>Sales Account</strong> (e.g., Sales Revenue)</li>
+      <li><span class="step-num">6</span>Enter <strong>Purchase Price</strong> and <strong>Purchase Account</strong> (e.g., Cost of Goods Sold)</li>
+      <li><span class="step-num">7</span>Assign a <strong>Tax</strong> rate that applies by default</li>
+      <li><span class="step-num">8</span>Add <strong>Description</strong> (appears on invoices)</li>
+      <li><span class="step-num">9</span>Enable <strong>Track Inventory</strong> if it's a physical product</li>
+    </ol>
+
+    <div class="info-box note"><span class="info-icon">✅</span><div>Add an item image for visual identification. Use <strong>HSN codes</strong> (India) or <strong>commodity codes</strong> for products that require them on tax invoices.</div></div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div class="section" id="section-inventory">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Items<span class="sep">›</span>Inventory Tracking</div>
+    <h2 class="section-title">📐 Inventory Tracking</h2>
+    <p class="body-text">Enable inventory tracking to monitor stock levels in real time. Every sale reduces stock; every purchase receipt increases it.</p>
+
+    <h3 class="sub-title">⚙️ Enable Inventory</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Items → Enable Inventory Tracking</strong></li>
+      <li><span class="step-num">2</span>On each item, check <strong>"Track Inventory for this item"</strong></li>
+      <li><span class="step-num">3</span>Set <strong>Opening Stock</strong> and <strong>Opening Stock Value</strong></li>
+      <li><span class="step-num">4</span>Set a <strong>Reorder Point</strong> — Zoho Books alerts you when stock falls below this</li>
+    </ol>
+
+    <h3 class="sub-title">📊 Inventory Reports</h3>
+    <ul class="checklist">
+      <li>Inventory Summary — current stock levels and values</li>
+      <li>Inventory Valuation — FIFO or average cost method</li>
+      <li>Stock Movement Report — all in/out movements</li>
+      <li>Low Stock Alerts — items below reorder point</li>
+      <li>FIFO Cost Lot Tracking — track cost per batch</li>
+    </ul>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>For advanced inventory needs (multiple warehouses, serial/batch numbers), consider connecting <strong>Zoho Inventory</strong> which integrates natively with Zoho Books.</div></div>
+  </div>
+
+  <!-- PRICE LISTS -->
+  <div class="section" id="section-pricelists">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Items<span class="sep">›</span>Price Lists</div>
+    <h2 class="section-title">🏷️ Price Lists</h2>
+    <p class="body-text">Price Lists let you define different pricing for different customers or segments — wholesale pricing, retail pricing, VIP pricing, or regional pricing.</p>
+
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Enable: <strong>Settings → Items → Price Lists → Enable</strong></li>
+      <li><span class="step-num">2</span>Create a new Price List with a <strong>Name</strong> (e.g., "Wholesale 20% Off")</li>
+      <li><span class="step-num">3</span>Set <strong>Type</strong>: Sales or Purchase</li>
+      <li><span class="step-num">4</span>Set <strong>Percentage markup/markdown</strong> from default, or enter individual item prices</li>
+      <li><span class="step-num">5</span>Assign the Price List to specific <strong>Customers</strong> (it applies automatically to their invoices)</li>
+    </ol>
+  </div>
+
+  <!-- QUOTES -->
+  <div class="section" id="section-quotes">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Sales<span class="sep">›</span>Quotes</div>
+    <h2 class="section-title">📝 Quotes / Estimates</h2>
+    <p class="body-text">Quotes (also called Estimates) let you send a pricing proposal to a customer before issuing an invoice. Once accepted, a quote converts to an invoice in one click.</p>
+
+    <h3 class="sub-title">➕ Creating a Quote</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Sales → Estimates → New Estimate</strong></li>
+      <li><span class="step-num">2</span>Select the <strong>Customer</strong></li>
+      <li><span class="step-num">3</span>Set <strong>Estimate Date</strong> and optional <strong>Expiry Date</strong></li>
+      <li><span class="step-num">4</span>Add <strong>Items</strong> with quantities and prices</li>
+      <li><span class="step-num">5</span>Apply discounts (per line or total)</li>
+      <li><span class="step-num">6</span>Add <strong>Terms & Conditions</strong></li>
+      <li><span class="step-num">7</span>Save as Draft or Send to Customer via email</li>
+    </ol>
+
+    <h3 class="sub-title">🔄 Quote Workflow</h3>
+    <div class="quick-links">
+      <span class="quick-link">📄 Draft</span>
+      <span class="quick-link">→ Sent</span>
+      <span class="quick-link">→ Accepted</span>
+      <span class="quick-link">→ Invoiced ✓</span>
+      <span class="quick-link">✗ Declined</span>
+    </div>
+    <p class="body-text">Customers can accept or decline via the Customer Portal or an emailed link. Once accepted, click <strong>Convert to Invoice</strong> — all data carries over automatically.</p>
+  </div>
+
+  <!-- INVOICES -->
+  <div class="section" id="section-invoices">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Sales<span class="sep">›</span>Invoices</div>
+    <h2 class="section-title">🧾 Invoices</h2>
+    <p class="body-text">Invoices are the core of Zoho Books. Create professional invoices, send them by email, and track payment status in real time.</p>
+
+    <h3 class="sub-title">➕ Creating an Invoice</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Sales → Invoices → New Invoice</strong></li>
+      <li><span class="step-num">2</span>Select <strong>Customer</strong> — their details auto-fill</li>
+      <li><span class="step-num">3</span>Set <strong>Invoice Date</strong> and <strong>Due Date</strong> (or Payment Terms)</li>
+      <li><span class="step-num">4</span>Add <strong>Line Items</strong> — type item name to search your catalog</li>
+      <li><span class="step-num">5</span>Apply <strong>Discounts</strong> and <strong>Taxes</strong> (auto-apply if set on item)</li>
+      <li><span class="step-num">6</span>Add <strong>Shipping charges</strong> if needed</li>
+      <li><span class="step-num">7</span>Add <strong>Notes</strong> (visible to customer) and <strong>Terms</strong></li>
+      <li><span class="step-num">8</span>Click <strong>Save and Send</strong> to email instantly, or Save as Draft</li>
+    </ol>
+
+    <h3 class="sub-title">📊 Invoice Status Flow</h3>
+    <table class="feature-table">
+      <thead><tr><th>Status</th><th>Meaning</th><th>Next Action</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-purple">Draft</span></td><td>Not yet sent; can be freely edited</td><td>Review and Send</td></tr>
+        <tr><td><span class="badge badge-blue">Sent</span></td><td>Emailed to customer</td><td>Wait or Follow up</td></tr>
+        <tr><td><span class="badge badge-orange">Overdue</span></td><td>Past due date, unpaid</td><td>Send reminder</td></tr>
+        <tr><td><span class="badge badge-green">Paid</span></td><td>Payment fully received</td><td>Done ✓</td></tr>
+        <tr><td>Partially Paid</td><td>Some payment received</td><td>Record remaining</td></tr>
+        <tr><td>Void</td><td>Cancelled, no accounting effect</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">🔧 Advanced Invoice Features</h3>
+    <ul class="checklist">
+      <li><strong>Payment Reminders</strong> — auto-send reminders X days before/after due date</li>
+      <li><strong>Online Payment Link</strong> — customers click to pay via Stripe, PayPal, Razorpay, etc.</li>
+      <li><strong>Invoice Cloning</strong> — duplicate an invoice for repeat billing</li>
+      <li><strong>Bulk Send</strong> — send multiple invoices in one action</li>
+      <li><strong>Multi-currency</strong> — invoice in customer's currency; auto-converts to base currency</li>
+      <li><strong>Attachments</strong> — attach supporting documents (PO, contract, delivery note)</li>
+      <li><strong>Custom Fields</strong> — add business-specific fields to invoice form</li>
+    </ul>
+  </div>
+
+  <!-- RECURRING -->
+  <div class="section" id="section-recurring">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Sales<span class="sep">›</span>Recurring Invoices</div>
+    <h2 class="section-title">🔄 Recurring Invoices</h2>
+    <p class="body-text">Automate invoicing for subscription clients or retainer engagements. Set it once; Zoho Books generates and sends invoices on schedule.</p>
+
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Create a regular invoice, then click <strong>More → Convert to Recurring</strong> — OR go to <strong>Sales → Recurring Invoices → New</strong></li>
+      <li><span class="step-num">2</span>Set <strong>Profile Name</strong> (internal reference)</li>
+      <li><span class="step-num">3</span>Set <strong>Repeat Every</strong>: Weekly, Monthly, Quarterly, Annually, or Custom</li>
+      <li><span class="step-num">4</span>Set <strong>Start Date</strong> and optional <strong>End Date</strong> or number of recurrences</li>
+      <li><span class="step-num">5</span>Choose auto-send (<em>automatically send to customer</em>) or create as draft for review first</li>
+      <li><span class="step-num">6</span>Enable <strong>Auto Charge</strong> if customer has a saved payment method</li>
+    </ol>
+  </div>
+
+  <!-- PAYMENTS RECEIVED -->
+  <div class="section" id="section-payments-received">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Sales<span class="sep">›</span>Payments Received</div>
+    <h2 class="section-title">💵 Payments Received</h2>
+    <p class="body-text">Record money received from customers against their outstanding invoices.</p>
+
+    <h3 class="sub-title">➕ Recording a Payment</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open the unpaid <strong>Invoice → Record Payment</strong>, OR go to <strong>Sales → Payments Received → New Payment</strong></li>
+      <li><span class="step-num">2</span>Select the <strong>Customer</strong> and amount</li>
+      <li><span class="step-num">3</span>Choose <strong>Payment Mode</strong> (bank transfer, cash, check, card)</li>
+      <li><span class="step-num">4</span>Select the <strong>Deposit Account</strong> (which bank account the money went to)</li>
+      <li><span class="step-num">5</span>Enter <strong>Reference Number</strong> (check no., transaction ID)</li>
+      <li><span class="step-num">6</span>Apply to one or multiple invoices</li>
+      <li><span class="step-num">7</span>Save — the invoice status updates to Paid or Partially Paid</li>
+    </ol>
+
+    <div class="info-box note"><span class="info-icon">✅</span><div>Use <strong>Advance Payments</strong> when a customer pays before an invoice is created. The credit is stored and applied when the invoice is later created.</div></div>
+  </div>
+
+  <!-- CREDIT NOTES -->
+  <div class="section" id="section-credit-notes">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Sales<span class="sep">›</span>Credit Notes</div>
+    <h2 class="section-title">📋 Credit Notes</h2>
+    <p class="body-text">Issue credit notes when you need to refund a customer or correct an over-billed invoice.</p>
+
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Sales → Credit Notes → New Credit Note</strong> (or from invoice: <strong>More → Create Credit Note</strong>)</li>
+      <li><span class="step-num">2</span>Select the <strong>Customer</strong> and reason</li>
+      <li><span class="step-num">3</span>Add items/amounts to credit</li>
+      <li><span class="step-num">4</span>Save and send to customer</li>
+      <li><span class="step-num">5</span><strong>Apply to an invoice</strong> to reduce the balance — or <strong>Refund</strong> cash back to customer</li>
+    </ol>
+  </div>
+
+  <!-- PURCHASE ORDERS -->
+  <div class="section" id="section-purchase-orders">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Purchases<span class="sep">›</span>Purchase Orders</div>
+    <h2 class="section-title">📋 Purchase Orders</h2>
+    <p class="body-text">Create Purchase Orders (POs) to formally request goods/services from vendors. When the vendor delivers, convert the PO to a bill.</p>
+
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Purchases → Purchase Orders → New Purchase Order</strong></li>
+      <li><span class="step-num">2</span>Select <strong>Vendor</strong></li>
+      <li><span class="step-num">3</span>Set <strong>Delivery Date</strong> and <strong>Delivery Address</strong></li>
+      <li><span class="step-num">4</span>Add <strong>Items</strong> to order</li>
+      <li><span class="step-num">5</span>Send to vendor for confirmation</li>
+      <li><span class="step-num">6</span>When received, click <strong>Convert to Bill</strong></li>
+    </ol>
+  </div>
+
+  <!-- BILLS -->
+  <div class="section" id="section-bills">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Purchases<span class="sep">›</span>Bills</div>
+    <h2 class="section-title">📄 Bills (Vendor Invoices)</h2>
+    <p class="body-text">Bills are invoices you receive from vendors for goods or services purchased. Recording bills tracks what you owe (Accounts Payable).</p>
+
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Purchases → Bills → New Bill</strong></li>
+      <li><span class="step-num">2</span>Select <strong>Vendor</strong></li>
+      <li><span class="step-num">3</span>Enter <strong>Bill Number</strong> (from vendor's invoice)</li>
+      <li><span class="step-num">4</span>Set <strong>Bill Date</strong> and <strong>Due Date</strong></li>
+      <li><span class="step-num">5</span>Add <strong>Items / Expenses</strong> with account codes</li>
+      <li><span class="step-num">6</span>Attach the <strong>vendor's invoice PDF</strong></li>
+      <li><span class="step-num">7</span>Save — AP balance increases</li>
+    </ol>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Use <strong>Zoho Books' Document Inbox</strong> — forward vendor invoices to your unique Books email address and Bills are created automatically via OCR extraction.</div></div>
+  </div>
+
+  <!-- PAYMENTS MADE -->
+  <div class="section" id="section-payments-made">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Purchases<span class="sep">›</span>Payments Made</div>
+    <h2 class="section-title">💸 Payments Made</h2>
+    <p class="body-text">Record payments to vendors to reduce your Accounts Payable balance.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Open the Bill → <strong>Record Payment</strong>, OR <strong>Purchases → Payments Made → New Payment</strong></li>
+      <li><span class="step-num">2</span>Select <strong>Vendor</strong> and <strong>Amount</strong></li>
+      <li><span class="step-num">3</span>Choose <strong>Payment Account</strong> (which bank funds came from)</li>
+      <li><span class="step-num">4</span>Apply to one or multiple bills</li>
+      <li><span class="step-num">5</span>Save — bill status updates</li>
+    </ol>
+  </div>
+
+  <!-- VENDOR CREDITS -->
+  <div class="section" id="section-vendor-credits">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Purchases<span class="sep">›</span>Vendor Credits</div>
+    <h2 class="section-title">🔖 Vendor Credits</h2>
+    <p class="body-text">Vendor Credits represent amounts a vendor owes you — typically from returned goods or over-billed amounts. Apply them against future bills.</p>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Purchases → Vendor Credits → New Vendor Credit</strong></li>
+      <li><span class="step-num">2</span>Select Vendor and enter items/amounts</li>
+      <li><span class="step-num">3</span>Once saved, <strong>Apply to Bills</strong> to reduce what you owe</li>
+      <li><span class="step-num">4</span>Or request a <strong>Cash Refund</strong> from the vendor</li>
+    </ol>
+  </div>
+
+  <!-- EXPENSES -->
+  <div class="section" id="section-expenses">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Purchases<span class="sep">›</span>Expenses</div>
+    <h2 class="section-title">🧾 Expenses</h2>
+    <p class="body-text">Expenses track money already paid for business costs — petty cash, employee reimbursements, credit card transactions, or one-off costs.</p>
+
+    <h3 class="sub-title">➕ Recording an Expense</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Purchases → Expenses → New Expense</strong></li>
+      <li><span class="step-num">2</span>Select <strong>Expense Account</strong> (e.g., Travel, Office Supplies)</li>
+      <li><span class="step-num">3</span>Enter <strong>Amount</strong> and <strong>Date</strong></li>
+      <li><span class="step-num">4</span>Select <strong>Vendor</strong> (optional)</li>
+      <li><span class="step-num">5</span>Select <strong>Paid Through</strong> account (which account was debited)</li>
+      <li><span class="step-num">6</span>Mark as <strong>Billable</strong> if you'll charge it back to a customer</li>
+      <li><span class="step-num">7</span>Attach <strong>receipt photo</strong> as proof</li>
+    </ol>
+
+    <div class="info-box note"><span class="info-icon">✅</span><div>Use the <strong>Zoho Books mobile app</strong> to snap receipt photos and log expenses on the go. Zoho Expense integrates seamlessly for more advanced employee expense management.</div></div>
+  </div>
+
+  <!-- BANK ACCOUNTS -->
+  <div class="section" id="section-bank-accounts">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Banking<span class="sep">›</span>Bank Accounts</div>
+    <h2 class="section-title">🏦 Bank Accounts</h2>
+    <p class="body-text">Connect your real bank accounts to Zoho Books for automatic transaction feeds, or add them manually to track balances.</p>
+
+    <h3 class="sub-title">➕ Adding a Bank Account</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Banking → Add Bank/Credit Card Account</strong></li>
+      <li><span class="step-num">2</span>Search for your bank and sign in to <strong>auto-connect</strong> (bank feeds), or choose <strong>Manual Feed</strong></li>
+      <li><span class="step-num">3</span>Enter <strong>Account Name</strong>, <strong>Account Number</strong> (last 4 digits)</li>
+      <li><span class="step-num">4</span>Set <strong>Opening Balance</strong> and the date it was accurate</li>
+      <li><span class="step-num">5</span>Set <strong>Currency</strong> of the account</li>
+      <li><span class="step-num">6</span>Save — the account appears in your banking dashboard</li>
+    </ol>
+
+    <h3 class="sub-title">Account Types You Can Add</h3>
+    <div class="quick-links">
+      <span class="quick-link">🏦 Checking/Current Account</span>
+      <span class="quick-link">💰 Savings Account</span>
+      <span class="quick-link">💳 Credit Card</span>
+      <span class="quick-link">💵 Petty Cash</span>
+      <span class="quick-link">📤 Payment Gateway Account</span>
+    </div>
+  </div>
+
+  <!-- BANK FEEDS -->
+  <div class="section" id="section-bank-feeds">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Banking<span class="sep">›</span>Bank Feeds</div>
+    <h2 class="section-title">📡 Bank Feeds</h2>
+    <p class="body-text">Bank feeds automatically import transactions from your connected bank account daily. This eliminates manual data entry and ensures your books are always current.</p>
+
+    <h3 class="sub-title">🔧 Feed Methods</h3>
+    <table class="feature-table">
+      <thead><tr><th>Method</th><th>How It Works</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Auto Feed</strong></td><td>Direct bank connection via Plaid, Yodlee, or Zoho's banking partners</td><td>US, UK, Australia, India major banks</td></tr>
+        <tr><td><strong>CSV Upload</strong></td><td>Download statement from bank, upload to Zoho</td><td>Any bank, most universal</td></tr>
+        <tr><td><strong>OFX/QFX Import</strong></td><td>Download in Quicken format, import</td><td>US banks</td></tr>
+        <tr><td><strong>Manual Entry</strong></td><td>Type each transaction manually</td><td>Cash accounts, small volume</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">🤖 Matching Rules</h3>
+    <p class="body-text">Once transactions are imported, Zoho Books suggests matches to existing invoices, bills, or expenses. Set up <strong>Banking Rules</strong> (Settings → Banking Rules) to auto-categorize recurring transactions like rent, utilities, and payroll.</p>
+  </div>
+
+  <!-- RECONCILIATION -->
+  <div class="section" id="section-reconciliation">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Banking<span class="sep">›</span>Reconciliation</div>
+    <h2 class="section-title">⚖️ Bank Reconciliation</h2>
+    <p class="body-text">Reconciliation matches your Zoho Books transactions against your official bank statement to ensure they agree. Do this monthly before closing the books.</p>
+
+    <h3 class="sub-title">📋 Reconciliation Steps</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Banking → [Account Name] → Reconcile</strong></li>
+      <li><span class="step-num">2</span>Enter the <strong>Statement Closing Date</strong> and <strong>Closing Balance</strong> from your bank statement</li>
+      <li><span class="step-num">3</span>Zoho shows all unreconciled transactions in Books for that period</li>
+      <li><span class="step-num">4</span>Check off each transaction that appears on your bank statement</li>
+      <li><span class="step-num">5</span>The <strong>Difference</strong> at the top must reach <strong>$0.00</strong></li>
+      <li><span class="step-num">6</span>If there's a difference, investigate: missing transactions, timing differences, or errors</li>
+      <li><span class="step-num">7</span>Click <strong>Finish Reconciling</strong> once balanced</li>
+    </ol>
+
+    <div class="info-box warn"><span class="info-icon">⚠️</span><div>Never skip reconciliation! It's your most important control to catch data entry errors, duplicate transactions, fraud, or missing entries.</div></div>
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div class="section" id="section-transactions">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Banking<span class="sep">›</span>Transactions</div>
+    <h2 class="section-title">🔀 Transactions & Banking Rules</h2>
+    <p class="body-text">Categorize imported bank transactions and create rules so Zoho Books handles recurring patterns automatically.</p>
+
+    <h3 class="sub-title">🏷️ Categorizing a Transaction</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Banking → [Account] → Transactions</strong></li>
+      <li><span class="step-num">2</span>Click a transaction — Zoho suggests a match or category</li>
+      <li><span class="step-num">3</span>Accept the match, or <strong>Categorize</strong> it to the right account</li>
+      <li><span class="step-num">4</span>Or <strong>Match</strong> it to an existing invoice or bill</li>
+    </ol>
+
+    <h3 class="sub-title">⚙️ Banking Rules</h3>
+    <p class="body-text">Navigate to <strong>Settings → Banking Rules → New Rule</strong>. Define: if a bank transaction description contains "Amazon AWS", categorize it to "Cloud Services" expense account. Rules run automatically on all future imports.</p>
+  </div>
+
+  <!-- JOURNALS -->
+  <div class="section" id="section-journals">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Accounting<span class="sep">›</span>Manual Journals</div>
+    <h2 class="section-title">📖 Manual Journals</h2>
+    <p class="body-text">Manual journals let you directly post debits and credits to any accounts — for adjusting entries, accruals, depreciation, and corrections.</p>
+
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Accounting → Manual Journals → New Journal</strong></li>
+      <li><span class="step-num">2</span>Enter <strong>Journal Date</strong> and <strong>Journal Number</strong> (auto-generated)</li>
+      <li><span class="step-num">3</span>Add <strong>Notes</strong> describing the reason for the entry</li>
+      <li><span class="step-num">4</span>Add rows — for each row: select <strong>Account</strong>, add <strong>Description</strong>, enter <strong>Debit</strong> or <strong>Credit</strong> amount</li>
+      <li><span class="step-num">5</span>Total Debits must equal Total Credits (balanced entry)</li>
+      <li><span class="step-num">6</span>Attach supporting documentation</li>
+      <li><span class="step-num">7</span>Save as Draft or <strong>Publish</strong> to post to ledger</li>
+    </ol>
+
+    <div class="info-box step-box"><span class="info-icon">📝</span><div><strong>Common journal use cases:</strong> Depreciation entries, accruals, prepaid amortization, owner draws, correcting misclassified transactions, period-end adjustments.</div></div>
+  </div>
+
+  <!-- OPENING BALANCE -->
+  <div class="section" id="section-opening-balance">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Accounting<span class="sep">›</span>Opening Balances</div>
+    <h2 class="section-title">🏁 Opening Balances</h2>
+    <p class="body-text">If you're migrating from another accounting system, enter opening balances to carry forward existing account balances on your start date.</p>
+
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Opening Balances</strong></li>
+      <li><span class="step-num">2</span>Set the <strong>Migration Date</strong> (the date you start using Zoho Books)</li>
+      <li><span class="step-num">3</span>Enter closing balances from your previous system for each account (Assets, Liabilities, Equity, etc.)</li>
+      <li><span class="step-num">4</span>Enter <strong>Accounts Receivable</strong> — list each outstanding customer invoice</li>
+      <li><span class="step-num">5</span>Enter <strong>Accounts Payable</strong> — list each outstanding vendor bill</li>
+      <li><span class="step-num">6</span>The system automatically creates a balancing <strong>Opening Balance Equity</strong> entry</li>
+      <li><span class="step-num">7</span>Save and verify your <strong>Balance Sheet</strong> shows expected balances</li>
+    </ol>
+
+    <div class="info-box warn"><span class="info-icon">⚠️</span><div>Opening balances should be entered <strong>before</strong> recording any transactions in Zoho Books. Consult your accountant to ensure accuracy.</div></div>
+  </div>
+
+  <!-- REPORTS P&L -->
+  <div class="section" id="section-report-pl">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Reports<span class="sep">›</span>Profit & Loss</div>
+    <h2 class="section-title">📈 Profit & Loss Statement</h2>
+    <p class="body-text">The P&L (also called Income Statement) shows your revenues, costs, and net profit or loss over a period. It's the primary measure of business performance.</p>
+
+    <h3 class="sub-title">📊 How to Run It</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Reports → Business Overview → Profit and Loss</strong></li>
+      <li><span class="step-num">2</span>Set the <strong>Date Range</strong> (this month, this quarter, this year, custom)</li>
+      <li><span class="step-num">3</span>Choose <strong>Cash or Accrual</strong> basis</li>
+      <li><span class="step-num">4</span>Optional: <strong>Compare periods</strong> (vs previous year, previous quarter)</li>
+      <li><span class="step-num">5</span>Export as <strong>PDF or Excel</strong>, or share via email</li>
+    </ol>
+
+    <h3 class="sub-title">📋 Report Structure</h3>
+    <table class="feature-table">
+      <thead><tr><th>Section</th><th>What's Included</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Revenue / Income</strong></td><td>All sales, service income, other revenue</td></tr>
+        <tr><td><strong>Cost of Goods Sold</strong></td><td>Direct costs of producing goods sold</td></tr>
+        <tr><td><strong>Gross Profit</strong></td><td>Revenue minus COGS</td></tr>
+        <tr><td><strong>Operating Expenses</strong></td><td>Salaries, rent, utilities, marketing, etc.</td></tr>
+        <tr><td><strong>Operating Profit (EBIT)</strong></td><td>Gross profit minus operating expenses</td></tr>
+        <tr><td><strong>Other Income/Expense</strong></td><td>Interest income, bank charges, FX gains/losses</td></tr>
+        <tr><td><strong>Net Profit / (Loss)</strong></td><td>Bottom line after all income and expenses</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BALANCE SHEET -->
+  <div class="section" id="section-report-bs">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Reports<span class="sep">›</span>Balance Sheet</div>
+    <h2 class="section-title">⚖️ Balance Sheet</h2>
+    <p class="body-text">The Balance Sheet is a snapshot of what your business <em>owns</em> (assets), <em>owes</em> (liabilities), and the <em>net worth</em> (equity) at a specific date.</p>
+
+    <p class="body-text">Navigate to <strong>Reports → Business Overview → Balance Sheet</strong>. Set the "As of" date. The fundamental equation must always hold: <strong>Assets = Liabilities + Equity</strong></p>
+
+    <table class="feature-table">
+      <thead><tr><th>Section</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Current Assets</strong></td><td>Cash, Bank, Accounts Receivable, Inventory, Prepaid expenses</td></tr>
+        <tr><td><strong>Fixed/Non-Current Assets</strong></td><td>Equipment, Property, Vehicles, Intangibles</td></tr>
+        <tr><td><strong>Current Liabilities</strong></td><td>Accounts Payable, Short-term loans, Tax payable, Accruals</td></tr>
+        <tr><td><strong>Long-term Liabilities</strong></td><td>Bank loans, Deferred revenue</td></tr>
+        <tr><td><strong>Equity</strong></td><td>Share capital, Retained earnings, Owner's equity</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CASH FLOW -->
+  <div class="section" id="section-report-cf">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Reports<span class="sep">›</span>Cash Flow</div>
+    <h2 class="section-title">💧 Cash Flow Statement</h2>
+    <p class="body-text">The Cash Flow Statement shows how cash moved in and out of your business across three activities: Operations, Investing, and Financing.</p>
+
+    <p class="body-text">Navigate to <strong>Reports → Business Overview → Cash Flow Statement</strong>. Available in <em>Indirect Method</em> format (starts from net income and adjusts for non-cash items).</p>
+
+    <table class="feature-table">
+      <thead><tr><th>Section</th><th>What's Included</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Operating Activities</strong></td><td>Cash from core business (collections, payments to vendors, salaries)</td></tr>
+        <tr><td><strong>Investing Activities</strong></td><td>Equipment purchases, asset sales, investments</td></tr>
+        <tr><td><strong>Financing Activities</strong></td><td>Loan proceeds/repayments, owner contributions, dividends</td></tr>
+        <tr><td><strong>Net Change in Cash</strong></td><td>Total increase or decrease in cash during the period</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- AGED -->
+  <div class="section" id="section-report-aged">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Reports<span class="sep">›</span>Aged Reports</div>
+    <h2 class="section-title">⏳ Aged Receivables & Payables</h2>
+    <p class="body-text">Aging reports categorize outstanding invoices (AR) and bills (AP) by how many days past due they are. Critical for collections and cash flow management.</p>
+
+    <h3 class="sub-title">📊 Aged Receivables</h3>
+    <p class="body-text"><strong>Reports → Receivables → Aged Receivables</strong> — Shows all unpaid customer invoices grouped by: Current, 1–30 days, 31–60 days, 61–90 days, 90+ days overdue.</p>
+
+    <h3 class="sub-title">📊 Aged Payables</h3>
+    <p class="body-text"><strong>Reports → Payables → Aged Payables</strong> — Same structure for bills you owe vendors. Use this to prioritize vendor payments and avoid late fees.</p>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Review aged receivables weekly. Use the <strong>Send Reminder</strong> button on overdue invoices to nudge customers automatically.</div></div>
+  </div>
+
+  <!-- TAX REPORTS -->
+  <div class="section" id="section-report-tax">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Reports<span class="sep">›</span>Tax Reports</div>
+    <h2 class="section-title">🏛️ Tax Reports</h2>
+    <p class="body-text">Zoho Books generates tax summaries to help you file returns accurately. Reports vary by your region's tax system.</p>
+
+    <table class="feature-table">
+      <thead><tr><th>Report</th><th>Region</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>GST Summary / GSTR-1 / GSTR-2 / GSTR-3B</td><td>India</td><td>Monthly/quarterly GST filing</td></tr>
+        <tr><td>VAT Return Summary</td><td>UK, EU, Australia</td><td>VAT/GST return preparation</td></tr>
+        <tr><td>Sales Tax Report</td><td>US</td><td>State-level sales tax filing</td></tr>
+        <tr><td>Tax Collected Summary</td><td>Global</td><td>All taxes collected on sales</td></tr>
+        <tr><td>Tax Paid Summary</td><td>Global</td><td>All taxes paid on purchases</td></tr>
+        <tr><td>TDS Reports</td><td>India</td><td>Tax deducted at source reporting</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SALES REPORTS -->
+  <div class="section" id="section-report-sales">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Reports<span class="sep">›</span>Sales & Purchase</div>
+    <h2 class="section-title">📊 Sales & Purchase Reports</h2>
+
+    <h3 class="sub-title">📈 Key Sales Reports</h3>
+    <ul class="checklist">
+      <li><strong>Sales by Customer</strong> — Total revenue per customer, sortable</li>
+      <li><strong>Sales by Item</strong> — Best-selling products/services</li>
+      <li><strong>Sales by Salesperson</strong> — Rep performance tracking</li>
+      <li><strong>Invoice Details</strong> — Full line-item detail on all invoices</li>
+      <li><strong>Customer Balances</strong> — Outstanding AR per customer</li>
+      <li><strong>Payment Collection Summary</strong> — Cash collection trends</li>
+    </ul>
+
+    <h3 class="sub-title">📉 Key Purchase Reports</h3>
+    <ul class="checklist">
+      <li><strong>Purchase by Vendor</strong> — Spend per supplier</li>
+      <li><strong>Purchase by Item</strong> — Most purchased products</li>
+      <li><strong>Bill Details</strong> — Full AP detail</li>
+      <li><strong>Vendor Balances</strong> — Outstanding AP per vendor</li>
+      <li><strong>Expense Report</strong> — Categorized expense summary</li>
+    </ul>
+  </div>
+
+  <!-- TEMPLATES -->
+  <div class="section" id="section-templates">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Settings<span class="sep">›</span>Templates & Branding</div>
+    <h2 class="section-title">🎨 Templates & Branding</h2>
+    <p class="body-text">Customize how your invoices, quotes, and other documents look. Professional templates reinforce your brand identity with every document you send.</p>
+
+    <h3 class="sub-title">📄 Customizing Invoice Templates</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Customization → PDF Templates → Invoices</strong></li>
+      <li><span class="step-num">2</span>Choose a <strong>Base Template</strong> (Standard, Modern, Classic, Bold, Minimal, etc.)</li>
+      <li><span class="step-num">3</span>Click <strong>Edit</strong> to enter the template editor</li>
+      <li><span class="step-num">4</span>Upload your <strong>Logo</strong> and set position</li>
+      <li><span class="step-num">5</span>Set <strong>Brand Colors</strong> (header color, font color)</li>
+      <li><span class="step-num">6</span>Choose which <strong>Fields to Show/Hide</strong> (shipping address, item SKU, etc.)</li>
+      <li><span class="step-num">7</span>Customize <strong>Column Headers</strong>, font sizes, footer text</li>
+      <li><span class="step-num">8</span>Preview in real-time, then <strong>Save & Set as Default</strong></li>
+    </ol>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Create multiple templates for different use cases — a formal template for corporate clients, a simple template for quick jobs, a branded template with your tagline for new customers.</div></div>
+
+    <h3 class="sub-title">✉️ Email Templates</h3>
+    <p class="body-text">Customize the email body sent when invoices, reminders, and statements are emailed under <strong>Settings → Customization → Email Templates</strong>. Use placeholders like <code>%CustomerName%</code>, <code>%InvoiceNumber%</code>, <code>%DueDate%</code> for dynamic content.</p>
+  </div>
+
+  <!-- PAYMENT GATEWAYS -->
+  <div class="section" id="section-payment-gateways">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Settings<span class="sep">›</span>Payment Gateways</div>
+    <h2 class="section-title">💳 Payment Gateways</h2>
+    <p class="body-text">Connect a payment gateway so customers can pay invoices online with a single click — directly from the invoice email or Customer Portal.</p>
+
+    <h3 class="sub-title">🔌 Supported Gateways</h3>
+    <table class="feature-table">
+      <thead><tr><th>Gateway</th><th>Regions</th><th>Payment Methods</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Stripe</strong></td><td>Global</td><td>Cards, bank debit, Apple/Google Pay</td></tr>
+        <tr><td><strong>PayPal</strong></td><td>Global</td><td>PayPal balance, cards</td></tr>
+        <tr><td><strong>Razorpay</strong></td><td>India</td><td>Cards, UPI, netbanking, wallets</td></tr>
+        <tr><td><strong>Paytm</strong></td><td>India</td><td>Paytm wallet, UPI</td></tr>
+        <tr><td><strong>GoCardless</strong></td><td>UK/EU/AU</td><td>Direct debit (ACH, SEPA, BACS)</td></tr>
+        <tr><td><strong>Square</strong></td><td>US/UK/AU</td><td>Cards, POS</td></tr>
+        <tr><td><strong>Authorize.net</strong></td><td>US</td><td>Cards, ACH</td></tr>
+        <tr><td><strong>Braintree</strong></td><td>Global</td><td>Cards, PayPal</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">⚙️ Connecting a Gateway</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Online Payments → Configure</strong></li>
+      <li><span class="step-num">2</span>Select your gateway (e.g., Stripe)</li>
+      <li><span class="step-num">3</span>Click <strong>Connect</strong> and follow the OAuth flow to authorize</li>
+      <li><span class="step-num">4</span>Set which payment methods to accept</li>
+      <li><span class="step-num">5</span>Choose the <strong>Bank Account</strong> in Zoho that tracks gateway deposits</li>
+      <li><span class="step-num">6</span>Test with a small transaction</li>
+    </ol>
+  </div>
+
+  <!-- INTEGRATIONS -->
+  <div class="section" id="section-integrations">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Settings<span class="sep">›</span>Integrations</div>
+    <h2 class="section-title">🔗 Integrations & Apps</h2>
+    <p class="body-text">Zoho Books connects natively with the entire Zoho ecosystem and popular third-party tools to eliminate duplicate data entry.</p>
+
+    <h3 class="sub-title">🔵 Zoho Ecosystem</h3>
+    <table class="feature-table">
+      <thead><tr><th>App</th><th>What It Adds</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Zoho CRM</strong></td><td>Sync customers, auto-create invoices from CRM deals, share revenue data</td></tr>
+        <tr><td><strong>Zoho Inventory</strong></td><td>Advanced inventory, multiple warehouses, serial/batch numbers, shipping</td></tr>
+        <tr><td><strong>Zoho Expense</strong></td><td>Employee expense reports, receipt OCR, approval workflows</td></tr>
+        <tr><td><strong>Zoho Payroll</strong></td><td>Payroll processing that posts directly to Books accounting entries</td></tr>
+        <tr><td><strong>Zoho Projects</strong></td><td>Track project hours and bill them to clients from Books</td></tr>
+        <tr><td><strong>Zoho Analytics</strong></td><td>Advanced BI dashboards and custom reports from Books data</td></tr>
+        <tr><td><strong>Zoho Sign</strong></td><td>Get e-signatures on quotes, contracts from within Books</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">🌐 Third-Party Integrations</h3>
+    <ul class="checklist">
+      <li><strong>Shopify</strong> — Sync e-commerce orders and inventory</li>
+      <li><strong>WooCommerce</strong> — WordPress store order sync</li>
+      <li><strong>Slack</strong> — Get payment and invoice notifications in Slack</li>
+      <li><strong>G Suite / Microsoft 365</strong> — Calendar and email integration</li>
+      <li><strong>Zapier</strong> — Connect to 5,000+ apps via automation</li>
+      <li><strong>Avalara</strong> — Automated sales tax compliance (US)</li>
+    </ul>
+  </div>
+
+  <!-- AUTOMATION -->
+  <div class="section" id="section-automation">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Settings<span class="sep">›</span>Automation</div>
+    <h2 class="section-title">⚡ Automation & Workflows</h2>
+    <p class="body-text">Automate repetitive tasks to save time and ensure nothing falls through the cracks.</p>
+
+    <h3 class="sub-title">⏰ Payment Reminders</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Reminders → Payment Reminders</strong></li>
+      <li><span class="step-num">2</span>Create rules: send reminder <em>X days before</em> or <em>X days after</em> due date</li>
+      <li><span class="step-num">3</span>Customize the email message with the customer's name and invoice details</li>
+      <li><span class="step-num">4</span>Enable — all matching invoices get automatic follow-ups</li>
+    </ol>
+
+    <h3 class="sub-title">🔄 Workflow Rules</h3>
+    <p class="body-text">Go to <strong>Settings → Automation → Workflow Rules → New Rule</strong> to automate based on triggers:</p>
+    <table class="feature-table">
+      <thead><tr><th>Trigger</th><th>Actions Available</th></tr></thead>
+      <tbody>
+        <tr><td>Invoice Created</td><td>Send email to manager, assign to salesperson, update custom field</td></tr>
+        <tr><td>Invoice Overdue</td><td>Send alert to sales team, escalate to admin</td></tr>
+        <tr><td>Payment Received</td><td>Send thank-you email, notify fulfillment team</td></tr>
+        <tr><td>Bill Due Soon</td><td>Alert accounts payable team</td></tr>
+        <tr><td>New Customer Added</td><td>Send welcome email, assign account manager</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub-title">📧 Automated Statements</h3>
+    <p class="body-text">Schedule <strong>customer account statements</strong> to be sent automatically on the 1st of each month to all customers with outstanding balances: <strong>Settings → Email Notifications → Customer Statements</strong>.</p>
+  </div>
+
+  <!-- SALES ORDERS -->
+  <div class="section" id="section-salesorders">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Sales<span class="sep">›</span>Sales Orders</div>
+    <h2 class="section-title">📦 Sales Orders</h2>
+    <p class="body-text">Sales Orders confirm a customer's purchase intent before fulfillment and invoicing. Use them when there's a gap between order placement and delivery — they create a paper trail and enable partial fulfillment tracking.</p>
+
+    <h3 class="sub-title">➕ Creating a Sales Order</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Sales → Sales Orders → New Sales Order</strong></li>
+      <li><span class="step-num">2</span>Select <strong>Customer</strong> — billing/shipping details auto-fill</li>
+      <li><span class="step-num">3</span>Set <strong>Sales Order Date</strong> and <strong>Expected Shipment Date</strong></li>
+      <li><span class="step-num">4</span>Add <strong>Items</strong> with quantities and agreed prices</li>
+      <li><span class="step-num">5</span>Add a <strong>Customer PO Number</strong> (the reference from the customer's own PO)</li>
+      <li><span class="step-num">6</span>Save and <strong>Confirm</strong> the order — status changes from Draft to Open</li>
+      <li><span class="step-num">7</span>When goods are delivered, click <strong>Create Invoice</strong></li>
+    </ol>
+
+    <h3 class="sub-title">🔄 Sales Order Status Flow</h3>
+    <div class="quick-links">
+      <span class="quick-link">📄 Draft</span>
+      <span class="quick-link">→ Confirmed / Open</span>
+      <span class="quick-link">→ Invoiced</span>
+      <span class="quick-link">→ Closed ✓</span>
+      <span class="quick-link">✗ Cancelled</span>
+    </div>
+
+    <h3 class="sub-title">📦 Partial Fulfillment</h3>
+    <p class="body-text">Ship and invoice part of a Sales Order at a time. Click <strong>Create Invoice</strong> on a Sales Order and modify the quantities. The remaining unfulfilled items stay on the SO as open.</p>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Sales Orders can be created directly from an accepted <strong>Quote/Estimate</strong> — click <strong>Convert to Sales Order</strong> and all line items carry over automatically.</div></div>
+
+    <h3 class="sub-title">📊 Sales Order Reports</h3>
+    <ul class="checklist">
+      <li><strong>Sales Order Details</strong> — all SOs with status and amounts</li>
+      <li><strong>Pending Sales Orders</strong> — SOs not yet fully invoiced</li>
+      <li><strong>Sales Order by Customer</strong> — order volume per customer</li>
+    </ul>
+  </div>
+
+  <!-- COA MANAGE -->
+  <div class="section" id="section-coa-manage">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Accounting<span class="sep">›</span>Managing Accounts</div>
+    <h2 class="section-title">⚙️ Managing Accounts</h2>
+
+    <h3 class="sub-title">✏️ Editing an Account</h3>
+    <p class="body-text">Go to <strong>Accounting → Chart of Accounts → [Account Name] → Edit</strong>. You can change the name, description, and parent. Note: account type cannot be changed if transactions exist.</p>
+
+    <h3 class="sub-title">🚫 Marking Inactive</h3>
+    <p class="body-text">Cannot delete an account with transactions, but you can mark it <strong>Inactive</strong> (it disappears from dropdowns). From COA list, hover the account and click <strong>Mark as Inactive</strong>.</p>
+
+    <h3 class="sub-title">📊 Viewing an Account Ledger</h3>
+    <p class="body-text">Click any account in the COA to see every transaction posted to it — a full ledger view with date, description, debit, credit, and running balance.</p>
+
+    <div class="info-box tip"><span class="info-icon">💡</span><div>Use <strong>Account Codes</strong> (numbers) to organize your COA. Common conventions: 1000s = Assets, 2000s = Liabilities, 3000s = Equity, 4000s = Revenue, 5000s-6000s = Expenses.</div></div>
+  </div>
+
+  <!-- PRICE LISTS duplicate handled above -->
+  <div class="section" id="section-currency">
+    <div class="breadcrumb"><a onclick="showSection('home')">Home</a><span class="sep">›</span>Getting Started<span class="sep">›</span>Currency Settings</div>
+    <h2 class="section-title">💱 Currency Settings</h2>
+    <p class="body-text">If you deal with international customers or vendors, enable multi-currency to invoice in their currency while your books stay in your base currency.</p>
+
+    <h3 class="sub-title">🌍 Enable Multi-Currency</h3>
+    <ol class="step-list">
+      <li><span class="step-num">1</span>Go to <strong>Settings → Currencies → Enable Multi-Currency</strong></li>
+      <li><span class="step-num">2</span>Add each foreign currency you use (EUR, GBP, AUD, etc.)</li>
+      <li><span class="step-num">3</span>Set <strong>Exchange Rates</strong> — either manually or enable <strong>Automatic Exchange Rates</strong> (pulls live rates daily)</li>
+      <li><span class="step-num">4</span>Assign currencies to customers/vendors — their invoices will automatically use their currency</li>
+    </ol>
+
+    <h3 class="sub-title">📊 Forex Gain/Loss</h3>
+    <p class="body-text">When exchange rates change between invoice date and payment date, Zoho Books automatically calculates and posts <strong>Unrealized/Realized Forex Gain or Loss</strong> to the appropriate accounts. Review these in <strong>Reports → Forex Gain/Loss</strong>.</p>
+  </div>
+
+</main>
+
+<!-- TOC SIDEBAR -->
+<aside class="toc" id="tocSidebar">
+  <div class="toc-title">On This Page</div>
+  <ul class="toc-list" id="tocList">
+    <li><a onclick="showSection('home'); setActiveSidebar('home')" class="toc-active">Overview</a></li>
+  </ul>
+  <div class="toc-divider"></div>
+  <div class="toc-title">Quick Access</div>
+  <ul class="toc-list">
+    <li><a onclick="showSection('invoices'); setActiveSidebar('invoices')">🧾 Create Invoice</a></li>
+    <li><a onclick="showSection('customers'); setActiveSidebar('customers')">👥 Add Customer</a></li>
+    <li><a onclick="showSection('bills'); setActiveSidebar('bills')">📄 Enter Bill</a></li>
+    <li><a onclick="showSection('reconciliation'); setActiveSidebar('reconciliation')">⚖️ Reconcile Bank</a></li>
+    <li><a onclick="showSection('report-pl'); setActiveSidebar('report-pl')">📈 View P&L</a></li>
+    <li><a onclick="showSection('report-bs'); setActiveSidebar('report-bs')">⚖️ Balance Sheet</a></li>
+    <li><a onclick="showSection('org-setup'); setActiveSidebar('org-setup')">🏢 Setup Guide</a></li>
+  </ul>
+  <div class="toc-divider"></div>
+  <div class="toc-title" style="font-size:10px;">Keyboard Shortcuts</div>
+  <ul class="toc-list" style="margin-top:4px;">
+    <li style="padding:3px 0;font-size:11px;color:var(--text-muted);padding-left:8px;"><kbd>Ctrl</kbd> + <kbd>F</kbd> — Search</li>
+    <li style="padding:3px 0;font-size:11px;color:var(--text-muted);padding-left:8px;"><kbd>Esc</kbd> — Clear search</li>
+  </ul>
+</aside>
+
+</div>
+
+<script>
+// Section TOC data
+const tocData = {
+  'home': [
+    {text: 'Setup Wizard', sub: false},
+    {text: 'Browse by Module', sub: false}
+  ],
+  'org-setup': [
+    {text: 'Company Information', sub: false},
+    {text: 'Financial Settings', sub: false},
+    {text: 'Tax Registration', sub: false}
+  ],
+  'chart-accounts': [
+    {text: 'Account Types', sub: false},
+    {text: 'Adding an Account', sub: false}
+  ],
+  'users': [
+    {text: 'Default Roles', sub: false},
+    {text: 'Inviting a User', sub: false}
+  ],
+  'taxes': [
+    {text: 'Supported Frameworks', sub: false},
+    {text: 'Creating a Tax Rate', sub: false},
+    {text: 'Tax Groups', sub: false}
+  ],
+  'currency': [
+    {text: 'Enable Multi-Currency', sub: false},
+    {text: 'Forex Gain/Loss', sub: false}
+  ],
+  'customers': [
+    {text: 'Adding a Customer', sub: false},
+    {text: 'Bulk Import', sub: false},
+    {text: 'Customer Dashboard', sub: false}
+  ],
+  'vendors': [
+    {text: 'Adding a Vendor', sub: false}
+  ],
+  'contacts-adv': [
+    {text: 'Contact Persons', sub: false},
+    {text: 'Customer Portal', sub: false}
+  ],
+  'items': [
+    {text: 'Creating an Item', sub: false}
+  ],
+  'inventory': [
+    {text: 'Enable Inventory', sub: false},
+    {text: 'Inventory Reports', sub: false}
+  ],
+  'pricelists': [
+    {text: 'Setup Steps', sub: false}
+  ],
+  'quotes': [
+    {text: 'Creating a Quote', sub: false},
+    {text: 'Quote Workflow', sub: false}
+  ],
+  'salesorders': [],
+  'invoices': [
+    {text: 'Creating an Invoice', sub: false},
+    {text: 'Invoice Status Flow', sub: false},
+    {text: 'Advanced Features', sub: false}
+  ],
+  'recurring': [
+    {text: 'Setup Steps', sub: false}
+  ],
+  'payments-received': [
+    {text: 'Recording a Payment', sub: false}
+  ],
+  'credit-notes': [
+    {text: 'Creating Credit Notes', sub: false}
+  ],
+  'purchase-orders': [
+    {text: 'Creating a PO', sub: false}
+  ],
+  'bills': [
+    {text: 'Recording Bills', sub: false}
+  ],
+  'payments-made': [
+    {text: 'Paying a Bill', sub: false}
+  ],
+  'vendor-credits': [
+    {text: 'Creating Vendor Credits', sub: false}
+  ],
+  'expenses': [
+    {text: 'Recording an Expense', sub: false}
+  ],
+  'bank-accounts': [
+    {text: 'Adding a Bank Account', sub: false},
+    {text: 'Account Types', sub: false}
+  ],
+  'bank-feeds': [
+    {text: 'Feed Methods', sub: false},
+    {text: 'Matching Rules', sub: false}
+  ],
+  'reconciliation': [
+    {text: 'Reconciliation Steps', sub: false}
+  ],
+  'transactions': [
+    {text: 'Categorizing Transactions', sub: false},
+    {text: 'Banking Rules', sub: false}
+  ],
+  'journals': [
+    {text: 'Creating a Journal', sub: false}
+  ],
+  'coa-manage': [
+    {text: 'Editing Accounts', sub: false},
+    {text: 'Marking Inactive', sub: false},
+    {text: 'Viewing Ledger', sub: false}
+  ],
+  'opening-balance': [
+    {text: 'Migration Steps', sub: false}
+  ],
+  'report-pl': [
+    {text: 'How to Run', sub: false},
+    {text: 'Report Structure', sub: false}
+  ],
+  'report-bs': [
+    {text: 'Report Structure', sub: false}
+  ],
+  'report-cf': [
+    {text: 'Report Sections', sub: false}
+  ],
+  'report-aged': [
+    {text: 'Aged Receivables', sub: false},
+    {text: 'Aged Payables', sub: false}
+  ],
+  'report-tax': [
+    {text: 'Available Tax Reports', sub: false}
+  ],
+  'report-sales': [
+    {text: 'Sales Reports', sub: false},
+    {text: 'Purchase Reports', sub: false}
+  ],
+  'templates': [
+    {text: 'Invoice Templates', sub: false},
+    {text: 'Email Templates', sub: false}
+  ],
+  'payment-gateways': [
+    {text: 'Supported Gateways', sub: false},
+    {text: 'Connecting a Gateway', sub: false}
+  ],
+  'integrations': [
+    {text: 'Zoho Ecosystem', sub: false},
+    {text: 'Third-Party Apps', sub: false}
+  ],
+  'automation': [
+    {text: 'Payment Reminders', sub: false},
+    {text: 'Workflow Rules', sub: false},
+    {text: 'Automated Statements', sub: false}
+  ]
+};
+
+let currentSection = 'home';
+
+function showSection(id) {
+  // Hide all
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  // Show target
+  const target = document.getElementById('section-' + id);
+  if (target) {
+    target.classList.add('visible');
+    currentSection = id;
+    updateTOC(id);
+    document.getElementById('mainContent').scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+}
+
+function updateTOC(id) {
+  const tocList = document.getElementById('tocList');
+  const items = tocData[id] || [];
+  if (items.length === 0) {
+    tocList.innerHTML = '<li><a style="color:var(--text-muted);font-style:italic;">No subsections</a></li>';
+    return;
+  }
+  tocList.innerHTML = items.map(item =>
+    `<li class="${item.sub ? 'toc-sub' : ''}"><a onclick="void(0)">${item.text}</a></li>`
+  ).join('');
+}
+
+function toggleTree(el) {
+  el.classList.toggle('open');
+  const children = el.nextElementSibling;
+  if (children && children.classList.contains('tree-children')) {
+    children.classList.toggle('open');
+  }
+}
+
+function setActive(el) {
+  document.querySelectorAll('.tree-label.active').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  if (window.innerWidth <= 720) closeSidebar();
+}
+
+function setActiveSidebar(sectionId) {
+  // Find tree label that calls showSection with this id
+  const labels = document.querySelectorAll('.tree-label');
+  labels.forEach(label => {
+    label.classList.remove('active');
+    const onclick = label.getAttribute('onclick') || '';
+    if (onclick.includes(`'${sectionId}'`)) {
+      label.classList.add('active');
+      // Open parent tree-children
+      let parent = label.closest('.tree-children');
+      while (parent) {
+        parent.classList.add('open');
+        const prevLabel = parent.previousElementSibling;
+        if (prevLabel && prevLabel.classList.contains('tree-label')) {
+          prevLabel.classList.add('open');
+        }
+        parent = parent.parentElement && parent.parentElement.closest('.tree-children');
+      }
+    }
+  });
+}
+
+// SEARCH
+let searchTimeout = null;
+
+function handleSearch(query) {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => doSearch(query), 150);
+}
+
+function doSearch(query) {
+  const q = query.trim().toLowerCase();
+  const clearBtn = document.getElementById('searchClear');
+  const countEl = document.getElementById('searchCount');
+
+  if (!q) {
+    clearSearch();
+    return;
+  }
+
+  clearBtn.style.display = 'block';
+
+  // Remove previous highlights
+  document.querySelectorAll('mark.highlight').forEach(m => {
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+    parent.normalize();
+  });
+
+  // Search sidebar tree items by keyword
+  const treeItems = document.querySelectorAll('.tree-item');
+  let sidebarMatches = 0;
+
+  treeItems.forEach(item => {
+    const keywords = (item.getAttribute('data-keywords') || '').toLowerCase();
+    const labelEl = item.querySelector(':scope > .tree-label');
+    const labelText = labelEl ? labelEl.textContent.toLowerCase() : '';
+    const match = keywords.includes(q) || labelText.includes(q);
+    item.classList.toggle('hidden', !match);
+    item.classList.toggle('search-match', match);
+    if (match) sidebarMatches++;
+  });
+
+  // Show parent tree items that have visible children
+  document.querySelectorAll('.tree-item').forEach(item => {
+    const children = item.querySelector(':scope > .tree-children');
+    if (children) {
+      const visibleChild = children.querySelector('.tree-item:not(.hidden)');
+      if (visibleChild) {
+        item.classList.remove('hidden');
+        children.classList.add('open');
+        const parentLabel = item.querySelector(':scope > .tree-label');
+        if (parentLabel) parentLabel.classList.add('open');
+      }
+    }
+  });
+
+  // Search section content and find best match
+  const sections = document.querySelectorAll('.section');
+  let bestSection = null;
+  let bestScore = 0;
+  let contentMatchCount = 0;
+
+  sections.forEach(section => {
+    const text = section.textContent.toLowerCase();
+    if (text.includes(q)) {
+      const count = (text.match(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
+      contentMatchCount++;
+      if (count > bestScore) {
+        bestScore = count;
+        bestSection = section.id.replace('section-', '');
+      }
+    }
+  });
+
+  // Navigate to best content match if no sidebar match
+  if (bestSection && sidebarMatches === 0) {
+    showSection(bestSection);
+    // Highlight matches in content
+    highlightInSection(document.getElementById('section-' + bestSection), q);
+  } else if (sidebarMatches > 0 && bestSection) {
+    showSection(bestSection);
+    highlightInSection(document.getElementById('section-' + bestSection), q);
+  }
+
+  const total = sidebarMatches + contentMatchCount;
+  if (total > 0) {
+    countEl.textContent = total + ' match' + (total !== 1 ? 'es' : '');
+    countEl.style.display = 'block';
+    document.getElementById('searchEmpty').classList.remove('visible');
+  } else {
+    countEl.style.display = 'none';
+    document.getElementById('searchEmpty').classList.add('visible');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  }
+}
+
+function highlightInSection(sectionEl, q) {
+  if (!sectionEl) return;
+  const walker = document.createTreeWalker(sectionEl, NodeFilter.SHOW_TEXT, {
+    acceptNode: node => {
+      const p = node.parentNode;
+      if (p.tagName === 'SCRIPT' || p.tagName === 'STYLE' || p.tagName === 'MARK') return NodeFilter.FILTER_REJECT;
+      if (node.textContent.toLowerCase().includes(q)) return NodeFilter.FILTER_ACCEPT;
+      return NodeFilter.FILTER_SKIP;
+    }
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  nodes.forEach(textNode => {
+    const text = textNode.textContent;
+    const regex = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    if (!regex.test(text)) return;
+    const frag = document.createDocumentFragment();
+    let lastIdx = 0;
+    text.replace(regex, (match, p1, offset) => {
+      frag.appendChild(document.createTextNode(text.slice(lastIdx, offset)));
+      const mark = document.createElement('mark');
+      mark.className = 'highlight';
+      mark.textContent = match;
+      frag.appendChild(mark);
+      lastIdx = offset + match.length;
+    });
+    frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+    textNode.parentNode.replaceChild(frag, textNode);
+  });
+
+  // Scroll to first highlight
+  const firstMark = sectionEl.querySelector('mark.highlight');
+  if (firstMark) {
+    setTimeout(() => firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+  }
+}
+
+function clearSearch() {
+  document.getElementById('globalSearch').value = '';
+  document.getElementById('searchClear').style.display = 'none';
+  document.getElementById('searchCount').style.display = 'none';
+  document.getElementById('searchEmpty').classList.remove('visible');
+
+  // Remove highlights
+  document.querySelectorAll('mark.highlight').forEach(m => {
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+    parent.normalize();
+  });
+
+  // Reset sidebar
+  document.querySelectorAll('.tree-item').forEach(item => {
+    item.classList.remove('hidden', 'search-match');
+  });
+
+  // Show current section
+  showSection(currentSection);
+}
+
+// Keyboard shortcut
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { clearSearch(); closeSidebar(); }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+    e.preventDefault();
+    document.getElementById('globalSearch').focus();
+  }
+});
+
+// no dynamic section creation needed
+
+// Init
+showSection('home');
+
+// ─── MOBILE SIDEBAR TOGGLE ───
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const isOpen = sidebar.classList.contains('open');
+  if (isOpen) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+  } else {
+    sidebar.classList.add('open');
+    overlay.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>
