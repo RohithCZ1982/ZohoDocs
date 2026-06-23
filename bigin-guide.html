@@ -356,13 +356,13 @@
       <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
     </svg>
   </button>
-  <div class="logo" onclick="showSection('home')">
+  <a class="logo" href="index.html">
     <div class="logo-mark">B</div>
     <div class="logo-wordmark">
       <span class="by">by Zoho CRM</span>
       <span class="name">Bi<span>gin</span></span>
     </div>
-  </div>
+  </a>
   <div class="header-sep"></div>
   <span class="header-label">Help & Setup Guide</span>
 
@@ -1720,6 +1720,8 @@ function showSection(id) {
     updateTOC(id);
     window.scrollTo(0, 0);
   }
+  const searchInput = document.getElementById('globalSearch');
+  if (searchInput) searchInput.blur();
 }
 
 function updateTOC(id) {

@@ -815,7 +815,7 @@
       <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
     </svg>
   </button>
-  <a class="logo" href="#" onclick="showSection('home')">
+  <a class="logo" href="index.html">
     <div class="logo-icon">Z</div>
     <div class="logo-text">
       <span class="brand">Zoho</span>
@@ -2300,6 +2300,8 @@ function showSection(id) {
     document.getElementById('mainContent').scrollTop = 0;
     window.scrollTo(0, 0);
   }
+  const searchInput = document.getElementById('globalSearch');
+  if (searchInput) searchInput.blur();
 }
 
 function updateTOC(id) {
