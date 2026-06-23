@@ -2135,6 +2135,10 @@
 
 </div>
 
+<div style="position:fixed;bottom:0;left:0;right:0;background:#0A0E17;text-align:center;padding:10px 20px;font-size:12px;font-weight:700;color:#00FFAA;letter-spacing:0.5px;border-top:2px solid #00FFAA30;z-index:49;text-shadow:0 0 12px rgba(0,255,170,0.4);">
+  Atreya SoftTech Mysore &nbsp;&middot;&nbsp; M.No 8792507355
+</div>
+
 <script>
 // Section TOC data
 const tocData = {
@@ -2299,6 +2303,10 @@ function showSection(id) {
     updateTOC(id);
     document.getElementById('mainContent').scrollTop = 0;
     window.scrollTo(0, 0);
+  }
+  if (id === 'home') {
+    document.querySelectorAll('.tree-children.open').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.tree-label.open').forEach(l => l.classList.remove('open'));
   }
   const searchInput = document.getElementById('globalSearch');
   if (searchInput) searchInput.blur();
